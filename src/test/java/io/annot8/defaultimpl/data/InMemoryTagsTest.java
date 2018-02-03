@@ -10,7 +10,7 @@ import io.annot8.core.data.Tags;
 import io.annot8.core.exceptions.IncompleteException;
 
 public class InMemoryTagsTest {
-  
+
   @Test
   public void testTags() throws IncompleteException {
     Tags tags1 = new InMemoryTags.Builder()
