@@ -13,7 +13,7 @@ import io.annot8.core.exceptions.IncompleteException;
  */
 public class InMemoryTags implements Tags {
 
-  private Set<String> tags;
+  private final Set<String> tags;
   
   /**
    * Private constructor, used by the Builder
@@ -27,6 +27,9 @@ public class InMemoryTags implements Tags {
     return tags.stream();
   }
   
+  /**
+   * Builder class for InMemoryTags
+   */
   public static class Builder implements Tags.Builder{
     private Set<String> tags = new HashSet<>();
     
