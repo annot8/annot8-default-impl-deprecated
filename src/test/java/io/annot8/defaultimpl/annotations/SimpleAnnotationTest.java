@@ -14,23 +14,25 @@ import io.annot8.defaultimpl.properties.InMemoryMutableProperties;
 public class SimpleAnnotationTest {
   @Test
   public void testSimpleAnnotation() throws IncompleteException{
+    //TODO: Can we use mocks to remove dependency on InMemoryMutableProperties and NoBounds?
+    
     try {
       new SimpleAnnotation.Builder().build();
-      fail("Expected exception not found");
+      fail("Expected exception not thrown");
     }catch(IncompleteException ie) {
       //Expected exception, do nothing
     }
     
     try {
       new SimpleAnnotation.Builder().withType("TEST").build();
-      fail("Expected exception not found");
+      fail("Expected exception not thrown");
     }catch(IncompleteException ie) {
       //Expected exception, do nothing
     }
     
     try {
       new SimpleAnnotation.Builder().withType("TEST").withBounds(NoBounds.getInstance()).build();
-      fail("Expected exception not found");
+      fail("Expected exception not thrown");
     }catch(IncompleteException ie) {
       //Expected exception, do nothing
     }

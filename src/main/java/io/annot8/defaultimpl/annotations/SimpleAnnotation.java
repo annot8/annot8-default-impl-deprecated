@@ -127,6 +127,9 @@ public class SimpleAnnotation implements Annotation {
 
     @Override
     public Annotation build() throws IncompleteException {
+      if(id == null)
+        throw new IncompleteException("ID has not been set");
+      
       if(type == null)
         throw new IncompleteException("Type has not been set");
       
