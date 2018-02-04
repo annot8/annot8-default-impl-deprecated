@@ -1,5 +1,6 @@
 package io.annot8.defaultimpl.bounds;
 
+import java.util.Objects;
 import io.annot8.core.bounds.Bounds;
 
 /**
@@ -32,4 +33,23 @@ public class SpanBounds implements Bounds {
     return end;
   }
   
+  @Override
+  public String toString() {
+    return this.getClass().getName() + " [begin=" + begin + ", end=" + end + "]";
+  }
+  
+  @Override
+  public int hashCode() {
+    return Objects.hash(begin, end);
+  }
+  
+  @Override
+  public boolean equals(Object o) {
+    if(!(o instanceof SpanBounds))
+      return false;
+    
+    SpanBounds sb = (SpanBounds) o;
+    
+    return Objects.equals(begin, sb.getBegin()) && Objects.equals(end, sb.getEnd());
+  }
 }

@@ -2,7 +2,9 @@ package io.annot8.defaultimpl.data;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import io.annot8.core.data.Tags;
 import io.annot8.core.exceptions.IncompleteException;
@@ -25,6 +27,27 @@ public class InMemoryTags implements Tags {
   @Override
   public Stream<String> get() {
     return tags.stream();
+  }
+  
+  @Override
+  public String toString() {
+    return this.getClass().getName() + " [" + tags.stream().collect(Collectors.joining(",")) + "]";
+  }
+  
+  @Override
+  public int hashCode() {
+    return Objects.hash(tags);
+  }
+  
+  @Override
+  public boolean equals(Object o) {
+    if(!(o instanceof Tags))
+      return false;
+    
+    Tags t = (Tags) o;
+    Set<String> tags = t.get().collect(Collectors.toSet());
+    
+    return Objects.equals(this.tags, tags);
   }
   
   /**

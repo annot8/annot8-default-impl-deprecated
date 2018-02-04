@@ -8,7 +8,7 @@ import io.annot8.core.bounds.Bounds;
  * 
  * This class is a singleton, and should be accessed via getInstance()
  */
-public class NoBounds implements Bounds {
+public final class NoBounds implements Bounds {
   private static final NoBounds INSTANCE = new NoBounds();
   
   private NoBounds() {
@@ -20,5 +20,10 @@ public class NoBounds implements Bounds {
    */
   public static NoBounds getInstance() {
     return INSTANCE;
+  }
+  
+  @Override
+  public String toString() {
+    return "NoBounds";
   }
 }

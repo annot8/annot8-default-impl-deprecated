@@ -7,7 +7,7 @@ import io.annot8.core.properties.ImmutableProperties;
 /**
  * Empty implementation of ImmutableProperties interface
  */
-public class EmptyImmutableProperties implements ImmutableProperties {
+public final class EmptyImmutableProperties implements ImmutableProperties {
 
   private static final EmptyImmutableProperties INSTANCE = new EmptyImmutableProperties();
   
@@ -22,5 +22,10 @@ public class EmptyImmutableProperties implements ImmutableProperties {
   @Override
   public Map<String, Object> getAll() {
     return Collections.emptyMap();
+  }
+  
+  @Override
+  public String toString() {
+    return "EmptyImmutableProperties";
   }
 }

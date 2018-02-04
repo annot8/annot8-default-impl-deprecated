@@ -1,5 +1,6 @@
 package io.annot8.defaultimpl.annotations;
 
+import java.util.Objects;
 import java.util.UUID;
 import io.annot8.core.annotations.Annotation;
 import io.annot8.core.bounds.Bounds;
@@ -53,6 +54,28 @@ public class SimpleAnnotation implements Annotation {
   @Override
   public String getContentName() {
     return content;
+  }
+  
+  @Override
+  public String toString() {
+    return this.getClass().getName() + " [id=" + id + ", type=" + type + ", contentName=" + content + ", bounds=" + bounds + ", properties="+properties +"]";
+  }
+  
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, type, properties, bounds, content);
+  }
+  
+  @Override
+  public boolean equals(Object o) {
+    if(!(o instanceof Annotation))
+      return false;
+    
+    Annotation a = (Annotation) o;
+    
+    return Objects.equals(id, a.getId()) && Objects.equals(type, a.getType())
+        && Objects.equals(properties, a.getProperties()) && Objects.equals(bounds, a.getBounds())
+        && Objects.equals(content, a.getContentName());
   }
 
   /**
