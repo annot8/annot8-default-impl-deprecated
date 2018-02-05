@@ -1,11 +1,16 @@
 package io.annot8.defaultimpl.context;
 
+import io.annot8.core.annotations.Group;
 import io.annot8.core.components.Resource;
 import io.annot8.core.context.Context;
 import io.annot8.core.settings.Settings;
+import io.annot8.core.stores.GroupStore;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -80,4 +85,31 @@ public class SimpleContext implements Context{
         .filter(r -> aClass.isAssignableFrom(r.getClass()))
         .map(r -> aClass.cast(r));
   }
+
+  @Override
+  public String toString() {
+    return this.getClass().getName() + " [settings=" + settings + ", resources=" + resources + "]";
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(settings, resources);
+  }
+  @Override
+  public boolean equals(Object obj) {
+    if(!(obj instanceof Context))
+      return false;
+
+    Context c = (Context) obj;
+
+    Map<String, Resource> resources = new HashMap<>();
+    c.getResourceKeys().forEach(s -> {
+      Optional<Resource> r = c.getResource(s, Resource.class);
+      if(r.isPresent())
+        resources.put(s, r.get());
+    });
+
+    return Objects.equals(c.getSettings(), getSettings()) && Objects.equals(resources, this.resources);
+  }
+
 }

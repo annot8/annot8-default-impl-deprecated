@@ -6,8 +6,11 @@ import io.annot8.core.stores.AnnotationStore;
 import io.annot8.defaultimpl.annotations.SimpleAnnotation;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -66,5 +69,27 @@ public class InMemoryAnnotationStore implements AnnotationStore {
   @Override
   public Optional<Annotation> getById(String s) {
     return Optional.ofNullable(annotations.get(s));
+  }
+
+  @Override
+  public String toString() {
+    return this.getClass().getName() + " [annotations=" + annotations.size() + "]";
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(annotations);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if(!(obj instanceof AnnotationStore))
+      return false;
+
+    AnnotationStore as = (AnnotationStore) obj;
+
+    List<Annotation> allAnnotations = as.getAll().collect(Collectors.toList());
+
+    return Objects.equals(annotations.values().stream().collect(Collectors.toList()), allAnnotations);
   }
 }
