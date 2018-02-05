@@ -13,14 +13,14 @@ import java.util.stream.Stream;
  */
 public class SimpleContext implements Context{
 
-  private Map<String, Resource> resources = new HashMap<>();
-  private Settings settings = null;
+  private final Map<String, Resource> resources = new HashMap<>();
+  private final Settings settings;
 
   /**
    * Create a new instance, with no settings and no resources
    */
   public SimpleContext(){
-    //Default constructor, with no settings
+    this.settings = null;
   }
 
   /**
@@ -34,6 +34,7 @@ public class SimpleContext implements Context{
    * Create a new instance, with no settings and the specified resources
    */
   public SimpleContext(Map<String, Resource> resources){
+    this.settings = null;
     this.resources.putAll(resources);
   }
 

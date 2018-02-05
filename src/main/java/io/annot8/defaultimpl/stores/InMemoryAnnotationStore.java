@@ -15,7 +15,7 @@ import java.util.stream.Stream;
  */
 public class InMemoryAnnotationStore implements AnnotationStore {
 
-  private Map<String, Annotation> annotations = new HashMap<>();
+  private final Map<String, Annotation> annotations = new HashMap<>();
   private final Class<? extends Annotation.Builder> annotationBuilderClass;
 
   /**

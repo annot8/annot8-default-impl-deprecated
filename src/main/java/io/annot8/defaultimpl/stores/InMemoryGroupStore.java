@@ -15,7 +15,7 @@ import java.util.stream.Stream;
  */
 public class InMemoryGroupStore implements GroupStore {
 
-  private Map<String, Group> groups = new HashMap<>();
+  private final Map<String, Group> groups = new HashMap<>();
   private final Class<? extends Group.Builder> groupBuilderClass;
 
   /**
