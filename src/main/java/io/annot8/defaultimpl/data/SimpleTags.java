@@ -13,14 +13,14 @@ import io.annot8.core.exceptions.IncompleteException;
  * Provides an in-memory implementation of the Tags interface,
  * backed by a HashSet.
  */
-public class InMemoryTags implements Tags {
+public class SimpleTags implements Tags {
 
   private final Set<String> tags;
   
   /**
    * Private constructor, used by the Builder
    */
-  private InMemoryTags(Set<String> tags) {
+  private SimpleTags(Set<String> tags) {
     this.tags = tags;
   }
   
@@ -64,7 +64,7 @@ public class InMemoryTags implements Tags {
 
     @Override
     public Tags build() throws IncompleteException {
-      return new InMemoryTags(tags);
+      return new SimpleTags(tags);
     }
 
     @Override

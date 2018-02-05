@@ -9,8 +9,8 @@ import io.annot8.core.properties.ImmutableProperties;
 import io.annot8.core.properties.MutableProperties;
 import io.annot8.core.properties.Properties;
 import io.annot8.defaultimpl.properties.EmptyImmutableProperties;
-import io.annot8.defaultimpl.properties.InMemoryImmutableProperties;
-import io.annot8.defaultimpl.properties.InMemoryMutableProperties;
+import io.annot8.defaultimpl.properties.SimpleImmutableProperties;
+import io.annot8.defaultimpl.properties.SimpleMutableProperties;
 
 /**
  * Simple implementation of Annotation interface
@@ -86,7 +86,7 @@ public class SimpleAnnotation implements Annotation {
   public static class Builder implements Annotation.Builder{
     private String id = UUID.randomUUID().toString();
     private String type = null;
-    private MutableProperties properties = new InMemoryMutableProperties();
+    private MutableProperties properties = new SimpleMutableProperties();
     private Bounds bounds = null;
     private String content = null;
     
@@ -104,7 +104,7 @@ public class SimpleAnnotation implements Annotation {
 
     @Override
     public io.annot8.core.annotations.Annotation.Builder withProperties(Properties properties) {
-      this.properties = new InMemoryMutableProperties(properties);
+      this.properties = new SimpleMutableProperties(properties);
       return this;
     }
 
@@ -118,7 +118,7 @@ public class SimpleAnnotation implements Annotation {
     public io.annot8.core.annotations.Annotation.Builder from(Annotation from) {
       this.id = from.getId();
       this.type = from.getType();
-      this.properties = new InMemoryMutableProperties(from.getProperties());
+      this.properties = new SimpleMutableProperties(from.getProperties());
       this.bounds = from.getBounds();
       this.content = from.getContentName();
       
@@ -143,7 +143,7 @@ public class SimpleAnnotation implements Annotation {
       if(properties.getAll().isEmpty()) {
         immutableProperties = EmptyImmutableProperties.getInstance();
       }else {
-        immutableProperties = new InMemoryImmutableProperties.Builder().from(properties).build();
+        immutableProperties = new SimpleImmutableProperties.Builder().from(properties).build();
       }
       
       return new SimpleAnnotation(id, type, immutableProperties, bounds, content);

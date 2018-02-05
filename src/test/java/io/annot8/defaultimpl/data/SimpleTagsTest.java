@@ -9,11 +9,11 @@ import org.junit.jupiter.api.Test;
 import io.annot8.core.data.Tags;
 import io.annot8.core.exceptions.IncompleteException;
 
-public class InMemoryTagsTest {
+public class SimpleTagsTest {
 
   @Test
   public void testTags() throws IncompleteException {
-    Tags tags1 = new InMemoryTags.Builder()
+    Tags tags1 = new SimpleTags.Builder()
         .addTag("TAG1")
         .addTags(Arrays.asList("TAG2", "TAG3"))
         .build();
@@ -24,7 +24,7 @@ public class InMemoryTagsTest {
     assertTrue(tagsList1.contains("TAG2"));
     assertTrue(tagsList1.contains("TAG3"));
 
-    Tags tags2 = new InMemoryTags.Builder()
+    Tags tags2 = new SimpleTags.Builder()
         .from(tags1)
         .addTag("TAG4")
         .build();

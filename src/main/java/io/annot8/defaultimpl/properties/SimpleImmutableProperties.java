@@ -12,11 +12,11 @@ import io.annot8.core.properties.Properties;
  * Implementation of ImmutableProperties interface using an in-memory
  * HashMap to store the properties.
  */
-public class InMemoryImmutableProperties implements ImmutableProperties {
+public class SimpleImmutableProperties implements ImmutableProperties {
 
   private final Map<String, Object> properties;
 
-  private InMemoryImmutableProperties(Map<String, Object> properties) {
+  private SimpleImmutableProperties(Map<String, Object> properties) {
     this.properties = properties;
   }
 
@@ -74,7 +74,7 @@ public class InMemoryImmutableProperties implements ImmutableProperties {
 
     @Override
     public ImmutableProperties build() throws IncompleteException {
-      return new InMemoryImmutableProperties(properties);
+      return new SimpleImmutableProperties(properties);
     }
 
   }

@@ -7,15 +7,13 @@ import static org.mockito.Mockito.mock;
 import io.annot8.core.annotations.Annotation;
 import io.annot8.core.annotations.Group;
 import io.annot8.core.exceptions.IncompleteException;
-import io.annot8.core.stores.AnnotationStore;
 import io.annot8.core.stores.GroupStore;
-import io.annot8.defaultimpl.bounds.NoBounds;
 import org.junit.jupiter.api.Test;
 
-public class InMemoryGroupStoreTest {
+public class SimpleGroupStoreTest {
   @Test
   public void testInMemoryAnnotationStore() throws IncompleteException{
-    GroupStore store = new InMemoryGroupStore();
+    GroupStore store = new SimpleGroupStore();
 
     assertEquals(0, store.getAll().count());
 

@@ -6,22 +6,22 @@ import org.junit.jupiter.api.Test;
 import io.annot8.core.exceptions.IncompleteException;
 import io.annot8.core.properties.ImmutableProperties;
 
-public class InMemoryImmutablePropertiesTest {
+public class SimpleImmutablePropertiesTest {
   @Test
   public void testImmutableProperties() throws IncompleteException{
-    ImmutableProperties props1 = new InMemoryImmutableProperties.Builder()
+    ImmutableProperties props1 = new SimpleImmutableProperties.Builder()
         .withProperty("key1", "Hello World")
         .withProperty("key2", Integer.valueOf(17))
         .build();
     testMap(props1.getAll());
 
-    ImmutableProperties props2 = new InMemoryImmutableProperties.Builder()
+    ImmutableProperties props2 = new SimpleImmutableProperties.Builder()
         .withProperty("key3", false)    //This will be removed as from(...) creates an exact copy of the parameter
         .from(props1)
         .build();
     testMap(props2.getAll());
     
-    ImmutableProperties props3 = new InMemoryImmutableProperties.Builder()
+    ImmutableProperties props3 = new SimpleImmutableProperties.Builder()
         .withProperty("key3", false)    //This won't be removed, as withProperties(...) adds to existing properties
         .withProperty("key1", "To be overwritten")
         .withProperties(props1)

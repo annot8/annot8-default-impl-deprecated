@@ -9,7 +9,7 @@ import io.annot8.core.annotations.Annotation;
 import io.annot8.core.exceptions.IncompleteException;
 import io.annot8.defaultimpl.bounds.NoBounds;
 import io.annot8.defaultimpl.properties.EmptyImmutableProperties;
-import io.annot8.defaultimpl.properties.InMemoryMutableProperties;
+import io.annot8.defaultimpl.properties.SimpleMutableProperties;
 
 public class SimpleAnnotationTest {
   @Test
@@ -55,7 +55,7 @@ public class SimpleAnnotationTest {
     assertEquals(Integer.valueOf(17), properties2.get("key1"));
     assertEquals(false, properties2.get("key2"));
     
-    Annotation a3 = new SimpleAnnotation.Builder().withType("TEST").withBounds(NoBounds.getInstance()).withProperties(new InMemoryMutableProperties(properties2)).withContent("TEST_CONTENT").build();
+    Annotation a3 = new SimpleAnnotation.Builder().withType("TEST").withBounds(NoBounds.getInstance()).withProperties(new SimpleMutableProperties(properties2)).withContent("TEST_CONTENT").build();
     Map<String, Object> properties3 = a3.getProperties().getAll();
     assertEquals(2, properties3.size());
     assertEquals(Integer.valueOf(17), properties3.get("key1"));

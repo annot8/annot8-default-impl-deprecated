@@ -16,7 +16,7 @@ import java.util.stream.Stream;
 /**
  * In memory implementation, backed by a HashMap, of AnnotationStore
  */
-public class InMemoryAnnotationStore implements AnnotationStore {
+public class SimpleAnnotationStore implements AnnotationStore {
 
   private final Map<String, Annotation> annotations = new HashMap<>();
   private final Class<? extends Annotation.Builder> annotationBuilderClass;
@@ -25,7 +25,7 @@ public class InMemoryAnnotationStore implements AnnotationStore {
    * Construct a new instance of this class using SimpleAnnotation.Builder as the annotation
    * builder
    */
-  public InMemoryAnnotationStore() {
+  public SimpleAnnotationStore() {
     annotationBuilderClass = SimpleAnnotation.Builder.class;
   }
 
@@ -33,7 +33,7 @@ public class InMemoryAnnotationStore implements AnnotationStore {
    * Construct a new instance of this class using the specified Annotation.Builder as the annotation
    * builder
    */
-  public InMemoryAnnotationStore(Class<? extends Annotation.Builder> annotationBuilderClass) {
+  public SimpleAnnotationStore(Class<? extends Annotation.Builder> annotationBuilderClass) {
     this.annotationBuilderClass = annotationBuilderClass;
   }
 

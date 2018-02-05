@@ -7,12 +7,11 @@ import java.util.Map;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import io.annot8.core.properties.MutableProperties;
-import io.annot8.defaultimpl.properties.InMemoryMutableProperties;
 
-public class InMemoryMutablePropertiesTest {
+public class SimpleMutablePropertiesTest {
   @Test
   public void testMutableProperties() {
-    MutableProperties props = new InMemoryMutableProperties();
+    MutableProperties props = new SimpleMutableProperties();
     
     props.set("key1", "Hello World");
     props.set("key2", Integer.valueOf(17));
@@ -30,10 +29,10 @@ public class InMemoryMutablePropertiesTest {
     Map<String, Object> map = props.getAll();
     testMap(map);
     
-    MutableProperties props2 = new InMemoryMutableProperties(props);
+    MutableProperties props2 = new SimpleMutableProperties(props);
     testMap(props2.getAll());
     
-    MutableProperties props3 = new InMemoryMutableProperties(map);
+    MutableProperties props3 = new SimpleMutableProperties(map);
     testMap(props3.getAll());
   }
   

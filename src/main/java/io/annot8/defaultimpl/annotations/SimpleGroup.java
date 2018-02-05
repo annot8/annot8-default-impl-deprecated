@@ -13,8 +13,8 @@ import io.annot8.core.properties.ImmutableProperties;
 import io.annot8.core.properties.MutableProperties;
 import io.annot8.core.properties.Properties;
 import io.annot8.defaultimpl.properties.EmptyImmutableProperties;
-import io.annot8.defaultimpl.properties.InMemoryImmutableProperties;
-import io.annot8.defaultimpl.properties.InMemoryMutableProperties;
+import io.annot8.defaultimpl.properties.SimpleImmutableProperties;
+import io.annot8.defaultimpl.properties.SimpleMutableProperties;
 
 /**
  * Simple implementation of Group interface
@@ -103,7 +103,7 @@ public class SimpleGroup implements Group{
   public static class Builder implements Group.Builder{
     private String id = UUID.randomUUID().toString();
     private String type = null;
-    private MutableProperties properties = new InMemoryMutableProperties();
+    private MutableProperties properties = new SimpleMutableProperties();
     private Map<Annotation, String> annotations = new HashMap<>();
     
     @Override
@@ -120,7 +120,7 @@ public class SimpleGroup implements Group{
 
     @Override
     public io.annot8.core.annotations.Group.Builder withProperties(Properties properties) {
-      this.properties = new InMemoryMutableProperties(properties);
+      this.properties = new SimpleMutableProperties(properties);
       return this;
     }
 
@@ -134,7 +134,7 @@ public class SimpleGroup implements Group{
     public io.annot8.core.annotations.Group.Builder from(Group from) {
       this.id = from.getId();
       this.type = from.getType();
-      this.properties = new InMemoryMutableProperties(from.getProperties());
+      this.properties = new SimpleMutableProperties(from.getProperties());
 
       this.annotations = new HashMap<>();
       from.getAnnotations().entrySet().forEach(e -> {
@@ -159,7 +159,7 @@ public class SimpleGroup implements Group{
       if(properties.getAll().isEmpty()) {
         immutableProperties = EmptyImmutableProperties.getInstance();
       }else {
-        immutableProperties = new InMemoryImmutableProperties.Builder().from(properties).build();
+        immutableProperties = new SimpleImmutableProperties.Builder().from(properties).build();
       }
       
       return new SimpleGroup(id, type, immutableProperties, annotations);

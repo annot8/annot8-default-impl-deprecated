@@ -18,7 +18,7 @@ import java.util.stream.Stream;
 /**
  * In memory implementation, backed by a HashMap, of GroupStore
  */
-public class InMemoryGroupStore implements GroupStore {
+public class SimpleGroupStore implements GroupStore {
 
   private final Map<String, Group> groups = new HashMap<>();
   private final Class<? extends Group.Builder> groupBuilderClass;
@@ -26,7 +26,7 @@ public class InMemoryGroupStore implements GroupStore {
   /**
    * Construct a new instance of this class using SimpleGroup.Builder as the annotation builder
    */
-  public InMemoryGroupStore() {
+  public SimpleGroupStore() {
     groupBuilderClass = SimpleGroup.Builder.class;
   }
 
@@ -34,7 +34,7 @@ public class InMemoryGroupStore implements GroupStore {
    * Construct a new instance of this class using the specified Group.Builder as the annotation
    * builder
    */
-  public InMemoryGroupStore(Class<? extends Group.Builder> groupBuilderClass) {
+  public SimpleGroupStore(Class<? extends Group.Builder> groupBuilderClass) {
     this.groupBuilderClass = groupBuilderClass;
   }
 

@@ -9,10 +9,10 @@ import io.annot8.core.stores.AnnotationStore;
 import io.annot8.defaultimpl.bounds.NoBounds;
 import org.junit.jupiter.api.Test;
 
-public class InMemoryAnnotationStoreTest {
+public class SimpleAnnotationStoreTest {
   @Test
   public void testInMemoryAnnotationStore() throws IncompleteException{
-    AnnotationStore store = new InMemoryAnnotationStore();
+    AnnotationStore store = new SimpleAnnotationStore();
 
     assertEquals(0, store.getAll().count());
 
