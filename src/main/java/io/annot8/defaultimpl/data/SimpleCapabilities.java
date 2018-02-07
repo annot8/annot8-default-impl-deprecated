@@ -16,6 +16,8 @@ public class SimpleCapabilities implements Capabilities {
   private final Set<String> outputAnnotations;
   private final Set<String> acceptedTags;
   private final Set<Class<? extends Content<?>>> createdContent;
+  private final Set<Class<? extends Content<?>>> requiredContent;
+
   private final Set<Class<? extends Resource>> requiredResources;
   private final Set<Class<? extends Bounds>> outputBounds;
 
@@ -24,6 +26,7 @@ public class SimpleCapabilities implements Capabilities {
       Set<String> optionalInputAnnotations, Set<String> outputAnnotations,
       Set<String> acceptedTags,
       Set<Class<? extends Content<?>>> createdContent,
+      Set<Class<? extends Content<?>>> requiredContent,
       Set<Class<? extends Resource>> requiredResources,
       Set<Class<? extends Bounds>> outputBounds) {
     this.requiredInputAnnotations = requiredInputAnnotations;
@@ -31,6 +34,7 @@ public class SimpleCapabilities implements Capabilities {
     this.outputAnnotations = outputAnnotations;
     this.acceptedTags = acceptedTags;
     this.createdContent = createdContent;
+    this.requiredContent = requiredContent;
     this.requiredResources = requiredResources;
     this.outputBounds = outputBounds;
   }
@@ -57,9 +61,8 @@ public class SimpleCapabilities implements Capabilities {
 
   @Override
   public Stream<Class<? extends Content<?>>> getRequiredContent() {
-    return getRequiredContent();
+    return requiredContent.stream();
   }
-
 
   @Override
   public Stream<Class<? extends Content<?>>> getCreatedContent() {
@@ -82,7 +85,7 @@ public class SimpleCapabilities implements Capabilities {
     private final Set<String> optionalInputAnnotations = new HashSet<>();
     private final Set<String> outputAnnotations = new HashSet<>();
     private final Set<String> acceptedTags = new HashSet<>();
-    private final Set<Class<? extends Content<?>>> requiresContent = new HashSet<>();
+    private final Set<Class<? extends Content<?>>> requiredContent = new HashSet<>();
     private final Set<Class<? extends Content<?>>> createdContent = new HashSet<>();
     private final Set<Class<? extends Resource>> requiredResources = new HashSet<>();
     private final Set<Class<? extends Bounds>> outputBounds = new HashSet<>();
@@ -108,7 +111,7 @@ public class SimpleCapabilities implements Capabilities {
     }
 
     public Builder requiresContent(Class<? extends Content<?>> clazz) {
-      requiresContent.add(clazz);
+      requiredContent.add(clazz);
       return this;
     }
 
@@ -134,6 +137,7 @@ public class SimpleCapabilities implements Capabilities {
           Collections.unmodifiableSet(outputAnnotations),
           Collections.unmodifiableSet(acceptedTags),
           Collections.unmodifiableSet(createdContent),
+          Collections.unmodifiableSet(requiredContent),
           Collections.unmodifiableSet(requiredResources),
           Collections.unmodifiableSet(outputBounds));
     }

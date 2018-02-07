@@ -53,12 +53,12 @@ public abstract class AbstractSimpleContent<D> implements Content<D> {
     return tags;
   }
 
-  public static abstract class Builder<D, C extends Content<D>> implements Content.Builder<C, D> {
+  public abstract static class Builder<D, C extends Content<D>> implements Content.Builder<C, D> {
 
     private final SaveFromBuilder<C, C> saver;
     private String name;
-    private Tags.Builder tags = new SimpleTags.Builder();
-    private ImmutableProperties.Builder properties = new SimpleImmutableProperties.Builder();
+    private final Tags.Builder tags = new SimpleTags.Builder();
+    private final ImmutableProperties.Builder properties = new SimpleImmutableProperties.Builder();
     private D data;
 
     public Builder(SaveFromBuilder<C, C> saver) {
@@ -127,7 +127,7 @@ public abstract class AbstractSimpleContent<D> implements Content<D> {
     }
   }
 
-  public static abstract class BuilderFactory<D, C extends Content<D>> implements
+  public abstract static class BuilderFactory<D, C extends Content<D>> implements
       ContentBuilderFactory<D, C> {
 
     private final Class<D> dataClass;

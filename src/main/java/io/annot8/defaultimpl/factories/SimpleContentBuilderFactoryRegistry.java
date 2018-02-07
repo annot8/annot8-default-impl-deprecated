@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public class SimpleContentBuilderFactoryRegistry implements ContentBuilderFactoryRegistry {
 
-  private Map<Class<? extends Content<?>>, ContentBuilderFactory<?, ?>> builders = new HashMap<>();
+  private final Map<Class<? extends Content<?>>, ContentBuilderFactory<?, ?>> builders = new HashMap<>();
 
   public <D, C extends Content<D>, I extends C> void register(Class<C> contentClass,
       ContentBuilderFactory<D, I> contentBuilderFactory) {

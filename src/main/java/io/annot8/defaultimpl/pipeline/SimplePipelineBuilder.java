@@ -26,16 +26,12 @@ public class SimplePipelineBuilder {
       = new SimpleContentBuilderFactoryRegistry();
 
 
-  // Use a linked hashmap so the addition order = configuration order
+  // Use a linked hash map so the addition order = configuration order
   private final Map<Source, Settings> sourcesToConfiguration = new LinkedHashMap<>();
   private final Map<Processor, Settings> processorToConfiguration = new LinkedHashMap<>();
   private final Map<Resource, Settings> resourcesToConfiguration = new LinkedHashMap<>();
   private final Map<Resource, String> resourcesToId = new HashMap<>();
 
-
-  public SimplePipelineBuilder() {
-
-  }
 
   public static void main(final String[] args) {
 
@@ -85,9 +81,7 @@ public class SimplePipelineBuilder {
 
   public SimplePipeline build() {
 
-    ItemFactory itemFactory = () -> {
-      return new SimpleItem(contentBuilderFactoryRegistry);
-    };
+    ItemFactory itemFactory = () -> new SimpleItem(contentBuilderFactoryRegistry);
 
     Map<String, Resource> configuredResources = new HashMap<>();
 
@@ -104,12 +98,13 @@ public class SimplePipelineBuilder {
     List<Processor> configurePipelines = configureAllComponents(itemFactory, configuredResources,
         processorToConfiguration);
 
-    return new SimplePipeline(itemFactory, configuredResources, configuredSources,
+    return new SimplePipeline(configuredResources, configuredSources,
         configurePipelines);
   }
 
   private <T extends Annot8Component> List<T> configureAllComponents(ItemFactory itemFactory,
       Map<String, Resource> configuredResources, Map<T, Settings> componentToConfiguration) {
+
     return componentToConfiguration.entrySet().stream()
         .filter(e -> configureComponent(itemFactory, configuredResources, e.getKey(), e.getValue()))
         .map(Map.Entry::getKey)
@@ -120,13 +115,14 @@ public class SimplePipelineBuilder {
       Map<String, Resource> configuredResources, final Annot8Component component,
       final Settings configuration) {
 
+    // TODO: COmpletely ignore capabilties here.. we could check for resources etc
+
     try {
       final SimpleContext context = new SimpleContext(itemFactory, configuration,
           configuredResources);
       component.configure(context);
       return true;
     } catch (final Annot8Exception e) {
-      // TODO: Log this error
       System.err.println("Failed to configure component " + component.getClass().getName());
     }
     return false;

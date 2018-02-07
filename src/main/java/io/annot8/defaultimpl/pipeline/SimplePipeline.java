@@ -1,6 +1,6 @@
 package io.annot8.defaultimpl.pipeline;
 
-import io.annot8.common.factories.ItemFactory;
+import io.annot8.core.components.Annot8Component;
 import io.annot8.core.components.Processor;
 import io.annot8.core.components.Resource;
 import io.annot8.core.components.Source;
@@ -16,15 +16,12 @@ import java.util.stream.Stream;
 public class SimplePipeline {
 
   private final SimplePipelineSource pipelineSource = new SimplePipelineSource();
-  private final ItemFactory itemFactory;
   private final Map<String, Resource> resources;
   private final List<Source> sources;
   private final List<Processor> processors;
 
-  public SimplePipeline(
-      ItemFactory itemFactory, Map<String, Resource> resources,
+  public SimplePipeline(Map<String, Resource> resources,
       List<Source> sources, List<Processor> processors) {
-    this.itemFactory = itemFactory;
     this.resources = resources;
     this.sources = sources;
     this.processors = processors;
@@ -46,13 +43,21 @@ public class SimplePipeline {
       }
     } while (status == SourceResponse.Status.OK);
 
+    close();
+
+  }
+
+  private void close() {
+    processors.forEach(Annot8Component::close);
+    sources.forEach(Annot8Component::close);
+    resources.values().forEach(Annot8Component::close);
   }
 
   private void process(final Item item) {
 
     processItem(item);
 
-    // After you've finished with one item cleaer our the items its added
+    // After you've finished with one item clear out the items its added
     SourceResponse response;
     while ((response = pipelineSource.read()).getStatus() == SourceResponse.Status.OK) {
       response.getItems().forEach(this::processItem);

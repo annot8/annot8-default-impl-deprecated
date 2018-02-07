@@ -36,7 +36,7 @@ public class SimplePipelineSource implements Source {
   }
 
 
-  // TODO; Capabilities doesn't work here (we have not idea whas it in item), but that's a special case.
+  // TODO; Capabilities doesn't work here (we have not idea what is in item), but that's a special case.
   @Override
   public Capabilities getCapabilities(Settings settings) {
     return new SimpleCapabilities.Builder().save();
