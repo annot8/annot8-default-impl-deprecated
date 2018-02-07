@@ -7,8 +7,8 @@ import java.util.Map;
 import org.junit.jupiter.api.Test;
 import io.annot8.core.annotations.Annotation;
 import io.annot8.core.exceptions.IncompleteException;
-import io.annot8.defaultimpl.bounds.NoBounds;
-import io.annot8.defaultimpl.properties.EmptyImmutableProperties;
+import io.annot8.common.bounds.NoBounds;
+import io.annot8.common.properties.EmptyImmutableProperties;
 import io.annot8.defaultimpl.properties.SimpleMutableProperties;
 
 public class SimpleAnnotationTest {

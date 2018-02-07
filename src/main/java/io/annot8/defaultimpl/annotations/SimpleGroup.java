@@ -12,7 +12,7 @@ import io.annot8.core.exceptions.IncompleteException;
 import io.annot8.core.properties.ImmutableProperties;
 import io.annot8.core.properties.MutableProperties;
 import io.annot8.core.properties.Properties;
-import io.annot8.defaultimpl.properties.EmptyImmutableProperties;
+import io.annot8.common.properties.EmptyImmutableProperties;
 import io.annot8.defaultimpl.properties.SimpleImmutableProperties;
 import io.annot8.defaultimpl.properties.SimpleMutableProperties;
 

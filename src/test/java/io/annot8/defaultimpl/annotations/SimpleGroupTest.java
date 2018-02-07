@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import io.annot8.core.annotations.Annotation;
 import io.annot8.core.annotations.Group;
 import io.annot8.core.exceptions.IncompleteException;
-import io.annot8.defaultimpl.properties.EmptyImmutableProperties;
+import io.annot8.common.properties.EmptyImmutableProperties;
 
 public class SimpleGroupTest {
   @Test
