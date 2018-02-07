@@ -23,7 +23,7 @@ public class SimpleMutablePropertiesTest {
     assertTrue(props.has("key3"));
     Optional<Object> removed = props.remove("key3");
     assertTrue(removed.isPresent());
-    assertEquals(17L, removed.get());
+    assertEquals(17, removed.get());
     assertFalse(props.has("key3"));
 
     assertFalse(props.remove("key4").isPresent());
