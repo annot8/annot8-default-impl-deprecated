@@ -1,37 +1,50 @@
 package io.annot8.defaultimpl.annotations;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.UUID;
-import java.util.stream.Stream;
+import io.annot8.common.properties.EmptyImmutableProperties;
+import io.annot8.common.references.LookupAnnotationReference;
+import io.annot8.common.stores.SaveFromBuilder;
 import io.annot8.core.annotations.Annotation;
 import io.annot8.core.annotations.Group;
+import io.annot8.core.data.Item;
 import io.annot8.core.exceptions.IncompleteException;
 import io.annot8.core.properties.ImmutableProperties;
 import io.annot8.core.properties.MutableProperties;
 import io.annot8.core.properties.Properties;
-import io.annot8.common.properties.EmptyImmutableProperties;
+import io.annot8.core.references.AnnotationReference;
 import io.annot8.defaultimpl.properties.SimpleImmutableProperties;
 import io.annot8.defaultimpl.properties.SimpleMutableProperties;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Simple implementation of Group interface
  */
-public class SimpleGroup implements Group{
+public class SimpleGroup implements Group {
+
+  private final Item item;
   private final String id;
   private final String type;
   private final ImmutableProperties properties;
-  private final Map<Annotation, String> annotations;
-  
-  private SimpleGroup(final String id, final String type, final ImmutableProperties properties, final Map<Annotation, String> annotations) {
+
+  // TODO: Better stored as (or as well as) a Guava Multimap ?
+  private final Map<LookupAnnotationReference, String> annotations;
+
+  private SimpleGroup(final Item item, final String id, final String type,
+      final ImmutableProperties properties,
+      final Map<LookupAnnotationReference, String> annotations) {
+    this.item = item;
     this.id = id;
     this.type = type;
     this.properties = properties;
     this.annotations = annotations;
   }
-  
+
   @Override
   public String getId() {
     return id;
@@ -47,65 +60,64 @@ public class SimpleGroup implements Group{
     return properties;
   }
 
+
   @Override
-  public Map<String, Stream<Annotation>> getAnnotations() {
-    Map<String, Stream<Annotation>> ret = new HashMap<>();
-        
-    annotations.entrySet().forEach(e -> {
-      Stream<Annotation> s = ret.getOrDefault(e.getValue(), Stream.empty());
-      ret.put(e.getValue(), Stream.concat(s, Stream.of(e.getKey())));
+  public Map<String, Stream<AnnotationReference>> getReferences() {
+    Map<String, Stream<AnnotationReference>> ret = new HashMap<>();
+
+    annotations.forEach((key, value) -> {
+      Stream<AnnotationReference> s = ret.getOrDefault(value, Stream.empty());
+      ret.put(value, Stream.concat(s, Stream.of(key)));
     });
-    
+
     return ret;
   }
 
   @Override
   public Optional<String> getRole(Annotation annotation) {
-    return Optional.ofNullable(annotations.get(annotation));
+    return Optional.ofNullable(annotations.get(LookupAnnotationReference.to(item, annotation)));
   }
 
   @Override
   public boolean containsAnnotation(Annotation annotation) {
-    return annotations.containsKey(annotation);
+    return annotations.containsKey(LookupAnnotationReference.to(item, annotation));
   }
-  
+
   @Override
   public String toString() {
-    return this.getClass().getName() + " [id=" + id + ", type=" + type + ", properties=" + properties + ", annotations=" + annotations + "]";
+    return this.getClass().getName() + " [id=" + id + ", type=" + type + ", properties="
+        + properties + ", annotations=" + annotations + "]";
   }
-  
+
   @Override
   public int hashCode() {
     return Objects.hash(id, type, properties, annotations);
   }
-  
+
   @Override
   public boolean equals(Object o) {
-    if(!(o instanceof Group))
-      return false;
-    
-    Group g = (Group) o;
-    
-    Map<Annotation, String> m = new HashMap<>();
-    g.getAnnotations().entrySet().forEach(e -> {
-      e.getValue().forEach(a -> m.put(a, e.getKey()));
-    });
-    
-    return Objects.equals(id, g.getId()) && Objects.equals(type, g.getType())
-        && Objects.equals(properties, g.getProperties()) && Objects.equals(annotations, m);
+    return equalsGroup(o);
   }
-  
+
   /**
-   * Builder class for SimpleGroup, using UUID for generating new IDs
-   * and InMemoryImmutableProperties or EmptyImmutableProperties for the
-   * properties. 
+   * Builder class for SimpleGroup, using UUID for generating new IDs and
+   * InMemoryImmutableProperties or EmptyImmutableProperties for the properties.
    */
-  public static class Builder implements Group.Builder{
-    private String id = UUID.randomUUID().toString();
+  public static class Builder implements Group.Builder {
+
+    private final Item item;
+    private final SaveFromBuilder<Group, Group> saver;
+
+    private String id = null;
     private String type = null;
     private MutableProperties properties = new SimpleMutableProperties();
     private Map<Annotation, String> annotations = new HashMap<>();
-    
+
+    public Builder(Item item, SaveFromBuilder<Group, Group> saver) {
+      this.item = item;
+      this.saver = saver;
+    }
+
     @Override
     public io.annot8.core.annotations.Group.Builder withType(String type) {
       this.type = type;
@@ -126,7 +138,7 @@ public class SimpleGroup implements Group{
 
     @Override
     public io.annot8.core.annotations.Group.Builder newId() {
-      this.id = UUID.randomUUID().toString();
+      this.id = null;
       return this;
     }
 
@@ -137,29 +149,38 @@ public class SimpleGroup implements Group{
       this.properties = new SimpleMutableProperties(from.getProperties());
 
       this.annotations = new HashMap<>();
-      from.getAnnotations().entrySet().forEach(e -> {
-        e.getValue().forEach(a -> this.annotations.put(a, e.getKey()));
-      });
-      
+      from.getAnnotations()
+          .forEach((key, value) -> value.forEach(a -> this.annotations.put(a, key)));
+
       return this;
     }
 
     @Override
     public Group save() throws IncompleteException {
-      if(id == null)
-        throw new IncompleteException("ID has not been set");
-      
-      if(type == null)
+
+      if (id == null) {
+        id = UUID.randomUUID().toString();
+      }
+
+      if (type == null) {
         throw new IncompleteException("Type has not been set");
-      
+      }
+
       ImmutableProperties immutableProperties;
-      if(properties.getAll().isEmpty()) {
+      if (properties.getAll().isEmpty()) {
         immutableProperties = EmptyImmutableProperties.getInstance();
-      }else {
+      } else {
         immutableProperties = new SimpleImmutableProperties.Builder().from(properties).save();
       }
-      
-      return new SimpleGroup(id, type, immutableProperties, annotations);
+
+      Map<LookupAnnotationReference, String> references = annotations.entrySet().stream()
+          .collect(Collectors.toMap(
+              e -> LookupAnnotationReference.to(item, e.getKey()),
+              Entry::getValue
+          ));
+
+      Group group = new SimpleGroup(item, id, type, immutableProperties, references);
+      return saver.save(group);
     }
 
     @Override
@@ -169,6 +190,6 @@ public class SimpleGroup implements Group{
 
       return this;
     }
-    
+
   }
 }
