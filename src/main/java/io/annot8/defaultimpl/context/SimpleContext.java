@@ -1,7 +1,9 @@
 package io.annot8.defaultimpl.context;
 
+import io.annot8.common.factories.ItemFactory;
 import io.annot8.core.components.Resource;
 import io.annot8.core.context.Context;
+import io.annot8.core.data.Item;
 import io.annot8.core.settings.Settings;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,36 +17,47 @@ import java.util.stream.Stream;
 public class SimpleContext implements Context {
 
   private final Map<String, Resource> resources = new HashMap<>();
+  private final ItemFactory itemFactory;
   private final Settings settings;
 
   /**
    * Create a new instance, with no settings and no resources
    */
-  public SimpleContext() {
-    this.settings = null;
+  public SimpleContext(ItemFactory itemFactory) {
+    this(itemFactory, null, null);
   }
 
   /**
    * Create a new instance, with the specified settings and no resources
    */
-  public SimpleContext(Settings settings) {
-    this.settings = settings;
+  public SimpleContext(ItemFactory itemFactory, Settings settings) {
+    this(itemFactory, settings, null);
   }
 
   /**
    * Create a new instance, with no settings and the specified resources
    */
-  public SimpleContext(Map<String, Resource> resources) {
-    this.settings = null;
-    this.resources.putAll(resources);
+  public SimpleContext(ItemFactory itemFactory, Map<String, Resource> resources) {
+    this(itemFactory, null, resources);
   }
 
   /**
    * Create a new instance, with the specified settings and resources
    */
-  public SimpleContext(Settings settings, Map<String, Resource> resources) {
+  public SimpleContext(ItemFactory itemFactory, Settings settings,
+      Map<String, Resource> resources) {
+    Objects.requireNonNull(itemFactory);
+
+    this.itemFactory = itemFactory;
     this.settings = settings;
-    this.resources.putAll(resources);
+    if (resources != null) {
+      this.resources.putAll(resources);
+    }
+  }
+
+  @Override
+  public Item createItem() {
+    return itemFactory.create();
   }
 
   /**
