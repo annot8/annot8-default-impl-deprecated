@@ -4,24 +4,37 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
+import io.annot8.common.factories.ItemFactory;
 import io.annot8.core.components.Capabilities;
 import io.annot8.core.components.Resource;
 import io.annot8.core.settings.Settings;
+import io.annot8.test.TestItem;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class SimpleContextTest {
+
+  private ItemFactory itemFactory;
+
+  @BeforeEach
+  public void beforeEach() {
+    itemFactory = mock(ItemFactory.class);
+    when(itemFactory.create()).thenReturn(new TestItem());
+  }
+
 
   @Test
   public void testSimpleContextDefault() {
     Resource r1 = mock(Resource.class);
     Resource r2 = mock(TestResource.class);
 
-    SimpleContext context = new SimpleContext();
+    SimpleContext context = new SimpleContext(itemFactory);
     context.addResource("resource1", r1);
     context.addResource("resource2", r2);
 
@@ -51,7 +64,7 @@ public class SimpleContextTest {
     r.put("resource1", r1);
     r.put("resource2", r2);
 
-    SimpleContext context = new SimpleContext(r);
+    SimpleContext context = new SimpleContext(itemFactory);
 
     assertFalse(context.getSettings().isPresent());
 
@@ -74,7 +87,7 @@ public class SimpleContextTest {
   public void testSimpleContextSettings() {
     Settings s = mock(Settings.class);
 
-    SimpleContext context = new SimpleContext(s);
+    SimpleContext context = new SimpleContext(itemFactory, s);
 
     assertTrue(context.getSettings().isPresent());
     assertEquals(s, context.getSettings().get());
@@ -96,7 +109,7 @@ public class SimpleContextTest {
     r.put("resource1", r1);
     r.put("resource2", r2);
 
-    SimpleContext context = new SimpleContext(s, r);
+    SimpleContext context = new SimpleContext(itemFactory, s, r);
 
     assertTrue(context.getSettings().isPresent());
     assertEquals(s, context.getSettings().get());
