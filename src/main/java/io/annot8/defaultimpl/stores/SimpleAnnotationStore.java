@@ -1,15 +1,14 @@
 package io.annot8.defaultimpl.stores;
 
 import io.annot8.core.annotations.Annotation;
-import io.annot8.core.exceptions.IncompleteException;
 import io.annot8.core.stores.AnnotationStore;
 import io.annot8.defaultimpl.annotations.SimpleAnnotation;
-import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -19,40 +18,25 @@ import java.util.stream.Stream;
 public class SimpleAnnotationStore implements AnnotationStore {
 
   private final Map<String, Annotation> annotations = new HashMap<>();
-  private final Class<? extends Annotation.Builder> annotationBuilderClass;
+  private final String contentName;
 
   /**
    * Construct a new instance of this class using SimpleAnnotation.Builder as the annotation
    * builder
    */
-  public SimpleAnnotationStore() {
-    annotationBuilderClass = SimpleAnnotation.Builder.class;
+  public SimpleAnnotationStore(String contentName) {
+    this.contentName = contentName;
   }
 
-  /**
-   * Construct a new instance of this class using the specified Annotation.Builder as the annotation
-   * builder
-   */
-  public SimpleAnnotationStore(Class<? extends Annotation.Builder> annotationBuilderClass) {
-    this.annotationBuilderClass = annotationBuilderClass;
-  }
 
   @Override
   public Annotation.Builder getBuilder() {
-    try {
-      return annotationBuilderClass.getConstructor().newInstance();
-    } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
-      //TODO: Log error
-      return new SimpleAnnotation.Builder();
-    }
+    return new SimpleAnnotation.Builder(contentName, this::save);
   }
 
-  private Annotation save(Annotation.Builder builder) throws IncompleteException {
-    Annotation a = builder.save();
-
-    annotations.put(a.getId(), a);
-
-    return a;
+  public Annotation save(Annotation annotation) {
+    annotations.put(annotation.getId(), annotation);
+    return annotation;
   }
 
   @Override
@@ -82,13 +66,15 @@ public class SimpleAnnotationStore implements AnnotationStore {
 
   @Override
   public boolean equals(Object obj) {
-    if(!(obj instanceof AnnotationStore))
+    if (!(obj instanceof AnnotationStore)) {
       return false;
+    }
 
     AnnotationStore as = (AnnotationStore) obj;
 
-    List<Annotation> allAnnotations = as.getAll().collect(Collectors.toList());
+    Set<Annotation> allAnnotations = as.getAll().collect(Collectors.toSet());
 
-    return Objects.equals(annotations.values().stream().collect(Collectors.toList()), allAnnotations);
+    return Objects
+        .equals(new HashSet<>(annotations.values()), allAnnotations);
   }
 }

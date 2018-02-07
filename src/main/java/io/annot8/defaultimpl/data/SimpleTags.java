@@ -1,61 +1,62 @@
 package io.annot8.defaultimpl.data;
 
+import io.annot8.core.data.Tags;
+import io.annot8.core.exceptions.IncompleteException;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import io.annot8.core.data.Tags;
-import io.annot8.core.exceptions.IncompleteException;
 
 /**
- * Provides an in-memory implementation of the Tags interface,
- * backed by a HashSet.
+ * Provides an in-memory implementation of the Tags interface, backed by a HashSet.
  */
 public class SimpleTags implements Tags {
 
   private final Set<String> tags;
-  
+
   /**
    * Private constructor, used by the Builder
    */
   private SimpleTags(Set<String> tags) {
     this.tags = tags;
   }
-  
+
   @Override
   public Stream<String> get() {
     return tags.stream();
   }
-  
+
   @Override
   public String toString() {
     return this.getClass().getName() + " [" + tags.stream().collect(Collectors.joining(",")) + "]";
   }
-  
+
   @Override
   public int hashCode() {
     return Objects.hash(tags);
   }
-  
+
   @Override
   public boolean equals(Object o) {
-    if(!(o instanceof Tags))
+    if (!(o instanceof Tags)) {
       return false;
-    
+    }
+
     Tags t = (Tags) o;
-    Set<String> tags = t.get().collect(Collectors.toSet());
-    
-    return Objects.equals(this.tags, tags);
+    Set<String> set = t.get().collect(Collectors.toSet());
+
+    return Objects.equals(this.tags, set);
   }
-  
+
   /**
    * Builder class for InMemoryTags
    */
-  public static class Builder implements Tags.Builder{
-    private Set<String> tags = new HashSet<>();
-    
+  public static class Builder implements Tags.Builder {
+
+    private final Set<String> tags = new HashSet<>();
+
     @Override
     public io.annot8.core.data.Tags.Builder from(Tags from) {
       from.get().forEach(this::addTag);
@@ -78,7 +79,7 @@ public class SimpleTags implements Tags {
       this.tags.addAll(tags);
       return this;
     }
-    
+
   }
 
 }

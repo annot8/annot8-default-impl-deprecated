@@ -15,8 +15,9 @@ import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
 
 public class SimpleContextTest {
+
   @Test
-  public void testSimpleContextDefault(){
+  public void testSimpleContextDefault() {
     Resource r1 = mock(Resource.class);
     Resource r2 = mock(TestResource.class);
 
@@ -35,13 +36,14 @@ public class SimpleContextTest {
     assertTrue(keys.contains("resource1"));
     assertTrue(keys.contains("resource2"));
 
-    List<TestResource> resources = context.getResources(TestResource.class).collect(Collectors.toList());
+    List<TestResource> resources = context.getResources(TestResource.class)
+        .collect(Collectors.toList());
     assertEquals(1, resources.size());
     assertEquals(r2, resources.get(0));
   }
 
   @Test
-  public void testSimpleContextMap(){
+  public void testSimpleContextMap() {
     Resource r1 = mock(Resource.class);
     Resource r2 = mock(TestResource.class);
 
@@ -62,13 +64,14 @@ public class SimpleContextTest {
     assertTrue(keys.contains("resource1"));
     assertTrue(keys.contains("resource2"));
 
-    List<TestResource> resources = context.getResources(TestResource.class).collect(Collectors.toList());
+    List<TestResource> resources = context.getResources(TestResource.class)
+        .collect(Collectors.toList());
     assertEquals(1, resources.size());
     assertEquals(r2, resources.get(0));
   }
 
   @Test
-  public void testSimpleContextSettings(){
+  public void testSimpleContextSettings() {
     Settings s = mock(Settings.class);
 
     SimpleContext context = new SimpleContext(s);
@@ -84,7 +87,7 @@ public class SimpleContextTest {
   }
 
   @Test
-  public void testSimpleContextSettingsAndMap(){
+  public void testSimpleContextSettingsAndMap() {
     Resource r1 = mock(Resource.class);
     Resource r2 = mock(TestResource.class);
     Settings s = mock(Settings.class);
@@ -107,12 +110,14 @@ public class SimpleContextTest {
     assertTrue(keys.contains("resource1"));
     assertTrue(keys.contains("resource2"));
 
-    List<TestResource> resources = context.getResources(TestResource.class).collect(Collectors.toList());
+    List<TestResource> resources = context.getResources(TestResource.class)
+        .collect(Collectors.toList());
     assertEquals(1, resources.size());
     assertEquals(r2, resources.get(0));
   }
 
-  private static class TestResource implements Resource{
+  private static class TestResource implements Resource {
+
     @Override
     public Capabilities getCapabilities(Settings settings) {
       return mock(Capabilities.class);

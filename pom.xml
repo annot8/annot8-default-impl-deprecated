@@ -47,7 +47,7 @@
   <properties>
     <maven.compiler.source>9</maven.compiler.source>
     <maven.compiler.target>9</maven.compiler.target>
-    
+
     <annot8.version>0.1-SNAPSHOT</annot8.version>
     <junit.version>5.0.3</junit.version>
     <mockito.version>2.13.0</mockito.version>
@@ -60,14 +60,14 @@
       <version>${annot8.version}</version>
       <scope>provided</scope>
     </dependency>
-    
+
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-api</artifactId>
       <version>${junit.version}</version>
       <scope>test</scope>
     </dependency>
-    
+
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-core</artifactId>
@@ -77,6 +77,11 @@
     <dependency>
       <groupId>io.annot8</groupId>
       <artifactId>annot8-common</artifactId>
+      <version>0.1-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>io.annot8</groupId>
+      <artifactId>annot8-test</artifactId>
       <version>0.1-SNAPSHOT</version>
     </dependency>
   </dependencies>

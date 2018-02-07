@@ -1,16 +1,16 @@
 package io.annot8.defaultimpl.properties;
 
+import io.annot8.core.exceptions.IncompleteException;
+import io.annot8.core.properties.ImmutableProperties;
+import io.annot8.core.properties.Properties;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import io.annot8.core.exceptions.IncompleteException;
-import io.annot8.core.properties.ImmutableProperties;
-import io.annot8.core.properties.Properties;
 
 /**
- * Implementation of ImmutableProperties interface using an in-memory
- * HashMap to store the properties.
+ * Implementation of ImmutableProperties interface using an in-memory HashMap to store the
+ * properties.
  */
 public class SimpleImmutableProperties implements ImmutableProperties {
 
@@ -24,22 +24,24 @@ public class SimpleImmutableProperties implements ImmutableProperties {
   public Map<String, Object> getAll() {
     return properties;
   }
-  
+
   @Override
   public String toString() {
-    return this.getClass().getName() + " [" + properties.entrySet().stream().map(e -> e.getKey() + "=" + e.getValue()).collect(Collectors.joining(", ")) + "]";
+    return this.getClass().getName() + " [" + properties.entrySet().stream()
+        .map(e -> e.getKey() + "=" + e.getValue()).collect(Collectors.joining(", ")) + "]";
   }
-  
+
   @Override
   public int hashCode() {
     return Objects.hash(properties);
   }
-  
+
   @Override
   public boolean equals(Object o) {
-    if(!(o instanceof Properties))
+    if (!(o instanceof Properties)) {
       return false;
-    
+    }
+
     Properties p = (Properties) o;
     return Objects.equals(properties, p.getAll());
   }
@@ -47,14 +49,14 @@ public class SimpleImmutableProperties implements ImmutableProperties {
   /**
    * Builder class for InMemoryImmutableProperties
    */
-  public static class Builder implements ImmutableProperties.Builder{
+  public static class Builder implements ImmutableProperties.Builder {
 
-    private Map<String, Object> properties = new HashMap<>();
+    private final Map<String, Object> properties = new HashMap<>();
 
     @Override
     public io.annot8.core.properties.ImmutableProperties.Builder from(Properties from) {
       properties.clear();
-      from.getAll().entrySet().forEach(e -> properties.put(e.getKey(), e.getValue()));
+      from.getAll().forEach(properties::put);
       return this;
     }
 
@@ -68,7 +70,7 @@ public class SimpleImmutableProperties implements ImmutableProperties {
     @Override
     public io.annot8.core.properties.ImmutableProperties.Builder withProperties(
         Properties properties) {
-      properties.getAll().entrySet().forEach(e -> this.properties.put(e.getKey(), e.getValue()));
+      properties.getAll().forEach(this.properties::put);
       return this;
     }
 

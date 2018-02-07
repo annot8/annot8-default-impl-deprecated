@@ -1,17 +1,15 @@
 package io.annot8.defaultimpl.stores;
 
-import io.annot8.core.annotations.Annotation;
 import io.annot8.core.annotations.Group;
-import io.annot8.core.exceptions.IncompleteException;
-import io.annot8.core.stores.AnnotationStore;
+import io.annot8.core.data.Item;
 import io.annot8.core.stores.GroupStore;
-import io.annot8.defaultimpl.annotations.SimpleGroup;
-import java.lang.reflect.InvocationTargetException;
+import io.annot8.defaultimpl.annotations.SimpleGroup.Builder;
 import java.util.HashMap;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -20,40 +18,26 @@ import java.util.stream.Stream;
  */
 public class SimpleGroupStore implements GroupStore {
 
+  private final Item item;
   private final Map<String, Group> groups = new HashMap<>();
-  private final Class<? extends Group.Builder> groupBuilderClass;
 
   /**
-   * Construct a new instance of this class using SimpleGroup.Builder as the annotation builder
+   * Construct a new instance of this class using SimpleGroup.Builder as the annotation builder for
+   * the provided item.
    */
-  public SimpleGroupStore() {
-    groupBuilderClass = SimpleGroup.Builder.class;
+  public SimpleGroupStore(Item item) {
+    this.item = item;
   }
 
-  /**
-   * Construct a new instance of this class using the specified Group.Builder as the annotation
-   * builder
-   */
-  public SimpleGroupStore(Class<? extends Group.Builder> groupBuilderClass) {
-    this.groupBuilderClass = groupBuilderClass;
-  }
 
   @Override
   public Group.Builder getBuilder() {
-    try {
-      return groupBuilderClass.getConstructor().newInstance();
-    } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
-      //TODO: Log error
-      return new SimpleGroup.Builder();
-    }
+    return new Builder(item, this::save);
   }
 
-  private Group save(Group.Builder builder) throws IncompleteException {
-    Group g = builder.save();
-
-    groups.put(g.getId(), g);
-
-    return g;
+  public Group save(Group group) {
+    groups.put(group.getId(), group);
+    return group;
   }
 
   @Override
@@ -83,13 +67,14 @@ public class SimpleGroupStore implements GroupStore {
 
   @Override
   public boolean equals(Object obj) {
-    if(!(obj instanceof GroupStore))
+    if (!(obj instanceof GroupStore)) {
       return false;
+    }
 
     GroupStore gs = (GroupStore) obj;
 
-    List<Group> allGroups = gs.getAll().collect(Collectors.toList());
+    Set<Group> allGroups = gs.getAll().collect(Collectors.toSet());
 
-    return Objects.equals(groups.values().stream().collect(Collectors.toList()), allGroups);
+    return Objects.equals(new HashSet<>(groups.values()), allGroups);
   }
 }
