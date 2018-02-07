@@ -47,9 +47,8 @@ public class SimpleAnnotationStore implements AnnotationStore {
     }
   }
 
-  @Override
-  public Annotation save(Annotation.Builder builder) throws IncompleteException {
-    Annotation a = builder.build();
+  private Annotation save(Annotation.Builder builder) throws IncompleteException {
+    Annotation a = builder.save();
 
     annotations.put(a.getId(), a);
 

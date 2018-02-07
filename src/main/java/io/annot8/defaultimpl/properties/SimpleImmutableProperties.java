@@ -73,7 +73,7 @@ public class SimpleImmutableProperties implements ImmutableProperties {
     }
 
     @Override
-    public ImmutableProperties build() throws IncompleteException {
+    public ImmutableProperties save() throws IncompleteException {
       return new SimpleImmutableProperties(properties);
     }
 

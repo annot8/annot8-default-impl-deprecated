@@ -88,8 +88,12 @@ public class SimpleAnnotation implements Annotation {
     private String type = null;
     private MutableProperties properties = new SimpleMutableProperties();
     private Bounds bounds = null;
-    private String content = null;
-    
+    private final String content;
+
+    public Builder(String content) {
+        this.content = content;
+    }
+
     @Override
     public io.annot8.core.annotations.Annotation.Builder withType(String type) {
       this.type = type;
@@ -120,13 +124,12 @@ public class SimpleAnnotation implements Annotation {
       this.type = from.getType();
       this.properties = new SimpleMutableProperties(from.getProperties());
       this.bounds = from.getBounds();
-      this.content = from.getContentName();
-      
+
       return this;
     }
 
     @Override
-    public Annotation build() throws IncompleteException {
+    public Annotation save() throws IncompleteException {
       if(id == null)
         throw new IncompleteException("ID has not been set");
       
@@ -143,16 +146,10 @@ public class SimpleAnnotation implements Annotation {
       if(properties.getAll().isEmpty()) {
         immutableProperties = EmptyImmutableProperties.getInstance();
       }else {
-        immutableProperties = new SimpleImmutableProperties.Builder().from(properties).build();
+        immutableProperties = new SimpleImmutableProperties.Builder().from(properties).save();
       }
       
       return new SimpleAnnotation(id, type, immutableProperties, bounds, content);
-    }
-
-    @Override
-    public io.annot8.core.annotations.Annotation.Builder withContent(String contentName) {
-      this.content = contentName;
-      return this;
     }
 
     @Override

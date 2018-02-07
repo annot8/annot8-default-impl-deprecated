@@ -63,7 +63,7 @@ public class SimpleTags implements Tags {
     }
 
     @Override
-    public Tags build() throws IncompleteException {
+    public Tags save() throws IncompleteException {
       return new SimpleTags(tags);
     }
 

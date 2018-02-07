@@ -48,9 +48,8 @@ public class SimpleGroupStore implements GroupStore {
     }
   }
 
-  @Override
-  public Group save(Group.Builder builder) throws IncompleteException {
-    Group g = builder.build();
+  private Group save(Group.Builder builder) throws IncompleteException {
+    Group g = builder.save();
 
     groups.put(g.getId(), g);
 

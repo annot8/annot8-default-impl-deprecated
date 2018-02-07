@@ -145,7 +145,7 @@ public class SimpleGroup implements Group{
     }
 
     @Override
-    public Group build() throws IncompleteException {
+    public Group save() throws IncompleteException {
       if(id == null)
         throw new IncompleteException("ID has not been set");
       
@@ -159,7 +159,7 @@ public class SimpleGroup implements Group{
       if(properties.getAll().isEmpty()) {
         immutableProperties = EmptyImmutableProperties.getInstance();
       }else {
-        immutableProperties = new SimpleImmutableProperties.Builder().from(properties).build();
+        immutableProperties = new SimpleImmutableProperties.Builder().from(properties).save();
       }
       
       return new SimpleGroup(id, type, immutableProperties, annotations);
