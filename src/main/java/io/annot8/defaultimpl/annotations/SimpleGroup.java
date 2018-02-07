@@ -152,9 +152,6 @@ public class SimpleGroup implements Group{
       if(type == null)
         throw new IncompleteException("Type has not been set");
       
-      if(annotations.size() < 2)
-        throw new IncompleteException("Groups must contain at least two annotations");
-      
       ImmutableProperties immutableProperties;
       if(properties.getAll().isEmpty()) {
         immutableProperties = EmptyImmutableProperties.getInstance();
