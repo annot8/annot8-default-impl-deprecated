@@ -1,5 +1,6 @@
 package io.annot8.defaultimpl.stores;
 
+import io.annot8.common.factories.AnnotationBuilderFactory;
 import io.annot8.core.annotations.Annotation;
 import io.annot8.core.stores.AnnotationStore;
 import io.annot8.defaultimpl.annotations.SimpleAnnotation;
@@ -19,6 +20,7 @@ public class SimpleAnnotationStore implements AnnotationStore {
 
   private final Map<String, Annotation> annotations = new HashMap<>();
   private final String contentName;
+  private final AnnotationBuilderFactory<Annotation> annotationBuilderFactory;
 
   /**
    * Construct a new instance of this class using SimpleAnnotation.Builder as the annotation
@@ -26,15 +28,26 @@ public class SimpleAnnotationStore implements AnnotationStore {
    */
   public SimpleAnnotationStore(String contentName) {
     this.contentName = contentName;
+    this.annotationBuilderFactory = (content, store, saver) -> new SimpleAnnotation.Builder(
+        contentName, this::save);
+  }
+
+  /**
+   * Construct a new instance of this class using a custom annotation builder.
+   */
+  public SimpleAnnotationStore(String contentName,
+      AnnotationBuilderFactory<Annotation> annotationBuilderFactory) {
+    this.contentName = contentName;
+    this.annotationBuilderFactory = annotationBuilderFactory;
   }
 
 
   @Override
   public Annotation.Builder getBuilder() {
-    return new SimpleAnnotation.Builder(contentName, this::save);
+    return annotationBuilderFactory.create(contentName, this, this::save);
   }
 
-  public Annotation save(Annotation annotation) {
+  private Annotation save(Annotation annotation) {
     annotations.put(annotation.getId(), annotation);
     return annotation;
   }

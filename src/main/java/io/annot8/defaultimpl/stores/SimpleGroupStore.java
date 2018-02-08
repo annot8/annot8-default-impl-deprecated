@@ -1,9 +1,10 @@
 package io.annot8.defaultimpl.stores;
 
+import io.annot8.common.factories.GroupBuilderFactory;
 import io.annot8.core.annotations.Group;
 import io.annot8.core.data.Item;
 import io.annot8.core.stores.GroupStore;
-import io.annot8.defaultimpl.annotations.SimpleGroup.Builder;
+import io.annot8.defaultimpl.annotations.SimpleGroup;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -20,6 +21,7 @@ public class SimpleGroupStore implements GroupStore {
 
   private final Item item;
   private final Map<String, Group> groups = new HashMap<>();
+  private final GroupBuilderFactory<Group> groupBuilderFactory;
 
   /**
    * Construct a new instance of this class using SimpleGroup.Builder as the annotation builder for
@@ -27,15 +29,24 @@ public class SimpleGroupStore implements GroupStore {
    */
   public SimpleGroupStore(Item item) {
     this.item = item;
+    this.groupBuilderFactory = (forItem, groupStore, saver) -> new SimpleGroup.Builder(forItem,
+        saver);
   }
 
+  /**
+   * Construct a new instance of this class using a custom group builder.
+   */
+  public SimpleGroupStore(Item item, GroupBuilderFactory<Group> groupBuilderFactory) {
+    this.item = item;
+    this.groupBuilderFactory = groupBuilderFactory;
+  }
 
   @Override
   public Group.Builder getBuilder() {
-    return new Builder(item, this::save);
+    return groupBuilderFactory.create(item, this, this::save);
   }
 
-  public Group save(Group group) {
+  private Group save(Group group) {
     groups.put(group.getId(), group);
     return group;
   }
