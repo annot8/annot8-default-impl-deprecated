@@ -1,5 +1,6 @@
 package io.annot8.defaultimpl.pipeline;
 
+import io.annot8.common.content.FileContent;
 import io.annot8.common.content.Text;
 import io.annot8.common.factories.ContentBuilderFactory;
 import io.annot8.common.factories.ItemFactory;
@@ -10,6 +11,7 @@ import io.annot8.core.components.Source;
 import io.annot8.core.data.Content;
 import io.annot8.core.exceptions.Annot8Exception;
 import io.annot8.core.settings.Settings;
+import io.annot8.defaultimpl.content.SimpleFile;
 import io.annot8.defaultimpl.content.SimpleText;
 import io.annot8.defaultimpl.context.SimpleContext;
 import io.annot8.defaultimpl.data.SimpleItem;
@@ -37,6 +39,7 @@ public class SimplePipelineBuilder {
 
     final SimplePipelineBuilder builder = new SimplePipelineBuilder();
     builder.addContentBuilder(Text.class, new SimpleText.BuilderFactory());
+    builder.addContentBuilder(FileContent.class, new SimpleFile.BuilderFactory());
 
     // If we had... some implementations
 //    pipeline.addDataSource(new TxtDirectorySource(), new DirectorySourceSettings(args[0]));
