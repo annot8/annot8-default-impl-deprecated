@@ -4,6 +4,7 @@ import io.annot8.core.bounds.Bounds;
 import io.annot8.core.components.Capabilities;
 import io.annot8.core.components.Resource;
 import io.annot8.core.data.Content;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -107,6 +108,11 @@ public class SimpleCapabilities implements Capabilities {
 
     public Builder acceptsTags(String tags) {
       acceptedTags.add(tags);
+      return this;
+    }
+
+    public Builder acceptsTags(Collection<String> tags) {
+      acceptedTags.addAll(tags);
       return this;
     }
 
