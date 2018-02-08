@@ -32,7 +32,7 @@ public class SimpleContextTest {
   @Test
   public void testSimpleContextDefault() {
     Resource r1 = mock(Resource.class);
-    Resource r2 = mock(TestResource.class);
+    Resource r2 = new TestResource();
 
     SimpleContext context = new SimpleContext(itemFactory);
     context.addResource("resource1", r1);
@@ -58,19 +58,20 @@ public class SimpleContextTest {
   @Test
   public void testSimpleContextMap() {
     Resource r1 = mock(Resource.class);
-    Resource r2 = mock(TestResource.class);
+    Resource r2 = new TestResource();
 
     Map<String, Resource> r = new HashMap<>();
     r.put("resource1", r1);
     r.put("resource2", r2);
 
-    SimpleContext context = new SimpleContext(itemFactory);
+    SimpleContext context = new SimpleContext(itemFactory, r);
 
     assertFalse(context.getSettings().isPresent());
 
     assertFalse(context.getResource("foo", Resource.class).isPresent());
-    assertFalse(context.getResource("resource1", TestResource.class).isPresent());
-    assertTrue(context.getResource("resource1", Resource.class).isPresent());
+    assertFalse(context.getResource("resource1", NotTestResource.class).isPresent());
+    assertTrue(context.getResource("resource2", Resource.class).isPresent());
+    assertTrue(context.getResource("resource2", TestResource.class).isPresent());
 
     List<String> keys = context.getResourceKeys().collect(Collectors.toList());
     assertEquals(2, keys.size());
@@ -102,7 +103,7 @@ public class SimpleContextTest {
   @Test
   public void testSimpleContextSettingsAndMap() {
     Resource r1 = mock(Resource.class);
-    Resource r2 = mock(TestResource.class);
+    Resource r2 = new TestResource();
     Settings s = mock(Settings.class);
 
     Map<String, Resource> r = new HashMap<>();
@@ -130,6 +131,14 @@ public class SimpleContextTest {
   }
 
   private static class TestResource implements Resource {
+
+    @Override
+    public Capabilities getCapabilities(Settings settings) {
+      return mock(Capabilities.class);
+    }
+  }
+
+  private static class NotTestResource implements Resource {
 
     @Override
     public Capabilities getCapabilities(Settings settings) {
