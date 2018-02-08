@@ -3,6 +3,7 @@ package io.annot8.defaultimpl.data;
 import io.annot8.core.data.Tags;
 import io.annot8.core.exceptions.IncompleteException;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -65,7 +66,7 @@ public class SimpleTags implements Tags {
 
     @Override
     public Tags save() throws IncompleteException {
-      return new SimpleTags(tags);
+      return new SimpleTags(Collections.unmodifiableSet(tags));
     }
 
     @Override
