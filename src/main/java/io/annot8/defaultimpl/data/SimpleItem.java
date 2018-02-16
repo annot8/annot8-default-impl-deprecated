@@ -6,6 +6,7 @@ import io.annot8.common.utils.StreamUtils;
 import io.annot8.core.data.Content;
 import io.annot8.core.data.Content.Builder;
 import io.annot8.core.data.Item;
+import io.annot8.core.exceptions.Annot8RuntimeException;
 import io.annot8.core.exceptions.UnsupportedContentException;
 import io.annot8.core.properties.MutableProperties;
 import io.annot8.core.stores.GroupStore;
@@ -71,6 +72,12 @@ public class SimpleItem implements Item {
   @Override
   public void removeContent(String name) {
     contents.remove(name);
+  }
+
+  @Override
+  public Item createChildItem() {
+    //TODO: Implement this
+    throw new Annot8RuntimeException("Not currently implemented");
   }
 
   @Override

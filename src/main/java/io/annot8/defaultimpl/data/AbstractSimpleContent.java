@@ -2,7 +2,9 @@ package io.annot8.defaultimpl.data;
 
 import io.annot8.common.factories.ContentBuilderFactory;
 import io.annot8.common.stores.SaveFromBuilder;
+import io.annot8.core.annotations.Annotation;
 import io.annot8.core.data.Content;
+import io.annot8.core.data.Content.Builder;
 import io.annot8.core.data.Tags;
 import io.annot8.core.exceptions.IncompleteException;
 import io.annot8.core.properties.ImmutableProperties;
@@ -10,6 +12,7 @@ import io.annot8.core.properties.Properties;
 import io.annot8.core.stores.AnnotationStore;
 import io.annot8.defaultimpl.properties.SimpleImmutableProperties;
 import io.annot8.defaultimpl.stores.SimpleAnnotationStore;
+import java.util.Optional;
 
 public abstract class AbstractSimpleContent<D> implements Content<D> {
 
@@ -95,6 +98,18 @@ public abstract class AbstractSimpleContent<D> implements Content<D> {
     }
 
     @Override
+    public Content.Builder withoutProperty(String key, Object value) {
+      properties.withoutProperty(key, value);
+      return this;
+    }
+
+    @Override
+    public Content.Builder withoutProperty(String key) {
+      properties.withoutProperty(key);
+      return this;
+    }
+
+    @Override
     public C save() throws IncompleteException {
 
       if (name == null) {
@@ -123,6 +138,18 @@ public abstract class AbstractSimpleContent<D> implements Content<D> {
     @Override
     public Content.Builder<C, D> withTags(Tags tags) {
       tags.get().forEach(this.tags::addTag);
+      return this;
+    }
+
+    @Override
+    public Content.Builder<C, D> withoutTag(String tag) {
+      tags.removeTag(tag);
+      return this;
+    }
+
+    @Override
+    public Content.Builder<C, D> withoutTags(Tags tags) {
+      tags.get().forEach(this.tags::removeTag);
       return this;
     }
   }

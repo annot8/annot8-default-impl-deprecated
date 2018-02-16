@@ -5,6 +5,7 @@ import io.annot8.common.references.LookupAnnotationReference;
 import io.annot8.common.stores.SaveFromBuilder;
 import io.annot8.core.annotations.Annotation;
 import io.annot8.core.annotations.Group;
+import io.annot8.core.annotations.Group.Builder;
 import io.annot8.core.data.Item;
 import io.annot8.core.exceptions.IncompleteException;
 import io.annot8.core.properties.ImmutableProperties;
@@ -127,6 +128,21 @@ public class SimpleGroup implements Group {
     @Override
     public io.annot8.core.annotations.Group.Builder withProperty(String key, Object value) {
       properties.set(key, value);
+      return this;
+    }
+
+    @Override
+    public Group.Builder withoutProperty(String key, Object value) {
+      Optional<Object> val = properties.get(key);
+      if (val.isPresent() && val.get().equals(value))
+        properties.remove(key);
+
+      return this;
+    }
+
+    @Override
+    public Group.Builder withoutProperty(String key) {
+      properties.remove(key);
       return this;
     }
 

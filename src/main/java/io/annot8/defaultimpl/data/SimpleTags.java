@@ -1,6 +1,7 @@
 package io.annot8.defaultimpl.data;
 
 import io.annot8.core.data.Tags;
+import io.annot8.core.data.Tags.Builder;
 import io.annot8.core.exceptions.IncompleteException;
 import java.util.Collection;
 import java.util.Collections;
@@ -76,8 +77,8 @@ public class SimpleTags implements Tags {
     }
 
     @Override
-    public io.annot8.core.data.Tags.Builder addTags(Collection<String> tags) {
-      this.tags.addAll(tags);
+    public Tags.Builder removeTag(String tag) {
+      this.tags.remove(tag);
       return this;
     }
 

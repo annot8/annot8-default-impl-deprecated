@@ -18,6 +18,11 @@ public class SimpleFile extends AbstractSimpleContent<File> implements FileConte
     super(annotations, name, tags, properties, data);
   }
 
+  @Override
+  public Class getDataClass() {
+    return File.class;
+  }
+
   public static class Builder extends AbstractSimpleContent.Builder<File, SimpleFile> {
 
     public Builder(SaveFromBuilder<SimpleFile, SimpleFile> saver) {

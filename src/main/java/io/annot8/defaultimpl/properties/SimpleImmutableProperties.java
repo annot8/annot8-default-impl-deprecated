@@ -1,11 +1,14 @@
 package io.annot8.defaultimpl.properties;
 
+import io.annot8.core.annotations.Group;
 import io.annot8.core.exceptions.IncompleteException;
 import io.annot8.core.properties.ImmutableProperties;
+import io.annot8.core.properties.ImmutableProperties.Builder;
 import io.annot8.core.properties.Properties;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -64,6 +67,21 @@ public class SimpleImmutableProperties implements ImmutableProperties {
     public io.annot8.core.properties.ImmutableProperties.Builder withProperty(String key,
         Object value) {
       properties.put(key, value);
+      return this;
+    }
+
+    @Override
+    public Builder withoutProperty(String key, Object value) {
+      Object val = properties.get(key);
+      if (Objects.equals(value, val))
+        properties.remove(key);
+
+      return this;
+    }
+
+    @Override
+    public Builder withoutProperty(String key) {
+      properties.remove(key);
       return this;
     }
 

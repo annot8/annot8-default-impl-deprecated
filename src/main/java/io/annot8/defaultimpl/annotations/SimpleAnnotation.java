@@ -3,6 +3,8 @@ package io.annot8.defaultimpl.annotations;
 import io.annot8.common.properties.EmptyImmutableProperties;
 import io.annot8.common.stores.SaveFromBuilder;
 import io.annot8.core.annotations.Annotation;
+import io.annot8.core.annotations.Annotation.Builder;
+import io.annot8.core.annotations.Group;
 import io.annot8.core.bounds.Bounds;
 import io.annot8.core.exceptions.IncompleteException;
 import io.annot8.core.properties.ImmutableProperties;
@@ -11,6 +13,7 @@ import io.annot8.core.properties.Properties;
 import io.annot8.defaultimpl.properties.SimpleImmutableProperties;
 import io.annot8.defaultimpl.properties.SimpleMutableProperties;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -101,6 +104,21 @@ public class SimpleAnnotation implements Annotation {
     @Override
     public io.annot8.core.annotations.Annotation.Builder withProperty(String key, Object value) {
       properties.set(key, value);
+      return this;
+    }
+
+    @Override
+    public Annotation.Builder withoutProperty(String key, Object value) {
+      Optional<Object> val = properties.get(key);
+      if (val.isPresent() && val.get().equals(value))
+        properties.remove(key);
+
+      return this;
+    }
+
+    @Override
+    public Annotation.Builder withoutProperty(String key) {
+      properties.remove(key);
       return this;
     }
 
