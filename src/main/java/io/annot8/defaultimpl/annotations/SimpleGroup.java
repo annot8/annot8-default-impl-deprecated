@@ -1,11 +1,11 @@
 package io.annot8.defaultimpl.annotations;
 
+import io.annot8.common.annotations.AbstractGroup;
 import io.annot8.common.properties.EmptyImmutableProperties;
 import io.annot8.common.references.LookupAnnotationReference;
 import io.annot8.common.stores.SaveFromBuilder;
 import io.annot8.core.annotations.Annotation;
 import io.annot8.core.annotations.Group;
-import io.annot8.core.annotations.Group.Builder;
 import io.annot8.core.data.Item;
 import io.annot8.core.exceptions.IncompleteException;
 import io.annot8.core.properties.ImmutableProperties;
@@ -17,7 +17,6 @@ import io.annot8.defaultimpl.properties.SimpleMutableProperties;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -26,7 +25,7 @@ import java.util.stream.Stream;
 /**
  * Simple implementation of Group interface
  */
-public class SimpleGroup implements Group {
+public class SimpleGroup extends AbstractGroup {
 
   private final Item item;
   private final String id;
@@ -82,22 +81,6 @@ public class SimpleGroup implements Group {
   @Override
   public boolean containsAnnotation(Annotation annotation) {
     return annotations.containsKey(LookupAnnotationReference.to(item, annotation));
-  }
-
-  @Override
-  public String toString() {
-    return this.getClass().getName() + " [id=" + id + ", type=" + type + ", properties="
-        + properties + ", annotations=" + annotations + "]";
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(id, type, properties, annotations);
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    return equalsGroup(o);
   }
 
   /**
