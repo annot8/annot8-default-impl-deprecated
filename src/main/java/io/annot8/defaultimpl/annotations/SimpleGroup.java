@@ -2,7 +2,7 @@ package io.annot8.defaultimpl.annotations;
 
 import io.annot8.common.annotations.AbstractGroup;
 import io.annot8.common.properties.EmptyImmutableProperties;
-import io.annot8.common.references.LookupAnnotationReference;
+import io.annot8.common.references.SimpleAnnotationReference;
 import io.annot8.common.stores.SaveFromBuilder;
 import io.annot8.core.annotations.Annotation;
 import io.annot8.core.annotations.Group;
@@ -33,11 +33,11 @@ public class SimpleGroup extends AbstractGroup {
   private final ImmutableProperties properties;
 
   // TODO: Better stored as (or as well as) a Guava Multimap ?
-  private final Map<LookupAnnotationReference, String> annotations;
+  private final Map<SimpleAnnotationReference, String> annotations;
 
   private SimpleGroup(final Item item, final String id, final String type,
       final ImmutableProperties properties,
-      final Map<LookupAnnotationReference, String> annotations) {
+      final Map<SimpleAnnotationReference, String> annotations) {
     this.item = item;
     this.id = id;
     this.type = type;
@@ -75,12 +75,12 @@ public class SimpleGroup extends AbstractGroup {
 
   @Override
   public Optional<String> getRole(Annotation annotation) {
-    return Optional.ofNullable(annotations.get(LookupAnnotationReference.to(item, annotation)));
+    return Optional.ofNullable(annotations.get(SimpleAnnotationReference.to(item, annotation)));
   }
 
   @Override
   public boolean containsAnnotation(Annotation annotation) {
-    return annotations.containsKey(LookupAnnotationReference.to(item, annotation));
+    return annotations.containsKey(SimpleAnnotationReference.to(item, annotation));
   }
 
   /**
@@ -172,9 +172,9 @@ public class SimpleGroup extends AbstractGroup {
         immutableProperties = new SimpleImmutableProperties.Builder().from(properties).save();
       }
 
-      Map<LookupAnnotationReference, String> references = annotations.entrySet().stream()
+      Map<SimpleAnnotationReference, String> references = annotations.entrySet().stream()
           .collect(Collectors.toMap(
-              e -> LookupAnnotationReference.to(item, e.getKey()),
+              e -> SimpleAnnotationReference.to(item, e.getKey()),
               Entry::getValue
           ));
 
