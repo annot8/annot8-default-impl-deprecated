@@ -14,8 +14,8 @@ import io.annot8.core.settings.Settings;
 import io.annot8.defaultimpl.content.SimpleFile;
 import io.annot8.defaultimpl.content.SimpleText;
 import io.annot8.defaultimpl.context.SimpleContext;
-import io.annot8.defaultimpl.data.SimpleItem;
 import io.annot8.defaultimpl.factories.SimpleContentBuilderFactoryRegistry;
+import io.annot8.defaultimpl.factories.SimpleItemFactory;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -26,6 +26,8 @@ public class SimplePipelineBuilder {
 
   private final SimpleContentBuilderFactoryRegistry contentBuilderFactoryRegistry
       = new SimpleContentBuilderFactoryRegistry();
+  private final SimpleItemFactory itemFactory
+      = new SimpleItemFactory(contentBuilderFactoryRegistry);
 
 
   // Use a linked hash map so the addition order = configuration order
@@ -83,9 +85,7 @@ public class SimplePipelineBuilder {
   }
 
   public SimplePipeline build() {
-
-    ItemFactory itemFactory = () -> new SimpleItem(contentBuilderFactoryRegistry);
-
+    
     Map<String, Resource> configuredResources = new HashMap<>();
 
     resourcesToConfiguration.forEach((resource, settings) -> {

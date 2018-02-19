@@ -2,7 +2,6 @@ package io.annot8.defaultimpl.annotations;
 
 import io.annot8.common.annotations.AbstractGroup;
 import io.annot8.common.properties.EmptyImmutableProperties;
-import io.annot8.common.references.SimpleAnnotationReference;
 import io.annot8.common.stores.SaveFromBuilder;
 import io.annot8.core.annotations.Annotation;
 import io.annot8.core.annotations.Group;
@@ -14,6 +13,7 @@ import io.annot8.core.properties.Properties;
 import io.annot8.core.references.AnnotationReference;
 import io.annot8.defaultimpl.properties.SimpleImmutableProperties;
 import io.annot8.defaultimpl.properties.SimpleMutableProperties;
+import io.annot8.defaultimpl.references.SimpleAnnotationReference;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;

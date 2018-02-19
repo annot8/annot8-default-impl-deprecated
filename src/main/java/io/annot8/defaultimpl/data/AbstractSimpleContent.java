@@ -2,9 +2,7 @@ package io.annot8.defaultimpl.data;
 
 import io.annot8.common.factories.ContentBuilderFactory;
 import io.annot8.common.stores.SaveFromBuilder;
-import io.annot8.core.annotations.Annotation;
 import io.annot8.core.data.Content;
-import io.annot8.core.data.Content.Builder;
 import io.annot8.core.data.Tags;
 import io.annot8.core.exceptions.IncompleteException;
 import io.annot8.core.properties.ImmutableProperties;
@@ -12,7 +10,6 @@ import io.annot8.core.properties.Properties;
 import io.annot8.core.stores.AnnotationStore;
 import io.annot8.defaultimpl.properties.SimpleImmutableProperties;
 import io.annot8.defaultimpl.stores.SimpleAnnotationStore;
-import java.util.Optional;
 
 public abstract class AbstractSimpleContent<D> implements Content<D> {
 
@@ -34,6 +31,11 @@ public abstract class AbstractSimpleContent<D> implements Content<D> {
   @Override
   public D getData() {
     return data;
+  }
+
+  @Override
+  public Class getDataClass() {
+    return data.getClass();
   }
 
   @Override
