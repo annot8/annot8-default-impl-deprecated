@@ -2,7 +2,7 @@ package io.annot8.defaultimpl.annotations;
 
 import io.annot8.common.annotations.AbstractGroup;
 import io.annot8.common.properties.EmptyImmutableProperties;
-import io.annot8.common.stores.SaveFromBuilder;
+import io.annot8.common.stores.SaveCallback;
 import io.annot8.core.annotations.Annotation;
 import io.annot8.core.annotations.Group;
 import io.annot8.core.data.Item;
@@ -90,14 +90,14 @@ public class SimpleGroup extends AbstractGroup {
   public static class Builder implements Group.Builder {
 
     private final Item item;
-    private final SaveFromBuilder<Group, Group> saver;
+    private final SaveCallback<Group, Group> saver;
 
     private String id = null;
     private String type = null;
     private MutableProperties properties = new SimpleMutableProperties();
     private Map<Annotation, String> annotations = new HashMap<>();
 
-    public Builder(Item item, SaveFromBuilder<Group, Group> saver) {
+    public Builder(Item item, SaveCallback<Group, Group> saver) {
       this.item = item;
       this.saver = saver;
     }

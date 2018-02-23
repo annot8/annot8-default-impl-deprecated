@@ -1,7 +1,7 @@
 package io.annot8.defaultimpl.data;
 
 import io.annot8.common.factories.ContentBuilderFactory;
-import io.annot8.common.stores.SaveFromBuilder;
+import io.annot8.common.stores.SaveCallback;
 import io.annot8.core.data.Content;
 import io.annot8.core.data.Tags;
 import io.annot8.core.exceptions.IncompleteException;
@@ -60,13 +60,13 @@ public abstract class AbstractSimpleContent<D> implements Content<D> {
 
   public abstract static class Builder<D, C extends Content<D>> implements Content.Builder<C, D> {
 
-    private final SaveFromBuilder<C, C> saver;
+    private final SaveCallback<C, C> saver;
     private String name;
     private final Tags.Builder tags = new SimpleTags.Builder();
     private final ImmutableProperties.Builder properties = new SimpleImmutableProperties.Builder();
     private D data;
 
-    public Builder(SaveFromBuilder<C, C> saver) {
+    public Builder(SaveCallback<C, C> saver) {
       this.saver = saver;
     }
 

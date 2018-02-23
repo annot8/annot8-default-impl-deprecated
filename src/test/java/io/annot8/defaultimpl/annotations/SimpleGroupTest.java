@@ -13,7 +13,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import io.annot8.common.properties.EmptyImmutableProperties;
-import io.annot8.common.stores.SaveFromBuilder;
+import io.annot8.common.stores.SaveCallback;
 import io.annot8.core.annotations.Annotation;
 import io.annot8.core.annotations.Group;
 import io.annot8.core.exceptions.IncompleteException;
@@ -34,7 +34,7 @@ public class SimpleGroupTest {
   private Annotation a1;
   private Annotation a2;
   private Annotation a3;
-  private SaveFromBuilder<Group, Group> groupSaver;
+  private SaveCallback<Group, Group> groupSaver;
 
   @BeforeEach
   public void beforeEach() throws IncompleteException {
@@ -44,7 +44,7 @@ public class SimpleGroupTest {
     a2 = content.getAnnotations().create().save();
     a3 = content.getAnnotations().create().save();
 
-    groupSaver = mock(SaveFromBuilder.class);
+    groupSaver = mock(SaveCallback.class);
     when(groupSaver.save(any(Group.class))).then(a -> a.getArguments()[0]);
   }
 

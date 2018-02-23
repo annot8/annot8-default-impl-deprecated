@@ -2,7 +2,7 @@ package io.annot8.defaultimpl.annotations;
 
 import io.annot8.common.annotations.AbstractAnnotation;
 import io.annot8.common.properties.EmptyImmutableProperties;
-import io.annot8.common.stores.SaveFromBuilder;
+import io.annot8.common.stores.SaveCallback;
 import io.annot8.core.annotations.Annotation;
 import io.annot8.core.bounds.Bounds;
 import io.annot8.core.exceptions.IncompleteException;
@@ -65,14 +65,14 @@ public class SimpleAnnotation extends AbstractAnnotation {
    */
   public static class Builder implements Annotation.Builder {
 
-    private final SaveFromBuilder<Annotation, Annotation> saver;
+    private final SaveCallback<Annotation, Annotation> saver;
     private final String content;
     private String type = null;
     private MutableProperties properties = new SimpleMutableProperties();
     private Bounds bounds = null;
     private String id = null;
 
-    public Builder(String content, SaveFromBuilder<Annotation, Annotation> saver) {
+    public Builder(String content, SaveCallback<Annotation, Annotation> saver) {
       this.content = content;
       this.saver = saver;
     }

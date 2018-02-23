@@ -12,7 +12,7 @@ import static org.mockito.Mockito.only;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import io.annot8.common.stores.SaveFromBuilder;
+import io.annot8.common.stores.SaveCallback;
 import io.annot8.core.annotations.Annotation;
 import io.annot8.core.bounds.Bounds;
 import io.annot8.core.exceptions.IncompleteException;
@@ -28,11 +28,11 @@ import org.junit.jupiter.api.Test;
 public class SimpleAnnotationTest {
 
   private final Bounds bounds = new TestBounds();
-  private SaveFromBuilder<Annotation, Annotation> annotationSaver;
+  private SaveCallback<Annotation, Annotation> annotationSaver;
 
   @BeforeEach
   public void beforeEach() {
-    annotationSaver = mock(SaveFromBuilder.class);
+    annotationSaver = mock(SaveCallback.class);
     when(annotationSaver.save(any(Annotation.class))).then(a -> a.getArguments()[0]);
   }
 
