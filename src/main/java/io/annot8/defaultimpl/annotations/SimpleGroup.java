@@ -1,11 +1,10 @@
 package io.annot8.defaultimpl.annotations;
 
+import io.annot8.common.annotations.AbstractGroup;
 import io.annot8.common.properties.EmptyImmutableProperties;
-import io.annot8.common.references.LookupAnnotationReference;
-import io.annot8.common.stores.SaveFromBuilder;
+import io.annot8.common.stores.SaveCallback;
 import io.annot8.core.annotations.Annotation;
 import io.annot8.core.annotations.Group;
-import io.annot8.core.annotations.Group.Builder;
 import io.annot8.core.data.Item;
 import io.annot8.core.exceptions.IncompleteException;
 import io.annot8.core.properties.ImmutableProperties;
@@ -14,10 +13,10 @@ import io.annot8.core.properties.Properties;
 import io.annot8.core.references.AnnotationReference;
 import io.annot8.defaultimpl.properties.SimpleImmutableProperties;
 import io.annot8.defaultimpl.properties.SimpleMutableProperties;
+import io.annot8.defaultimpl.references.SimpleAnnotationReference;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -26,7 +25,7 @@ import java.util.stream.Stream;
 /**
  * Simple implementation of Group interface
  */
-public class SimpleGroup implements Group {
+public class SimpleGroup extends AbstractGroup {
 
   private final Item item;
   private final String id;
@@ -34,11 +33,11 @@ public class SimpleGroup implements Group {
   private final ImmutableProperties properties;
 
   // TODO: Better stored as (or as well as) a Guava Multimap ?
-  private final Map<LookupAnnotationReference, String> annotations;
+  private final Map<SimpleAnnotationReference, String> annotations;
 
   private SimpleGroup(final Item item, final String id, final String type,
       final ImmutableProperties properties,
-      final Map<LookupAnnotationReference, String> annotations) {
+      final Map<SimpleAnnotationReference, String> annotations) {
     this.item = item;
     this.id = id;
     this.type = type;
@@ -76,28 +75,12 @@ public class SimpleGroup implements Group {
 
   @Override
   public Optional<String> getRole(Annotation annotation) {
-    return Optional.ofNullable(annotations.get(LookupAnnotationReference.to(item, annotation)));
+    return Optional.ofNullable(annotations.get(SimpleAnnotationReference.to(item, annotation)));
   }
 
   @Override
   public boolean containsAnnotation(Annotation annotation) {
-    return annotations.containsKey(LookupAnnotationReference.to(item, annotation));
-  }
-
-  @Override
-  public String toString() {
-    return this.getClass().getName() + " [id=" + id + ", type=" + type + ", properties="
-        + properties + ", annotations=" + annotations + "]";
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(id, type, properties, annotations);
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    return equalsGroup(o);
+    return annotations.containsKey(SimpleAnnotationReference.to(item, annotation));
   }
 
   /**
@@ -107,14 +90,14 @@ public class SimpleGroup implements Group {
   public static class Builder implements Group.Builder {
 
     private final Item item;
-    private final SaveFromBuilder<Group, Group> saver;
+    private final SaveCallback<Group, Group> saver;
 
     private String id = null;
     private String type = null;
     private MutableProperties properties = new SimpleMutableProperties();
     private Map<Annotation, String> annotations = new HashMap<>();
 
-    public Builder(Item item, SaveFromBuilder<Group, Group> saver) {
+    public Builder(Item item, SaveCallback<Group, Group> saver) {
       this.item = item;
       this.saver = saver;
     }
@@ -189,9 +172,9 @@ public class SimpleGroup implements Group {
         immutableProperties = new SimpleImmutableProperties.Builder().from(properties).save();
       }
 
-      Map<LookupAnnotationReference, String> references = annotations.entrySet().stream()
+      Map<SimpleAnnotationReference, String> references = annotations.entrySet().stream()
           .collect(Collectors.toMap(
-              e -> LookupAnnotationReference.to(item, e.getKey()),
+              e -> SimpleAnnotationReference.to(item, e.getKey()),
               Entry::getValue
           ));
 

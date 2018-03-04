@@ -1,7 +1,7 @@
 package io.annot8.defaultimpl.content;
 
 import io.annot8.common.content.Text;
-import io.annot8.common.stores.SaveFromBuilder;
+import io.annot8.common.stores.SaveCallback;
 import io.annot8.core.data.Content;
 import io.annot8.core.data.Item;
 import io.annot8.core.data.Tags;
@@ -19,7 +19,7 @@ public class SimpleText extends AbstractSimpleContent<String> implements Text {
 
   public static class Builder extends AbstractSimpleContent.Builder<String, SimpleText> {
 
-    public Builder(SaveFromBuilder<SimpleText, SimpleText> saver) {
+    public Builder(SaveCallback<SimpleText, SimpleText> saver) {
       super(saver);
     }
 
@@ -39,7 +39,7 @@ public class SimpleText extends AbstractSimpleContent<String> implements Text {
 
     @Override
     public Content.Builder<SimpleText, String> create(Item item,
-        SaveFromBuilder<SimpleText, SimpleText> saver) {
+        SaveCallback<SimpleText, SimpleText> saver) {
       return new SimpleText.Builder(saver);
     }
 

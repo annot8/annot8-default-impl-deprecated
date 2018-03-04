@@ -3,7 +3,6 @@ package io.annot8.defaultimpl.context;
 import io.annot8.common.factories.ItemFactory;
 import io.annot8.core.components.Resource;
 import io.annot8.core.context.Context;
-import io.annot8.core.data.Item;
 import io.annot8.core.settings.Settings;
 import java.util.HashMap;
 import java.util.Map;
@@ -53,11 +52,6 @@ public class SimpleContext implements Context {
     if (resources != null) {
       this.resources.putAll(resources);
     }
-  }
-
-  @Override
-  public Item createItem() {
-    return itemFactory.create();
   }
 
   /**

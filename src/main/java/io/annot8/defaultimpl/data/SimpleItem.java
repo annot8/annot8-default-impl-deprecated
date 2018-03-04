@@ -1,12 +1,12 @@
 package io.annot8.defaultimpl.data;
 
 import io.annot8.common.factories.ContentBuilderFactory;
+import io.annot8.common.factories.ItemFactory;
 import io.annot8.common.registries.ContentBuilderFactoryRegistry;
 import io.annot8.common.utils.StreamUtils;
 import io.annot8.core.data.Content;
 import io.annot8.core.data.Content.Builder;
 import io.annot8.core.data.Item;
-import io.annot8.core.exceptions.Annot8RuntimeException;
 import io.annot8.core.exceptions.UnsupportedContentException;
 import io.annot8.core.properties.MutableProperties;
 import io.annot8.core.stores.GroupStore;
@@ -21,11 +21,13 @@ public class SimpleItem implements Item {
 
   private final Map<String, Content<?>> contents = new HashMap<>();
   private final MutableProperties properties = new SimpleMutableProperties();
+  private final ItemFactory itemFactory;
   private final ContentBuilderFactoryRegistry contentBuilderFactoryRegistry;
   private final SimpleGroupStore groups;
 
 
-  public SimpleItem(ContentBuilderFactoryRegistry contentBuilderFactoryRegistry) {
+  public SimpleItem(ItemFactory itemFactory, ContentBuilderFactoryRegistry contentBuilderFactoryRegistry) {
+    this.itemFactory = itemFactory;
     this.contentBuilderFactoryRegistry = contentBuilderFactoryRegistry;
     this.groups = new SimpleGroupStore(this);
   }
@@ -76,8 +78,7 @@ public class SimpleItem implements Item {
 
   @Override
   public Item createChildItem() {
-    //TODO: Implement this
-    throw new Annot8RuntimeException("Not currently implemented");
+    return itemFactory.create();
   }
 
   @Override

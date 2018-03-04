@@ -1,7 +1,7 @@
 package io.annot8.defaultimpl.content;
 
 import io.annot8.common.content.FileContent;
-import io.annot8.common.stores.SaveFromBuilder;
+import io.annot8.common.stores.SaveCallback;
 import io.annot8.core.data.Content;
 import io.annot8.core.data.Item;
 import io.annot8.core.data.Tags;
@@ -25,7 +25,7 @@ public class SimpleFile extends AbstractSimpleContent<File> implements FileConte
 
   public static class Builder extends AbstractSimpleContent.Builder<File, SimpleFile> {
 
-    public Builder(SaveFromBuilder<SimpleFile, SimpleFile> saver) {
+    public Builder(SaveCallback<SimpleFile, SimpleFile> saver) {
       super(saver);
     }
 
@@ -45,7 +45,7 @@ public class SimpleFile extends AbstractSimpleContent<File> implements FileConte
 
     @Override
     public Content.Builder<SimpleFile, File> create(Item item,
-        SaveFromBuilder<SimpleFile, SimpleFile> saver) {
+        SaveCallback<SimpleFile, SimpleFile> saver) {
       return new SimpleFile.Builder(saver);
     }
 

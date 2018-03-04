@@ -1,10 +1,8 @@
 package io.annot8.defaultimpl.data;
 
 import io.annot8.common.factories.ContentBuilderFactory;
-import io.annot8.common.stores.SaveFromBuilder;
-import io.annot8.core.annotations.Annotation;
+import io.annot8.common.stores.SaveCallback;
 import io.annot8.core.data.Content;
-import io.annot8.core.data.Content.Builder;
 import io.annot8.core.data.Tags;
 import io.annot8.core.exceptions.IncompleteException;
 import io.annot8.core.properties.ImmutableProperties;
@@ -12,7 +10,6 @@ import io.annot8.core.properties.Properties;
 import io.annot8.core.stores.AnnotationStore;
 import io.annot8.defaultimpl.properties.SimpleImmutableProperties;
 import io.annot8.defaultimpl.stores.SimpleAnnotationStore;
-import java.util.Optional;
 
 public abstract class AbstractSimpleContent<D> implements Content<D> {
 
@@ -37,6 +34,11 @@ public abstract class AbstractSimpleContent<D> implements Content<D> {
   }
 
   @Override
+  public Class getDataClass() {
+    return data.getClass();
+  }
+
+  @Override
   public AnnotationStore getAnnotations() {
     return annotations;
   }
@@ -58,13 +60,13 @@ public abstract class AbstractSimpleContent<D> implements Content<D> {
 
   public abstract static class Builder<D, C extends Content<D>> implements Content.Builder<C, D> {
 
-    private final SaveFromBuilder<C, C> saver;
+    private final SaveCallback<C, C> saver;
     private String name;
     private final Tags.Builder tags = new SimpleTags.Builder();
     private final ImmutableProperties.Builder properties = new SimpleImmutableProperties.Builder();
     private D data;
 
-    public Builder(SaveFromBuilder<C, C> saver) {
+    public Builder(SaveCallback<C, C> saver) {
       this.saver = saver;
     }
 

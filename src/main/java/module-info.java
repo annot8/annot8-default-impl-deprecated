@@ -9,6 +9,7 @@
   exports io.annot8.defaultimpl.data;
   exports io.annot8.defaultimpl.factories;
   exports io.annot8.defaultimpl.pipeline;
+  exports io.annot8.defaultimpl.references;
   exports io.annot8.defaultimpl.stores;
   exports io.annot8.defaultimpl.properties;
 }
