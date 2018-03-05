@@ -4,7 +4,6 @@ import io.annot8.core.components.Capabilities;
 import io.annot8.core.components.Source;
 import io.annot8.core.components.responses.SourceResponse;
 import io.annot8.core.data.Item;
-import io.annot8.core.settings.Settings;
 import io.annot8.defaultimpl.data.SimpleCapabilities;
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -38,7 +37,7 @@ public class SimplePipelineSource implements Source {
 
   // TODO; Capabilities doesn't work here (we have not idea what is in item), but that's a special case.
   @Override
-  public Capabilities getCapabilities(Settings settings) {
+  public Capabilities getCapabilities() {
     return new SimpleCapabilities.Builder().save();
   }
 }

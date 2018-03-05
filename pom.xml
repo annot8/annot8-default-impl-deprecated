@@ -81,7 +81,7 @@
     </dependency>
     <dependency>
       <groupId>io.annot8</groupId>
-      <artifactId>annot8-test</artifactId>
+      <artifactId>testing</artifactId>
       <version>${annot8.version}</version>
       <scope>test</scope>
     </dependency>
