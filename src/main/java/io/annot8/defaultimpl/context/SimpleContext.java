@@ -1,8 +1,9 @@
 package io.annot8.defaultimpl.context;
 
-import io.annot8.common.factories.ItemFactory;
+import io.annot8.core.data.ItemFactory;
 import io.annot8.core.components.Resource;
 import io.annot8.core.context.Context;
+import io.annot8.core.data.Item;
 import io.annot8.core.settings.Settings;
 import java.util.HashMap;
 import java.util.Map;
@@ -117,4 +118,7 @@ public class SimpleContext implements Context {
         .equals(resourceMap, this.resources);
   }
 
+  public Item create() {
+    return itemFactory.create();
+  }
 }

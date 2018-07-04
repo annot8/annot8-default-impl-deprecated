@@ -1,18 +1,17 @@
 package io.annot8.defaultimpl.data;
 
 import io.annot8.common.factories.ContentBuilderFactory;
-import io.annot8.common.factories.ItemFactory;
 import io.annot8.common.registries.ContentBuilderFactoryRegistry;
 import io.annot8.common.utils.StreamUtils;
 import io.annot8.core.data.Content;
 import io.annot8.core.data.Content.Builder;
 import io.annot8.core.data.Item;
+import io.annot8.core.data.ItemFactory;
 import io.annot8.core.exceptions.UnsupportedContentException;
 import io.annot8.core.properties.MutableProperties;
 import io.annot8.core.stores.GroupStore;
 import io.annot8.defaultimpl.properties.SimpleMutableProperties;
 import io.annot8.defaultimpl.stores.SimpleGroupStore;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
@@ -25,6 +24,7 @@ public class SimpleItem implements Item {
   private final ItemFactory itemFactory;
   private final ContentBuilderFactoryRegistry contentBuilderFactoryRegistry;
   private final SimpleGroupStore groups;
+  private boolean discarded = false;
 
 
   public SimpleItem(ItemFactory itemFactory, ContentBuilderFactoryRegistry contentBuilderFactoryRegistry) {
@@ -79,7 +79,7 @@ public class SimpleItem implements Item {
 
   @Override
   public Item createChildItem() {
-    return itemFactory.create();
+    return itemFactory.create(this);
   }
 
   @Override
@@ -92,4 +92,13 @@ public class SimpleItem implements Item {
     return properties;
   }
 
+  @Override
+  public void discard() {
+    discarded = true;
+  }
+
+  @Override
+  public boolean isDiscarded() {
+    return discarded;
+  }
 }

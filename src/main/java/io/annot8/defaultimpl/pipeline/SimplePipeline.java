@@ -7,21 +7,24 @@ import io.annot8.core.components.Source;
 import io.annot8.core.components.responses.ProcessorResponse;
 import io.annot8.core.components.responses.ProcessorResponse.Status;
 import io.annot8.core.components.responses.SourceResponse;
+import io.annot8.core.data.ItemFactory;
 import io.annot8.core.data.Item;
 import io.annot8.core.exceptions.Annot8Exception;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
 
 public class SimplePipeline {
 
-  private final SimplePipelineSource pipelineSource = new SimplePipelineSource();
+  private final ItemFactory itemFactory;
+  private final SimpleItemQueue itemQueue;
   private final Map<String, Resource> resources;
   private final List<Source> sources;
   private final List<Processor> processors;
 
-  public SimplePipeline(Map<String, Resource> resources,
+  public SimplePipeline(ItemFactory itemFactory, SimpleItemQueue itemQueue, Map<String, Resource> resources,
       List<Source> sources, List<Processor> processors) {
+    this.itemFactory = itemFactory;
+    this.itemQueue = itemQueue;
     this.resources = resources;
     this.sources = sources;
     this.processors = processors;
@@ -36,12 +39,12 @@ public class SimplePipeline {
   private void process(final Source source) {
     SourceResponse.Status status;
     do {
-      final SourceResponse response = source.read();
+      final SourceResponse response = source.read(itemFactory);
       status = response.getStatus();
-      if (status == SourceResponse.Status.OK) {
-        response.getItems().forEach(this::process);
-      }
-    } while (status == SourceResponse.Status.OK);
+
+      processItemQueue();
+
+    } while (status == SourceResponse.Status.OK || status == SourceResponse.Status.EMPTY);
 
     close();
 
@@ -53,34 +56,30 @@ public class SimplePipeline {
     resources.values().forEach(Annot8Component::close);
   }
 
-  private void process(final Item item) {
+  private void processItemQueue() {
 
-    processItem(item);
+    while(itemQueue.hasItems()) {
+      Item item = itemQueue.next();
 
-    // After you've finished with one item clear out the items its added
-    SourceResponse response;
-    while ((response = pipelineSource.read()).getStatus() == SourceResponse.Status.OK) {
-      response.getItems().forEach(this::processItem);
+      processItem(item);
     }
+
   }
 
   private void processItem(final Item item) {
+
     for (final Processor processor : processors) {
       try {
         final ProcessorResponse response = processor.process(item);
 
         final ProcessorResponse.Status status = response.getStatus();
-        if (status == ProcessorResponse.Status.OK || status == Status.ITEM_STOP) {
-          final Stream<Item> items = response.getItems();
-
-          items.filter(i -> i != item).forEach(pipelineSource::add);
-
-          // Are we done with this item?
-          if (status == Status.ITEM_STOP) {
+        if (status == ProcessorResponse.Status.OK ) {
+          if (item.isDiscarded()) {
+            System.err.println("Item discarded, stopping processing");
             return;
           }
 
-        } else if (status == ProcessorResponse.Status.PIPELINE_ERROR) {
+        } else if (status == Status.PROCESSOR_ERROR) {
           System.err.println("Pipeline problem, exiting");
 
           System.exit(1);

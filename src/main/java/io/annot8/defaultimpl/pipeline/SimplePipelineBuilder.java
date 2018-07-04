@@ -3,7 +3,7 @@ package io.annot8.defaultimpl.pipeline;
 import io.annot8.common.content.FileContent;
 import io.annot8.common.content.Text;
 import io.annot8.common.factories.ContentBuilderFactory;
-import io.annot8.common.factories.ItemFactory;
+import io.annot8.core.data.ItemFactory;
 import io.annot8.core.components.Annot8Component;
 import io.annot8.core.components.Processor;
 import io.annot8.core.components.Resource;
@@ -24,10 +24,11 @@ import java.util.stream.Collectors;
 
 public class SimplePipelineBuilder {
 
+  private final SimpleItemQueue itemQueue = new SimpleItemQueue();
   private final SimpleContentBuilderFactoryRegistry contentBuilderFactoryRegistry
       = new SimpleContentBuilderFactoryRegistry();
   private final SimpleItemFactory itemFactory
-      = new SimpleItemFactory(contentBuilderFactoryRegistry);
+      = new SimpleItemFactory(contentBuilderFactoryRegistry, itemQueue::add);
 
 
   // Use a linked hash map so the addition order = configuration order
@@ -101,7 +102,7 @@ public class SimplePipelineBuilder {
     List<Processor> configurePipelines = configureAllComponents(itemFactory, configuredResources,
         processorToConfiguration);
 
-    return new SimplePipeline(configuredResources, configuredSources,
+    return new SimplePipeline(itemFactory, itemQueue, configuredResources, configuredSources,
         configurePipelines);
   }
 

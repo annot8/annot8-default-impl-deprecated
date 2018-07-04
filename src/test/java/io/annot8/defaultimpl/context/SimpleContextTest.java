@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import io.annot8.common.factories.ItemFactory;
+import io.annot8.core.data.ItemFactory;
 import io.annot8.core.components.Capabilities;
 import io.annot8.core.components.Resource;
 import io.annot8.core.settings.Settings;
