@@ -15,11 +15,12 @@ import io.annot8.defaultimpl.stores.SimpleGroupStore;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 
 public class SimpleItem implements Item {
 
-  private final Map<String, Content<?>> contents = new HashMap<>();
+  private final Map<String, Content<?>> contents = new ConcurrentHashMap<>();
   private final MutableProperties properties = new SimpleMutableProperties();
   private final ItemFactory itemFactory;
   private final ContentBuilderFactoryRegistry contentBuilderFactoryRegistry;

@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -20,7 +21,7 @@ import java.util.stream.Stream;
 public class SimpleGroupStore implements GroupStore {
 
   private final Item item;
-  private final Map<String, Group> groups = new HashMap<>();
+  private final Map<String, Group> groups = new ConcurrentHashMap<>();
   private final GroupBuilderFactory<Group> groupBuilderFactory;
 
   /**
