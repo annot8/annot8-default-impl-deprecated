@@ -98,7 +98,12 @@ public class SimpleGroup extends AbstractGroup {
     private Map<Annotation, String> annotations = new HashMap<>();
 
     public Builder(Item item, SaveCallback<Group, Group> saver) {
+      this(item, null, saver);
+    }
+
+    public Builder(Item item, String id, SaveCallback<Group, Group> saver) {
       this.item = item;
+      this.id = id;
       this.saver = saver;
     }
 
