@@ -12,6 +12,10 @@ public class SimpleItemFactory implements ItemFactory {
   private final ContentBuilderFactoryRegistry contentBuilderFactoryRegistry;
   private final Consumer<Item> onCreateConsumer;
 
+  public SimpleItemFactory(ContentBuilderFactoryRegistry contentBuilderFactoryRegistry){
+    this(contentBuilderFactoryRegistry, null);
+  }
+
   public SimpleItemFactory(ContentBuilderFactoryRegistry contentBuilderFactoryRegistry, Consumer<Item> onCreateConsumer){
     this.contentBuilderFactoryRegistry = contentBuilderFactoryRegistry;
     this.onCreateConsumer = onCreateConsumer;
