@@ -18,16 +18,17 @@ public class SimplePipelineSource implements Source {
 
   @Override
   public synchronized SourceResponse read() {
-    if (!hasItems()) {
-      return SourceResponse.empty();
-    } else {
+    if (hasItems()) {
       return SourceResponse.ok(next());
+
+    } else {
+      return SourceResponse.empty();
     }
   }
 
 
   private boolean hasItems() {
-    return items.isEmpty();
+    return !items.isEmpty();
   }
 
   private Item next() {
