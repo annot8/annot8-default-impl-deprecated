@@ -1,5 +1,4 @@
-@SuppressWarnings("module")
-module io.annot8.defaultimpl {
+@SuppressWarnings("module") open module io.annot8.defaultimpl {
   requires io.annot8.core;
   requires io.annot8.common;
 
