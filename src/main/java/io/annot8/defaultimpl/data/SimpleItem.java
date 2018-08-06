@@ -1,5 +1,10 @@
 package io.annot8.defaultimpl.data;
 
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Stream;
 import io.annot8.common.factories.ContentBuilderFactory;
 import io.annot8.common.registries.ContentBuilderFactoryRegistry;
 import io.annot8.common.utils.StreamUtils;
@@ -12,10 +17,6 @@ import io.annot8.core.properties.MutableProperties;
 import io.annot8.core.stores.GroupStore;
 import io.annot8.defaultimpl.properties.SimpleMutableProperties;
 import io.annot8.defaultimpl.stores.SimpleGroupStore;
-import java.util.Map;
-import java.util.Optional;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Stream;
 
 public class SimpleItem implements Item {
 
@@ -24,10 +25,13 @@ public class SimpleItem implements Item {
   private final ItemFactory itemFactory;
   private final ContentBuilderFactoryRegistry contentBuilderFactoryRegistry;
   private final SimpleGroupStore groups;
+  private final String id;
   private boolean discarded = false;
 
 
-  public SimpleItem(ItemFactory itemFactory, ContentBuilderFactoryRegistry contentBuilderFactoryRegistry) {
+  public SimpleItem(ItemFactory itemFactory,
+      ContentBuilderFactoryRegistry contentBuilderFactoryRegistry) {
+    this.id = UUID.randomUUID().toString();
     this.itemFactory = itemFactory;
     this.contentBuilderFactoryRegistry = contentBuilderFactoryRegistry;
     this.groups = new SimpleGroupStore(this);
@@ -56,8 +60,7 @@ public class SimpleItem implements Item {
   @Override
   public <C extends Content<D>, D> Builder<C, D> create(Class<C> clazz)
       throws UnsupportedContentException {
-    Optional<ContentBuilderFactory<D, C>> factory = contentBuilderFactoryRegistry
-        .get(clazz);
+    Optional<ContentBuilderFactory<D, C>> factory = contentBuilderFactoryRegistry.get(clazz);
 
     if (!factory.isPresent()) {
       throw new UnsupportedContentException("Unknown content type: " + clazz.getSimpleName());
@@ -100,5 +103,10 @@ public class SimpleItem implements Item {
   @Override
   public boolean isDiscarded() {
     return discarded;
+  }
+
+  @Override
+  public String getId() {
+    return id;
   }
 }

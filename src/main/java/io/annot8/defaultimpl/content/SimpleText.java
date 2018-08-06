@@ -11,10 +11,9 @@ import io.annot8.defaultimpl.data.AbstractSimpleContent;
 
 public class SimpleText extends AbstractSimpleContent<String> implements Text {
 
-  private SimpleText(AnnotationStore annotations,
-      String name, Tags tags,
+  private SimpleText(String id, AnnotationStore annotations, String name, Tags tags,
       ImmutableProperties properties, String data) {
-    super(annotations, name, tags, properties, data);
+    super(id, annotations, name, tags, properties, data);
   }
 
   public static class Builder extends AbstractSimpleContent.Builder<String, SimpleText> {
@@ -24,14 +23,14 @@ public class SimpleText extends AbstractSimpleContent<String> implements Text {
     }
 
     @Override
-    protected SimpleText create(AnnotationStore annotations, String name, Tags tags,
+    protected SimpleText create(String id, AnnotationStore annotations, String name, Tags tags,
         ImmutableProperties properties, String data) {
-      return new SimpleText(annotations, name, tags, properties, data);
+      return new SimpleText(id, annotations, name, tags, properties, data);
     }
   }
 
-  public static class BuilderFactory extends
-      AbstractSimpleContent.BuilderFactory<String, SimpleText> {
+  public static class BuilderFactory
+      extends AbstractSimpleContent.BuilderFactory<String, SimpleText> {
 
     public BuilderFactory() {
       super(String.class, SimpleText.class);

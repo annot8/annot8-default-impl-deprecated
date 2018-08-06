@@ -1,5 +1,6 @@
 package io.annot8.defaultimpl.data;
 
+import java.util.UUID;
 import io.annot8.common.factories.ContentBuilderFactory;
 import io.annot8.common.stores.SaveCallback;
 import io.annot8.core.data.Content;
@@ -13,19 +14,26 @@ import io.annot8.defaultimpl.stores.SimpleAnnotationStore;
 
 public abstract class AbstractSimpleContent<D> implements Content<D> {
 
+  private final String id;
   private final String name;
   private final Tags tags;
   private final AnnotationStore annotations;
   private final ImmutableProperties properties;
   private final D data;
 
-  protected AbstractSimpleContent(AnnotationStore annotations, String name, Tags tags,
+  protected AbstractSimpleContent(String id, AnnotationStore annotations, String name, Tags tags,
       ImmutableProperties properties, D data) {
+    this.id = id;
     this.name = name;
     this.tags = tags;
     this.annotations = annotations;
     this.properties = properties;
     this.data = data;
+  }
+
+  @Override
+  public String getId() {
+    return id;
   }
 
   @Override
@@ -123,13 +131,13 @@ public abstract class AbstractSimpleContent<D> implements Content<D> {
       }
 
       SimpleAnnotationStore annotations = new SimpleAnnotationStore(name);
-      C content = create(annotations, name, tags.save(), properties.save(), data);
+      C content = create(UUID.randomUUID().toString(), annotations, name, tags.save(),
+          properties.save(), data);
       return saver.save(content);
     }
 
-    protected abstract C create(AnnotationStore annotations, String name, Tags tags,
-        ImmutableProperties properties,
-        D data);
+    protected abstract C create(String id, AnnotationStore annotations, String name, Tags tags,
+        ImmutableProperties properties, D data);
 
     @Override
     public Content.Builder<C, D> withTag(String tag) {
@@ -156,8 +164,8 @@ public abstract class AbstractSimpleContent<D> implements Content<D> {
     }
   }
 
-  public abstract static class BuilderFactory<D, C extends Content<D>> implements
-      ContentBuilderFactory<D, C> {
+  public abstract static class BuilderFactory<D, C extends Content<D>>
+      implements ContentBuilderFactory<D, C> {
 
     private final Class<D> dataClass;
     private final Class<C> contentClass;
