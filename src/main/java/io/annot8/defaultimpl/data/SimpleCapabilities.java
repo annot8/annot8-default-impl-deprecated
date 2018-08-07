@@ -14,6 +14,11 @@ public class SimpleCapabilities implements Capabilities {
   private final Set<String> requiredInputAnnotations;
   private final Set<String> optionalInputAnnotations;
   private final Set<String> outputAnnotations;
+  
+  private final Set<String> requiredInputGroups;
+  private final Set<String> optionalInputGroups;
+  private final Set<String> outputGroups;
+  
   private final Set<Class<? extends Content<?>>> createdContent;
   private final Set<Class<? extends Content<?>>> requiredContent;
 
@@ -23,6 +28,8 @@ public class SimpleCapabilities implements Capabilities {
 
   private SimpleCapabilities(Set<String> requiredInputAnnotations,
       Set<String> optionalInputAnnotations, Set<String> outputAnnotations,
+      Set<String> requiredInputGroups,
+      Set<String> optionalInputGroups, Set<String> outputGroups,
       Set<Class<? extends Content<?>>> createdContent,
       Set<Class<? extends Content<?>>> requiredContent,
       Set<Class<? extends Resource>> requiredResources,
@@ -30,6 +37,9 @@ public class SimpleCapabilities implements Capabilities {
     this.requiredInputAnnotations = requiredInputAnnotations;
     this.optionalInputAnnotations = optionalInputAnnotations;
     this.outputAnnotations = outputAnnotations;
+    this.requiredInputGroups = requiredInputGroups;
+    this.optionalInputGroups = optionalInputGroups;
+    this.outputGroups = outputGroups;
     this.createdContent = createdContent;
     this.requiredContent = requiredContent;
     this.requiredResources = requiredResources;
@@ -49,6 +59,21 @@ public class SimpleCapabilities implements Capabilities {
   @Override
   public Stream<String> getOutputAnnotations() {
     return outputAnnotations.stream();
+  }
+  
+  @Override
+  public Stream<String> getRequiredInputGroups() {
+    return requiredInputGroups.stream();
+  }
+
+  @Override
+  public Stream<String> getOptionalInputGroups() {
+    return optionalInputGroups.stream();
+  }
+
+  @Override
+  public Stream<String> getOutputGroups() {
+    return outputGroups.stream();
   }
 
   @Override
@@ -76,6 +101,11 @@ public class SimpleCapabilities implements Capabilities {
     private final Set<String> requiredInputAnnotations = new HashSet<>();
     private final Set<String> optionalInputAnnotations = new HashSet<>();
     private final Set<String> outputAnnotations = new HashSet<>();
+    
+    private final Set<String> requiredInputGroups = new HashSet<>();
+    private final Set<String> optionalInputGroups = new HashSet<>();
+    private final Set<String> outputGroups = new HashSet<>();
+    
     private final Set<Class<? extends Content<?>>> requiredContent = new HashSet<>();
     private final Set<Class<? extends Content<?>>> createdContent = new HashSet<>();
     private final Set<Class<? extends Resource>> requiredResources = new HashSet<>();
@@ -95,6 +125,21 @@ public class SimpleCapabilities implements Capabilities {
       outputAnnotations.add(type);
       return this;
     }
+    
+	public Builder requiresInputGroup(String type) {
+		requiredInputGroups.add(type);
+		return this;
+	}
+
+	public Builder optionalInputGroup(String type) {
+		optionalInputGroups.add(type);
+		return this;
+	}
+
+	public Builder outputsGroup(String type) {
+		outputGroups.add(type);
+		return this;
+	}
 
     public Builder requiresContent(Class<? extends Content<?>> clazz) {
       requiredContent.add(clazz);
@@ -121,6 +166,9 @@ public class SimpleCapabilities implements Capabilities {
           Collections.unmodifiableSet(requiredInputAnnotations),
           Collections.unmodifiableSet(optionalInputAnnotations),
           Collections.unmodifiableSet(outputAnnotations),
+          Collections.unmodifiableSet(requiredInputGroups),
+          Collections.unmodifiableSet(optionalInputGroups),
+          Collections.unmodifiableSet(outputGroups),
           Collections.unmodifiableSet(createdContent),
           Collections.unmodifiableSet(requiredContent),
           Collections.unmodifiableSet(requiredResources),
