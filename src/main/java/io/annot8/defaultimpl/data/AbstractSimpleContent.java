@@ -115,13 +115,13 @@ public abstract class AbstractSimpleContent<D> implements Content<D> {
     }
 
     @Override
-    public Content.Builder withoutProperty(String key, Object value) {
+    public Content.Builder<C, D> withoutProperty(String key, Object value) {
       properties.withoutProperty(key, value);
       return this;
     }
 
     @Override
-    public Content.Builder withoutProperty(String key) {
+    public Content.Builder<C, D> withoutProperty(String key) {
       properties.withoutProperty(key);
       return this;
     }

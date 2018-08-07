@@ -1,15 +1,12 @@
 package io.annot8.defaultimpl.properties;
 
-import io.annot8.core.annotations.Group;
-import io.annot8.core.exceptions.IncompleteException;
-import io.annot8.core.properties.ImmutableProperties;
-import io.annot8.core.properties.ImmutableProperties.Builder;
-import io.annot8.core.properties.Properties;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.stream.Collectors;
+import io.annot8.core.exceptions.IncompleteException;
+import io.annot8.core.properties.ImmutableProperties;
+import io.annot8.core.properties.Properties;
 
 /**
  * Implementation of ImmutableProperties interface using an in-memory HashMap to store the

@@ -1,6 +1,5 @@
-@SuppressWarnings("module") open module io.annot8.defaultimpl {
-  requires io.annot8.core;
-  requires io.annot8.common;
+open module io.annot8.defaultimpl {
+  requires transitive io.annot8.common;
 
   exports io.annot8.defaultimpl.annotations;
   exports io.annot8.defaultimpl.content;
