@@ -4,7 +4,6 @@ import java.util.UUID;
 import io.annot8.common.factories.ContentBuilderFactory;
 import io.annot8.common.stores.SaveCallback;
 import io.annot8.core.data.Content;
-import io.annot8.core.data.Tags;
 import io.annot8.core.exceptions.IncompleteException;
 import io.annot8.core.properties.ImmutableProperties;
 import io.annot8.core.properties.Properties;
@@ -16,16 +15,14 @@ public abstract class AbstractSimpleContent<D> implements Content<D> {
 
   private final String id;
   private final String name;
-  private final Tags tags;
   private final AnnotationStore annotations;
   private final ImmutableProperties properties;
   private final D data;
 
-  protected AbstractSimpleContent(String id, AnnotationStore annotations, String name, Tags tags,
+  protected AbstractSimpleContent(String id, AnnotationStore annotations, String name,
       ImmutableProperties properties, D data) {
     this.id = id;
     this.name = name;
-    this.tags = tags;
     this.annotations = annotations;
     this.properties = properties;
     this.data = data;
@@ -61,17 +58,11 @@ public abstract class AbstractSimpleContent<D> implements Content<D> {
     return properties;
   }
 
-  @Override
-  public Tags getTags() {
-    return tags;
-  }
-
   public abstract static class Builder<D, C extends Content<D>> implements Content.Builder<C, D> {
 
     private final SaveCallback<C, C> saver;
     private String name;
     private String id;
-    private final Tags.Builder tags = new SimpleTags.Builder();
     private final ImmutableProperties.Builder properties = new SimpleImmutableProperties.Builder();
     private D data;
 
@@ -141,36 +132,13 @@ public abstract class AbstractSimpleContent<D> implements Content<D> {
       }
 
       SimpleAnnotationStore annotations = new SimpleAnnotationStore(name);
-      C content = create(id, annotations, name, tags.save(), properties.save(), data);
+      C content = create(id, annotations, name, properties.save(), data);
       return saver.save(content);
     }
 
-    protected abstract C create(String id, AnnotationStore annotations, String name, Tags tags,
+    protected abstract C create(String id, AnnotationStore annotations, String name,
         ImmutableProperties properties, D data);
 
-    @Override
-    public Content.Builder<C, D> withTag(String tag) {
-      this.tags.addTag(tag);
-      return this;
-    }
-
-    @Override
-    public Content.Builder<C, D> withTags(Tags tags) {
-      tags.get().forEach(this.tags::addTag);
-      return this;
-    }
-
-    @Override
-    public Content.Builder<C, D> withoutTag(String tag) {
-      tags.removeTag(tag);
-      return this;
-    }
-
-    @Override
-    public Content.Builder<C, D> withoutTags(Tags tags) {
-      tags.get().forEach(this.tags::removeTag);
-      return this;
-    }
   }
 
   public abstract static class BuilderFactory<D, C extends Content<D>>

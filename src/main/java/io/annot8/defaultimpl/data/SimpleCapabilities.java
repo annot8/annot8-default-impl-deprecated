@@ -4,7 +4,6 @@ import io.annot8.core.bounds.Bounds;
 import io.annot8.core.components.Capabilities;
 import io.annot8.core.components.Resource;
 import io.annot8.core.data.Content;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -15,7 +14,6 @@ public class SimpleCapabilities implements Capabilities {
   private final Set<String> requiredInputAnnotations;
   private final Set<String> optionalInputAnnotations;
   private final Set<String> outputAnnotations;
-  private final Set<String> acceptedTags;
   private final Set<Class<? extends Content<?>>> createdContent;
   private final Set<Class<? extends Content<?>>> requiredContent;
 
@@ -25,7 +23,6 @@ public class SimpleCapabilities implements Capabilities {
 
   private SimpleCapabilities(Set<String> requiredInputAnnotations,
       Set<String> optionalInputAnnotations, Set<String> outputAnnotations,
-      Set<String> acceptedTags,
       Set<Class<? extends Content<?>>> createdContent,
       Set<Class<? extends Content<?>>> requiredContent,
       Set<Class<? extends Resource>> requiredResources,
@@ -33,7 +30,6 @@ public class SimpleCapabilities implements Capabilities {
     this.requiredInputAnnotations = requiredInputAnnotations;
     this.optionalInputAnnotations = optionalInputAnnotations;
     this.outputAnnotations = outputAnnotations;
-    this.acceptedTags = acceptedTags;
     this.createdContent = createdContent;
     this.requiredContent = requiredContent;
     this.requiredResources = requiredResources;
@@ -53,11 +49,6 @@ public class SimpleCapabilities implements Capabilities {
   @Override
   public Stream<String> getOutputAnnotations() {
     return outputAnnotations.stream();
-  }
-
-  @Override
-  public Stream<String> getAcceptedTags() {
-    return acceptedTags.stream();
   }
 
   @Override
@@ -85,7 +76,6 @@ public class SimpleCapabilities implements Capabilities {
     private final Set<String> requiredInputAnnotations = new HashSet<>();
     private final Set<String> optionalInputAnnotations = new HashSet<>();
     private final Set<String> outputAnnotations = new HashSet<>();
-    private final Set<String> acceptedTags = new HashSet<>();
     private final Set<Class<? extends Content<?>>> requiredContent = new HashSet<>();
     private final Set<Class<? extends Content<?>>> createdContent = new HashSet<>();
     private final Set<Class<? extends Resource>> requiredResources = new HashSet<>();
@@ -103,16 +93,6 @@ public class SimpleCapabilities implements Capabilities {
 
     public Builder outputsAnnotation(String type) {
       outputAnnotations.add(type);
-      return this;
-    }
-
-    public Builder acceptsTags(String tags) {
-      acceptedTags.add(tags);
-      return this;
-    }
-
-    public Builder acceptsTags(Collection<String> tags) {
-      acceptedTags.addAll(tags);
       return this;
     }
 
@@ -141,7 +121,6 @@ public class SimpleCapabilities implements Capabilities {
           Collections.unmodifiableSet(requiredInputAnnotations),
           Collections.unmodifiableSet(optionalInputAnnotations),
           Collections.unmodifiableSet(outputAnnotations),
-          Collections.unmodifiableSet(acceptedTags),
           Collections.unmodifiableSet(createdContent),
           Collections.unmodifiableSet(requiredContent),
           Collections.unmodifiableSet(requiredResources),
