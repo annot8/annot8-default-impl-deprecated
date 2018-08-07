@@ -7,7 +7,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import io.annot8.core.data.ItemFactory;
-import io.annot8.core.components.Capabilities;
+import io.annot8.core.capabilities.Capabilities;
 import io.annot8.core.components.Resource;
 import io.annot8.core.settings.Settings;
 import io.annot8.test.TestItem;

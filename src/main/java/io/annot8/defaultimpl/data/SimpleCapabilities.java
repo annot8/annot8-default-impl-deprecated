@@ -1,7 +1,7 @@
 package io.annot8.defaultimpl.data;
 
 import io.annot8.core.bounds.Bounds;
-import io.annot8.core.components.Capabilities;
+import io.annot8.core.capabilities.Capabilities;
 import io.annot8.core.components.Resource;
 import io.annot8.core.data.Content;
 import java.util.Collections;
