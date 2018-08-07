@@ -70,12 +70,19 @@ public abstract class AbstractSimpleContent<D> implements Content<D> {
 
     private final SaveCallback<C, C> saver;
     private String name;
+    private String id;
     private final Tags.Builder tags = new SimpleTags.Builder();
     private final ImmutableProperties.Builder properties = new SimpleImmutableProperties.Builder();
     private D data;
 
     public Builder(SaveCallback<C, C> saver) {
       this.saver = saver;
+    }
+
+    @Override
+    public Content.Builder<C, D> withId(String id) {
+      this.id = id;
+      return this;
     }
 
     @Override
@@ -121,6 +128,9 @@ public abstract class AbstractSimpleContent<D> implements Content<D> {
 
     @Override
     public C save() throws IncompleteException {
+      if (id == null) {
+        id = UUID.randomUUID().toString();
+      }
 
       if (name == null) {
         throw new IncompleteException("Name is required");
@@ -131,8 +141,7 @@ public abstract class AbstractSimpleContent<D> implements Content<D> {
       }
 
       SimpleAnnotationStore annotations = new SimpleAnnotationStore(name);
-      C content = create(UUID.randomUUID().toString(), annotations, name, tags.save(),
-          properties.save(), data);
+      C content = create(id, annotations, name, tags.save(), properties.save(), data);
       return saver.save(content);
     }
 

@@ -16,6 +16,11 @@ public class SimpleText extends AbstractSimpleContent<String> implements Text {
     super(id, annotations, name, tags, properties, data);
   }
 
+  @Override
+  public Class<? extends Content<String>> getContentClass() {
+    return Text.class;
+  }
+
   public static class Builder extends AbstractSimpleContent.Builder<String, SimpleText> {
 
     public Builder(SaveCallback<SimpleText, SimpleText> saver) {

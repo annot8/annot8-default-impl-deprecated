@@ -18,8 +18,13 @@ public class SimpleFile extends AbstractSimpleContent<File> implements FileConte
   }
 
   @Override
-  public Class getDataClass() {
+  public Class<File> getDataClass() {
     return File.class;
+  }
+
+  @Override
+  public Class<? extends Content<File>> getContentClass() {
+    return FileContent.class;
   }
 
   public static class Builder extends AbstractSimpleContent.Builder<File, SimpleFile> {
