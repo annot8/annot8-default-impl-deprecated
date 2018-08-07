@@ -1,5 +1,7 @@
 package io.annot8.defaultimpl.annotations;
 
+import java.util.Optional;
+import java.util.UUID;
 import io.annot8.common.annotations.AbstractAnnotation;
 import io.annot8.common.properties.EmptyImmutableProperties;
 import io.annot8.common.stores.SaveCallback;
@@ -11,8 +13,6 @@ import io.annot8.core.properties.MutableProperties;
 import io.annot8.core.properties.Properties;
 import io.annot8.defaultimpl.properties.SimpleImmutableProperties;
 import io.annot8.defaultimpl.properties.SimpleMutableProperties;
-import java.util.Optional;
-import java.util.UUID;
 
 /**
  * Simple implementation of Annotation interface
@@ -75,6 +75,12 @@ public class SimpleAnnotation extends AbstractAnnotation {
     public Builder(String content, SaveCallback<Annotation, Annotation> saver) {
       this.content = content;
       this.saver = saver;
+    }
+
+    @Override
+    public Annotation.Builder withId(String id) {
+      this.id = id;
+      return this;
     }
 
     @Override
