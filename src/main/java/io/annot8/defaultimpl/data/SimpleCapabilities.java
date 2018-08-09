@@ -47,32 +47,32 @@ public class SimpleCapabilities implements Capabilities {
   }
 
   @Override
-  public Stream<String> getRequiredInputAnnotations() {
+  public Stream<String> getRequiredAnnotations() {
     return requiredInputAnnotations.stream();
   }
 
   @Override
-  public Stream<String> getOptionalInputAnnotations() {
+  public Stream<String> getOptionalAnnotations() {
     return optionalInputAnnotations.stream();
   }
 
   @Override
-  public Stream<String> getOutputAnnotations() {
+  public Stream<String> getCreatedAnnotations() {
     return outputAnnotations.stream();
   }
   
   @Override
-  public Stream<String> getRequiredInputGroups() {
+  public Stream<String> getRequiredGroups() {
     return requiredInputGroups.stream();
   }
 
   @Override
-  public Stream<String> getOptionalInputGroups() {
+  public Stream<String> getOptionalGroups() {
     return optionalInputGroups.stream();
   }
 
   @Override
-  public Stream<String> getOutputGroups() {
+  public Stream<String> getCreatedGroups() {
     return outputGroups.stream();
   }
 
@@ -87,16 +87,16 @@ public class SimpleCapabilities implements Capabilities {
   }
 
   @Override
-  public Stream<Class<? extends Resource>> getRequiredResources() {
+  public Stream<Class<? extends Resource>> getUsedResources() {
     return requiredResources.stream();
   }
 
   @Override
-  public Stream<Class<? extends Bounds>> getOutputBounds() {
+  public Stream<Class<? extends Bounds>> getCreatedBounds() {
     return outputBounds.stream();
   }
 
-  public static class Builder {
+  public static class Builder implements Capabilities.Builder {
 
     private final Set<String> requiredInputAnnotations = new HashSet<>();
     private final Set<String> optionalInputAnnotations = new HashSet<>();
@@ -111,32 +111,32 @@ public class SimpleCapabilities implements Capabilities {
     private final Set<Class<? extends Resource>> requiredResources = new HashSet<>();
     private final Set<Class<? extends Bounds>> outputBounds = new HashSet<>();
 
-    public Builder requiresInputAnnotation(String type) {
+    public Builder requiresAnnotation(String type) {
       requiredInputAnnotations.add(type);
       return this;
     }
 
-    public Builder optionalInputAnnotation(String type) {
+    public Builder optionalAnnotation(String type) {
       optionalInputAnnotations.add(type);
       return this;
     }
 
-    public Builder outputsAnnotation(String type) {
+    public Builder createsAnnotation(String type) {
       outputAnnotations.add(type);
       return this;
     }
     
-	public Builder requiresInputGroup(String type) {
+	public Builder requiresGroup(String type) {
 		requiredInputGroups.add(type);
 		return this;
 	}
 
-	public Builder optionalInputGroup(String type) {
+	public Builder optionalGroup(String type) {
 		optionalInputGroups.add(type);
 		return this;
 	}
 
-	public Builder outputsGroup(String type) {
+	public Builder createsGroup(String type) {
 		outputGroups.add(type);
 		return this;
 	}
@@ -151,12 +151,12 @@ public class SimpleCapabilities implements Capabilities {
       return this;
     }
 
-    public Builder requiresResource(Class<? extends Resource> clazz) {
+    public Builder usesResource(Class<? extends Resource> clazz) {
       requiredResources.add(clazz);
       return this;
     }
 
-    public Builder outputsBounds(Class<? extends Bounds> clazz) {
+    public Builder createsBounds(Class<? extends Bounds> clazz) {
       outputBounds.add(clazz);
       return this;
     }

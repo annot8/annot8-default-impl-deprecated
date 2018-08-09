@@ -132,17 +132,10 @@ public class SimpleContextTest {
 
   private static class TestResource implements Resource {
 
-    @Override
-    public Capabilities getCapabilities() {
-      return mock(Capabilities.class);
-    }
+
   }
 
   private static class NotTestResource implements Resource {
 
-    @Override
-    public Capabilities getCapabilities() {
-      return mock(Capabilities.class);
-    }
   }
 }
