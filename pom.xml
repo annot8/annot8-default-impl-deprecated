@@ -6,39 +6,15 @@
 
   <parent>
     <groupId>io.annot8</groupId>
-    <artifactId>parent</artifactId>
+    <artifactId>annot8-parent</artifactId>
     <version>0.1-SNAPSHOT</version>
-    <relativePath>../parent</relativePath>
+    <relativePath>../annot8-parent</relativePath>
   </parent>
 
-  <artifactId>default-impl</artifactId>
+  <artifactId>annot8-default-impl</artifactId>
 
   <name>Annot8 Default Implementations</name>
   <description>Default implementation of Annot8 interfaces</description>
-  <inceptionYear>2017</inceptionYear>
-  <url>http://annot8.io</url>
-
-  <developers>
-    <developer>
-      <name>James Baker</name>
-      <url>https://github.com/jamesdbaker</url>
-    </developer>
-    <developer>
-      <name>Chris Flatley</name>
-      <url>https://github.com/chrisflatley</url>
-    </developer>
-    <developer>
-      <name>Stuart Hendren</name>
-      <url>https://github.com/stuarthendren</url>
-    </developer>
-  </developers>
-
-  <licenses>
-    <license>
-      <name>Apache Software License 2.0</name>
-      <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
-    </license>
-  </licenses>
 
   <issueManagement>
     <url>https://github.com/annot8/default-impl/issues</url>
@@ -54,16 +30,16 @@
   <dependencies>
     <dependency>
       <groupId>io.annot8</groupId>
-      <artifactId>core</artifactId>
+      <artifactId>annot8-core</artifactId>
     </dependency>
     <dependency>
       <groupId>io.annot8</groupId>
-      <artifactId>common</artifactId>
+      <artifactId>annot8-common-components</artifactId>
     </dependency>
 
     <dependency>
       <groupId>io.annot8</groupId>
-      <artifactId>testing</artifactId>
+      <artifactId>annot8-test-impl</artifactId>
       <scope>test</scope>
     </dependency>
 

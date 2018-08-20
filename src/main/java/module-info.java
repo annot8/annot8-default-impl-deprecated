@@ -1,5 +1,5 @@
 open module io.annot8.defaultimpl {
-  requires transitive io.annot8.common;
+  requires transitive io.annot8.common.components;
 
   exports io.annot8.defaultimpl.annotations;
   exports io.annot8.defaultimpl.content;
