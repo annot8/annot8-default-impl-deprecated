@@ -1,6 +1,6 @@
 package io.annot8.defaultimpl.references;
 
-import io.annot8.common.references.AbstractGroupReference;
+import io.annot8.common.implementations.references.AbstractGroupReference;
 import io.annot8.core.annotations.Group;
 import io.annot8.core.data.Item;
 import java.util.Optional;

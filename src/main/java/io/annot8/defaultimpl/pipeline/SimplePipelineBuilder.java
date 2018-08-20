@@ -1,14 +1,15 @@
 package io.annot8.defaultimpl.pipeline;
 
-import io.annot8.common.content.FileContent;
-import io.annot8.common.content.Text;
-import io.annot8.common.factories.ContentBuilderFactory;
-import io.annot8.core.data.ItemFactory;
+
+import io.annot8.common.data.content.FileContent;
+import io.annot8.common.data.content.Text;
+import io.annot8.common.implementations.factories.ContentBuilderFactory;
 import io.annot8.core.components.Annot8Component;
 import io.annot8.core.components.Processor;
 import io.annot8.core.components.Resource;
 import io.annot8.core.components.Source;
 import io.annot8.core.data.Content;
+import io.annot8.core.data.ItemFactory;
 import io.annot8.core.exceptions.Annot8Exception;
 import io.annot8.core.settings.Settings;
 import io.annot8.defaultimpl.content.SimpleFile;

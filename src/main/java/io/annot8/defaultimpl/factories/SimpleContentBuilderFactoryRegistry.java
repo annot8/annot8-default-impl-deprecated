@@ -1,7 +1,8 @@
 package io.annot8.defaultimpl.factories;
 
-import io.annot8.common.factories.ContentBuilderFactory;
-import io.annot8.common.registries.ContentBuilderFactoryRegistry;
+
+import io.annot8.common.implementations.factories.ContentBuilderFactory;
+import io.annot8.common.implementations.registries.ContentBuilderFactoryRegistry;
 import io.annot8.core.data.Content;
 import java.util.HashMap;
 import java.util.Map;

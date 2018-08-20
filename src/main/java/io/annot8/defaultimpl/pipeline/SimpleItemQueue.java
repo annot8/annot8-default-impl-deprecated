@@ -1,8 +1,8 @@
 package io.annot8.defaultimpl.pipeline;
 
+import io.annot8.core.data.Item;
 import java.util.Deque;
 import java.util.concurrent.ConcurrentLinkedDeque;
-import io.annot8.core.data.Item;
 
 public class SimpleItemQueue {
 

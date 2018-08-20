@@ -1,13 +1,13 @@
 package io.annot8.defaultimpl.content;
 
-import java.io.File;
-import io.annot8.common.content.FileContent;
-import io.annot8.common.stores.SaveCallback;
+import io.annot8.common.data.content.FileContent;
+import io.annot8.common.implementations.stores.SaveCallback;
 import io.annot8.core.data.Content;
 import io.annot8.core.data.Item;
 import io.annot8.core.properties.ImmutableProperties;
 import io.annot8.core.stores.AnnotationStore;
 import io.annot8.defaultimpl.data.AbstractSimpleContent;
+import java.io.File;
 
 public class SimpleFile extends AbstractSimpleContent<File> implements FileContent {
 

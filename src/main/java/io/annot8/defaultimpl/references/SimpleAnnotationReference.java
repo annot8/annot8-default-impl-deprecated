@@ -1,6 +1,6 @@
 package io.annot8.defaultimpl.references;
 
-import io.annot8.common.references.AbstractAnnotationReference;
+import io.annot8.common.implementations.references.AbstractAnnotationReference;
 import io.annot8.core.annotations.Annotation;
 import io.annot8.core.data.Content;
 import io.annot8.core.data.Item;

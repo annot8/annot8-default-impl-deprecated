@@ -1,5 +1,9 @@
 package io.annot8.defaultimpl.stores;
 
+import io.annot8.common.implementations.factories.AnnotationBuilderFactory;
+import io.annot8.core.annotations.Annotation;
+import io.annot8.core.stores.AnnotationStore;
+import io.annot8.defaultimpl.annotations.SimpleAnnotation;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
@@ -8,10 +12,6 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import io.annot8.common.factories.AnnotationBuilderFactory;
-import io.annot8.core.annotations.Annotation;
-import io.annot8.core.stores.AnnotationStore;
-import io.annot8.defaultimpl.annotations.SimpleAnnotation;
 
 /**
  * In memory implementation, backed by a HashMap, of AnnotationStore

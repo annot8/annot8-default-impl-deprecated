@@ -1,10 +1,10 @@
 package io.annot8.defaultimpl.factories;
 
-import java.util.function.Consumer;
-import io.annot8.common.registries.ContentBuilderFactoryRegistry;
+import io.annot8.common.implementations.registries.ContentBuilderFactoryRegistry;
 import io.annot8.core.data.Item;
 import io.annot8.core.data.ItemFactory;
 import io.annot8.defaultimpl.data.SimpleItem;
+import java.util.function.Consumer;
 
 public class SimpleItemFactory implements ItemFactory {
 

@@ -1,14 +1,10 @@
 package io.annot8.defaultimpl.data;
 
-import io.annot8.core.bounds.Bounds;
 import io.annot8.core.capabilities.AnnotationCapability;
 import io.annot8.core.capabilities.Capabilities;
-import io.annot8.core.capabilities.Capabilities.Builder;
 import io.annot8.core.capabilities.ContentCapability;
 import io.annot8.core.capabilities.GroupCapability;
 import io.annot8.core.capabilities.ResourceCapability;
-import io.annot8.core.components.Resource;
-import io.annot8.core.data.Content;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;

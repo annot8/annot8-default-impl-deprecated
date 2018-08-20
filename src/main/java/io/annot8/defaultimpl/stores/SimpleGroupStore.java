@@ -1,5 +1,10 @@
 package io.annot8.defaultimpl.stores;
 
+import io.annot8.common.implementations.factories.GroupBuilderFactory;
+import io.annot8.core.annotations.Group;
+import io.annot8.core.data.Item;
+import io.annot8.core.stores.GroupStore;
+import io.annot8.defaultimpl.annotations.SimpleGroup;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
@@ -8,11 +13,6 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import io.annot8.common.factories.GroupBuilderFactory;
-import io.annot8.core.annotations.Group;
-import io.annot8.core.data.Item;
-import io.annot8.core.stores.GroupStore;
-import io.annot8.defaultimpl.annotations.SimpleGroup;
 
 /**
  * In memory implementation, backed by a HashMap, of GroupStore

@@ -3,7 +3,7 @@ package io.annot8.defaultimpl.stores;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-import io.annot8.common.bounds.NoBounds;
+import io.annot8.common.data.bounds.NoBounds;
 import io.annot8.core.annotations.Annotation;
 import io.annot8.core.exceptions.IncompleteException;
 import io.annot8.core.stores.AnnotationStore;
