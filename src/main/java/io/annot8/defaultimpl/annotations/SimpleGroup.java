@@ -108,6 +108,12 @@ public class SimpleGroup extends AbstractGroup {
     }
 
     @Override
+    public io.annot8.core.annotations.Group.Builder withId(String id) {
+      this.id = id;
+      return this;
+    }
+
+    @Override
     public io.annot8.core.annotations.Group.Builder withType(String type) {
       this.type = type;
       return this;
