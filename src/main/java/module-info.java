@@ -13,4 +13,6 @@ open module io.annot8.defaultimpl {
   exports io.annot8.defaultimpl.references;
   exports io.annot8.defaultimpl.stores;
   exports io.annot8.defaultimpl.properties;
+
+  requires slf4j.api;
 }

@@ -22,8 +22,13 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SimplePipelineBuilder {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(SimplePipeline.class);
+
 
   private final SimpleItemQueue itemQueue = new SimpleItemQueue();
   private final SimpleContentBuilderFactoryRegistry contentBuilderFactoryRegistry
@@ -128,7 +133,7 @@ public class SimplePipelineBuilder {
       component.configure(context);
       return true;
     } catch (final Annot8Exception e) {
-      System.err.println("Failed to configure component " + component.getClass().getName());
+      LOGGER.error("Failed to configure component {}",component.getClass().getName(),e);
     }
     return false;
   }

@@ -12,8 +12,12 @@ import io.annot8.core.data.ItemFactory;
 import io.annot8.core.exceptions.Annot8Exception;
 import java.util.List;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SimplePipeline {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(SimplePipeline.class);
 
   private final ItemFactory itemFactory;
   private final SimpleItemQueue itemQueue;
@@ -76,22 +80,20 @@ public class SimplePipeline {
         final ProcessorResponse.Status status = response.getStatus();
         if (status == ProcessorResponse.Status.OK) {
           if (item.isDiscarded()) {
-            System.err.println("Item discarded, stopping processing");
+            LOGGER.warn("Item discarded, stopping processing");
             return;
           }
 
         } else if (status == Status.PROCESSOR_ERROR) {
-          System.err.println("Pipeline problem, exiting");
-
+          LOGGER.error("Pipeline problem, exiting");
           System.exit(1);
         } else if (status == ProcessorResponse.Status.ITEM_ERROR) {
-          System.err.println("Item problem, skipping rest of pipeline");
+          LOGGER.error("Item problem, skipping rest of pipeline");
           return;
         }
 
       } catch (final Annot8Exception e) {
-        System.err.println(
-            "Failed to process data item with processor " + processor.getClass().getName());
+        LOGGER.error("Failed to process data item with processor {}",processor.getClass().getName(),e);
       }
     }
   }
