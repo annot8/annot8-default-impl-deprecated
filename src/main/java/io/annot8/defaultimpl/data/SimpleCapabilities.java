@@ -26,9 +26,12 @@ public class SimpleCapabilities implements Capabilities {
 
   private final Set<ResourceCapability> usedResources;
 
-  public SimpleCapabilities(Set<AnnotationCapability> processedAnnotations, Set<AnnotationCapability> createdAnnotations,
-      Set<AnnotationCapability> deletedAnnotations, Set<GroupCapability> processedGroups, Set<GroupCapability> createdGroups,
-      Set<GroupCapability> deletedGroups, Set<ContentCapability> processedContent, Set<ContentCapability> createdContent,
+  public SimpleCapabilities(Set<AnnotationCapability> processedAnnotations,
+      Set<AnnotationCapability> createdAnnotations,
+      Set<AnnotationCapability> deletedAnnotations, Set<GroupCapability> processedGroups,
+      Set<GroupCapability> createdGroups,
+      Set<GroupCapability> deletedGroups, Set<ContentCapability> processedContent,
+      Set<ContentCapability> createdContent,
       Set<ContentCapability> deletedContent, Set<ResourceCapability> usedResources) {
 
     this.processedAnnotations = processedAnnotations;
@@ -99,11 +102,11 @@ public class SimpleCapabilities implements Capabilities {
     private final Set<AnnotationCapability> processedAnnotations = new HashSet<>();
     private final Set<AnnotationCapability> createdAnnotations = new HashSet<>();
     private final Set<AnnotationCapability> deletedAnnotations = new HashSet<>();
-    
+
     private final Set<GroupCapability> processedGroups = new HashSet<>();
     private final Set<GroupCapability> createdGroups = new HashSet<>();
     private final Set<GroupCapability> deletedGroups = new HashSet<>();
-    
+
     private final Set<ContentCapability> processedContent = new HashSet<>();
     private final Set<ContentCapability> createdContent = new HashSet<>();
     private final Set<ContentCapability> deletedContent = new HashSet<>();
@@ -112,51 +115,61 @@ public class SimpleCapabilities implements Capabilities {
 
     @Override
     public Capabilities.Builder processesAnnotation(AnnotationCapability capability) {
+      processedAnnotations.add(capability);
       return this;
     }
 
     @Override
     public Capabilities.Builder createsAnnotation(AnnotationCapability capability) {
+      createdAnnotations.add(capability);
       return this;
     }
 
     @Override
     public Capabilities.Builder deletesAnnotation(AnnotationCapability capability) {
+      deletedAnnotations.add(capability);
       return this;
     }
 
     @Override
     public Capabilities.Builder processesGroup(GroupCapability capability) {
+      processedGroups.add(capability);
       return this;
     }
 
     @Override
     public Capabilities.Builder createsGroup(GroupCapability capability) {
+      createdGroups.add(capability);
       return this;
     }
 
     @Override
     public Capabilities.Builder deletesGroup(GroupCapability capability) {
+      deletedGroups.add(capability);
       return this;
     }
 
     @Override
     public Capabilities.Builder processesContent(ContentCapability capability) {
+      processedContent.add(capability);
       return this;
     }
 
     @Override
     public Capabilities.Builder createsContent(ContentCapability capability) {
+      createdContent.add(capability);
       return this;
     }
 
     @Override
     public Capabilities.Builder deletesContent(ContentCapability capability) {
+      deletedContent.add(capability);
       return this;
     }
 
     @Override
     public Capabilities.Builder usesResource(ResourceCapability capability) {
+      usedResources.add(capability);
       return this;
     }
 

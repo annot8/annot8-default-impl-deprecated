@@ -61,9 +61,9 @@ public abstract class AbstractSimpleContent<D> implements Content<D> {
   public abstract static class Builder<D, C extends Content<D>> implements Content.Builder<C, D> {
 
     private final SaveCallback<C, C> saver;
+    private final ImmutableProperties.Builder properties = new SimpleImmutableProperties.Builder();
     private String name;
     private String id;
-    private final ImmutableProperties.Builder properties = new SimpleImmutableProperties.Builder();
     private D data;
 
     public Builder(SaveCallback<C, C> saver) {

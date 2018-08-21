@@ -98,8 +98,9 @@ public class SimpleAnnotation extends AbstractAnnotation {
     @Override
     public Annotation.Builder withoutProperty(String key, Object value) {
       Optional<Object> val = properties.get(key);
-      if (val.isPresent() && val.get().equals(value))
+      if (val.isPresent() && val.get().equals(value)) {
         properties.remove(key);
+      }
 
       return this;
     }

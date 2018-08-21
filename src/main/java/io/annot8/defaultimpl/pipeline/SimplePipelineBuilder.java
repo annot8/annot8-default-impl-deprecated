@@ -87,7 +87,7 @@ public class SimplePipelineBuilder {
   }
 
   public SimplePipeline build() {
-    
+
     Map<String, Resource> configuredResources = new HashMap<>();
 
     resourcesToConfiguration.forEach((resource, settings) -> {

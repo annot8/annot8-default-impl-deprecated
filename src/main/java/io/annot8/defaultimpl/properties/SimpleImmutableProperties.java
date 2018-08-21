@@ -1,6 +1,5 @@
 package io.annot8.defaultimpl.properties;
 
-import io.annot8.core.exceptions.IncompleteException;
 import io.annot8.core.properties.ImmutableProperties;
 import io.annot8.core.properties.Properties;
 import java.util.HashMap;
@@ -70,8 +69,9 @@ public class SimpleImmutableProperties implements ImmutableProperties {
     @Override
     public Builder withoutProperty(String key, Object value) {
       Object val = properties.get(key);
-      if (Objects.equals(value, val))
+      if (Objects.equals(value, val)) {
         properties.remove(key);
+      }
 
       return this;
     }
@@ -90,7 +90,7 @@ public class SimpleImmutableProperties implements ImmutableProperties {
     }
 
     @Override
-    public ImmutableProperties save() throws IncompleteException {
+    public ImmutableProperties save() {
       return new SimpleImmutableProperties(properties);
     }
 

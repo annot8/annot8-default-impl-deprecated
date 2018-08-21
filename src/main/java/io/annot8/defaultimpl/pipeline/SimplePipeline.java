@@ -21,7 +21,8 @@ public class SimplePipeline {
   private final List<Source> sources;
   private final List<Processor> processors;
 
-  public SimplePipeline(ItemFactory itemFactory, SimpleItemQueue itemQueue, Map<String, Resource> resources,
+  public SimplePipeline(ItemFactory itemFactory, SimpleItemQueue itemQueue,
+      Map<String, Resource> resources,
       List<Source> sources, List<Processor> processors) {
     this.itemFactory = itemFactory;
     this.itemQueue = itemQueue;
@@ -58,7 +59,7 @@ public class SimplePipeline {
 
   private void processItemQueue() {
 
-    while(itemQueue.hasItems()) {
+    while (itemQueue.hasItems()) {
       Item item = itemQueue.next();
 
       processItem(item);
@@ -73,7 +74,7 @@ public class SimplePipeline {
         final ProcessorResponse response = processor.process(item);
 
         final ProcessorResponse.Status status = response.getStatus();
-        if (status == ProcessorResponse.Status.OK ) {
+        if (status == ProcessorResponse.Status.OK) {
           if (item.isDiscarded()) {
             System.err.println("Item discarded, stopping processing");
             return;
