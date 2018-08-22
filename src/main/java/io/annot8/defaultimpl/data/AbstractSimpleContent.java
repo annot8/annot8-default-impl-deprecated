@@ -11,26 +11,16 @@ import io.annot8.defaultimpl.properties.SimpleImmutableProperties;
 import io.annot8.defaultimpl.stores.SimpleAnnotationStore;
 import java.util.UUID;
 
-public abstract class AbstractSimpleContent<D> implements Content<D> {
+public abstract class AbstractSimpleContent<D> extends AbstractContent<D> {
 
-  private final String id;
-  private final String name;
-  private final AnnotationStore annotations;
-  private final ImmutableProperties properties;
+
   private final D data;
 
   protected AbstractSimpleContent(String id, AnnotationStore annotations, String name,
       ImmutableProperties properties, D data) {
-    this.id = id;
-    this.name = name;
-    this.annotations = annotations;
-    this.properties = properties;
-    this.data = data;
-  }
+    super(id, annotations, name, properties);
 
-  @Override
-  public String getId() {
-    return id;
+    this.data = data;
   }
 
   @Override
@@ -43,43 +33,13 @@ public abstract class AbstractSimpleContent<D> implements Content<D> {
     return data.getClass();
   }
 
-  @Override
-  public AnnotationStore getAnnotations() {
-    return annotations;
-  }
 
-  @Override
-  public String getName() {
-    return name;
-  }
+  public abstract static class Builder<D, C extends Content<D>> extends AbstractContent.Builder<D, C> {
 
-  @Override
-  public ImmutableProperties getProperties() {
-    return properties;
-  }
-
-  public abstract static class Builder<D, C extends Content<D>> implements Content.Builder<C, D> {
-
-    private final SaveCallback<C, C> saver;
-    private final ImmutableProperties.Builder properties = new SimpleImmutableProperties.Builder();
-    private String name;
-    private String id;
     private D data;
 
     public Builder(SaveCallback<C, C> saver) {
-      this.saver = saver;
-    }
-
-    @Override
-    public Content.Builder<C, D> withId(String id) {
-      this.id = id;
-      return this;
-    }
-
-    @Override
-    public Content.Builder<C, D> withName(String name) {
-      this.name = name;
-      return this;
+      super(saver);
     }
 
     @Override
@@ -88,78 +48,19 @@ public abstract class AbstractSimpleContent<D> implements Content<D> {
       return this;
     }
 
-    @Override
-    public Content.Builder<C, D> from(C from) {
-      return this;
-    }
-
-    @Override
-    public Content.Builder<C, D> withProperty(String key, Object value) {
-      properties.withProperty(key, value);
-      return this;
-    }
-
-    @Override
-    public Content.Builder<C, D> withProperties(Properties properties) {
-      this.properties.withProperties(properties);
-      return this;
-    }
-
-    @Override
-    public Content.Builder<C, D> withoutProperty(String key, Object value) {
-      properties.withoutProperty(key, value);
-      return this;
-    }
-
-    @Override
-    public Content.Builder<C, D> withoutProperty(String key) {
-      properties.withoutProperty(key);
-      return this;
-    }
-
-    @Override
-    public C save() throws IncompleteException {
-      if (id == null) {
-        id = UUID.randomUUID().toString();
-      }
-
-      if (name == null) {
-        throw new IncompleteException("Name is required");
-      }
+    protected C create(String id, AnnotationStore annotations, String name,
+        ImmutableProperties properties) throws IncompleteException {
 
       if (data == null) {
         throw new IncompleteException("Data is required");
       }
 
-      SimpleAnnotationStore annotations = new SimpleAnnotationStore(name);
-      C content = create(id, annotations, name, properties.save(), data);
-      return saver.save(content);
+      return create(id, annotations, name, properties, data);
+
     }
 
     protected abstract C create(String id, AnnotationStore annotations, String name,
-        ImmutableProperties properties, D data);
-
+        ImmutableProperties properties, D data) throws IncompleteException;
   }
 
-  public abstract static class BuilderFactory<D, C extends Content<D>>
-      implements ContentBuilderFactory<D, C> {
-
-    private final Class<D> dataClass;
-    private final Class<C> contentClass;
-
-    protected BuilderFactory(Class<D> dataClass, Class<C> contentClass) {
-      this.dataClass = dataClass;
-      this.contentClass = contentClass;
-    }
-
-    @Override
-    public Class<D> getDataClass() {
-      return dataClass;
-    }
-
-    @Override
-    public Class<C> getContentClass() {
-      return contentClass;
-    }
-  }
 }

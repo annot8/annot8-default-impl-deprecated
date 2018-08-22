@@ -6,6 +6,7 @@ import io.annot8.core.data.Content;
 import io.annot8.core.data.Item;
 import io.annot8.core.properties.ImmutableProperties;
 import io.annot8.core.stores.AnnotationStore;
+import io.annot8.defaultimpl.data.AbstractContentBuilderFactory;
 import io.annot8.defaultimpl.data.AbstractSimpleContent;
 
 public class SimpleText extends AbstractSimpleContent<String> implements Text {
@@ -34,7 +35,7 @@ public class SimpleText extends AbstractSimpleContent<String> implements Text {
   }
 
   public static class BuilderFactory
-      extends AbstractSimpleContent.BuilderFactory<String, SimpleText> {
+      extends AbstractContentBuilderFactory<String, SimpleText> {
 
     public BuilderFactory() {
       super(String.class, SimpleText.class);

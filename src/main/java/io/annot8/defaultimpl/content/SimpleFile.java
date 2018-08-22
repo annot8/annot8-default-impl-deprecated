@@ -6,6 +6,7 @@ import io.annot8.core.data.Content;
 import io.annot8.core.data.Item;
 import io.annot8.core.properties.ImmutableProperties;
 import io.annot8.core.stores.AnnotationStore;
+import io.annot8.defaultimpl.data.AbstractContentBuilderFactory;
 import io.annot8.defaultimpl.data.AbstractSimpleContent;
 import java.io.File;
 
@@ -40,7 +41,7 @@ public class SimpleFile extends AbstractSimpleContent<File> implements FileConte
   }
 
   public static class BuilderFactory
-      extends AbstractSimpleContent.BuilderFactory<File, SimpleFile> {
+      extends AbstractContentBuilderFactory<File, SimpleFile> {
 
     public BuilderFactory() {
       super(File.class, SimpleFile.class);
