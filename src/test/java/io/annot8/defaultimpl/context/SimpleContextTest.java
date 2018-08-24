@@ -10,6 +10,7 @@ import io.annot8.core.components.Resource;
 import io.annot8.core.data.ItemFactory;
 import io.annot8.core.settings.Settings;
 import io.annot8.test.TestItem;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,7 +38,7 @@ public class SimpleContextTest {
     context.addResource("resource1", r1);
     context.addResource("resource2", r2);
 
-    assertFalse(context.getSettings().isPresent());
+    assertTrue(context.getSettings().count() == 0);
 
     assertFalse(context.getResource("foo", Resource.class).isPresent());
     assertFalse(context.getResource("resource1", TestResource.class).isPresent());
@@ -65,7 +66,7 @@ public class SimpleContextTest {
 
     SimpleContext context = new SimpleContext(itemFactory, r);
 
-    assertFalse(context.getSettings().isPresent());
+    assertTrue(context.getSettings().count() == 0);
 
     assertFalse(context.getResource("foo", Resource.class).isPresent());
     assertFalse(context.getResource("resource1", NotTestResource.class).isPresent());
@@ -87,10 +88,10 @@ public class SimpleContextTest {
   public void testSimpleContextSettings() {
     Settings s = mock(Settings.class);
 
-    SimpleContext context = new SimpleContext(itemFactory, s);
+    SimpleContext context = new SimpleContext(itemFactory, Arrays.asList(s));
 
-    assertTrue(context.getSettings().isPresent());
-    assertEquals(s, context.getSettings().get());
+    assertEquals(1, context.getSettings().count());
+    assertEquals(s, context.getSettings().findFirst().get());
 
     List<String> keys = context.getResourceKeys().collect(Collectors.toList());
     assertTrue(keys.isEmpty());
@@ -109,10 +110,10 @@ public class SimpleContextTest {
     r.put("resource1", r1);
     r.put("resource2", r2);
 
-    SimpleContext context = new SimpleContext(itemFactory, s, r);
+    SimpleContext context = new SimpleContext(itemFactory, Arrays.asList(s), r);
 
-    assertTrue(context.getSettings().isPresent());
-    assertEquals(s, context.getSettings().get());
+    assertEquals(1, context.getSettings().count());
+    assertEquals(s, context.getSettings().findFirst().get());
 
     assertFalse(context.getResource("foo", Resource.class).isPresent());
     assertFalse(context.getResource("resource1", TestResource.class).isPresent());

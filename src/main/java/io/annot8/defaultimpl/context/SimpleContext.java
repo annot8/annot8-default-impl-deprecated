@@ -5,7 +5,9 @@ import io.annot8.core.context.Context;
 import io.annot8.core.data.Item;
 import io.annot8.core.data.ItemFactory;
 import io.annot8.core.settings.Settings;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -18,7 +20,7 @@ public class SimpleContext implements Context {
 
   private final Map<String, Resource> resources = new HashMap<>();
   private final ItemFactory itemFactory;
-  private final Settings settings;
+  private final Collection<Settings> settings;
 
   /**
    * Create a new instance, with no settings and no resources
@@ -30,7 +32,7 @@ public class SimpleContext implements Context {
   /**
    * Create a new instance, with the specified settings and no resources
    */
-  public SimpleContext(ItemFactory itemFactory, Settings settings) {
+  public SimpleContext(ItemFactory itemFactory, Collection<Settings> settings) {
     this(itemFactory, settings, null);
   }
 
@@ -44,7 +46,7 @@ public class SimpleContext implements Context {
   /**
    * Create a new instance, with the specified settings and resources
    */
-  public SimpleContext(ItemFactory itemFactory, Settings settings,
+  public SimpleContext(ItemFactory itemFactory, Collection<Settings> settings,
       Map<String, Resource> resources) {
     Objects.requireNonNull(itemFactory);
 
@@ -63,8 +65,8 @@ public class SimpleContext implements Context {
   }
 
   @Override
-  public Optional<Settings> getSettings() {
-    return Optional.ofNullable(settings);
+  public Stream<Settings> getSettings() {
+    return settings != null ? settings.stream() : Stream.empty();
   }
 
   @Override

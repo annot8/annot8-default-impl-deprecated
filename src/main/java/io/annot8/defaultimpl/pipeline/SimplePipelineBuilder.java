@@ -17,6 +17,8 @@ import io.annot8.defaultimpl.content.SimpleText;
 import io.annot8.defaultimpl.context.SimpleContext;
 import io.annot8.defaultimpl.factories.SimpleContentBuilderFactoryRegistry;
 import io.annot8.defaultimpl.factories.SimpleItemFactory;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -38,9 +40,9 @@ public class SimplePipelineBuilder {
 
 
   // Use a linked hash map so the addition order = configuration order
-  private final Map<Source, Settings> sourcesToConfiguration = new LinkedHashMap<>();
-  private final Map<Processor, Settings> processorToConfiguration = new LinkedHashMap<>();
-  private final Map<Resource, Settings> resourcesToConfiguration = new LinkedHashMap<>();
+  private final Map<Source, Collection<Settings>> sourcesToConfiguration = new LinkedHashMap<>();
+  private final Map<Processor, Collection<Settings>> processorToConfiguration = new LinkedHashMap<>();
+  private final Map<Resource, Collection<Settings>> resourcesToConfiguration = new LinkedHashMap<>();
   private final Map<Resource, String> resourcesToId = new HashMap<>();
 
 
@@ -78,17 +80,17 @@ public class SimplePipelineBuilder {
     addProcessor(processor, null);
   }
 
-  public void addResource(final String id, final Resource resource, final Settings configuration) {
-    resourcesToConfiguration.put(resource, configuration);
+  public void addResource(final String id, final Resource resource, final Settings... configuration) {
+    resourcesToConfiguration.put(resource, Arrays.asList(configuration));
     resourcesToId.put(resource, id);
   }
 
-  public void addDataSource(final Source source, final Settings configuration) {
-    sourcesToConfiguration.put(source, configuration);
+  public void addDataSource(final Source source, final Settings... configuration) {
+    sourcesToConfiguration.put(source, Arrays.asList(configuration));
   }
 
-  public void addProcessor(final Processor processor, final Settings configuration) {
-    processorToConfiguration.put(processor, configuration);
+  public void addProcessor(final Processor processor, final Settings... configuration) {
+    processorToConfiguration.put(processor, Arrays.asList(configuration));
   }
 
   public SimplePipeline build() {
@@ -113,7 +115,7 @@ public class SimplePipelineBuilder {
   }
 
   private <T extends Annot8Component> List<T> configureAllComponents(ItemFactory itemFactory,
-      Map<String, Resource> configuredResources, Map<T, Settings> componentToConfiguration) {
+      Map<String, Resource> configuredResources, Map<T, Collection<Settings>> componentToConfiguration) {
 
     return componentToConfiguration.entrySet().stream()
         .filter(e -> configureComponent(itemFactory, configuredResources, e.getKey(), e.getValue()))
@@ -123,7 +125,7 @@ public class SimplePipelineBuilder {
 
   private boolean configureComponent(ItemFactory itemFactory,
       Map<String, Resource> configuredResources, final Annot8Component component,
-      final Settings configuration) {
+      final Collection<Settings> configuration) {
 
     // TODO: COmpletely ignore capabilties here.. we could check for resources etc
 
@@ -132,7 +134,7 @@ public class SimplePipelineBuilder {
           configuredResources);
       component.configure(context);
       return true;
-    } catch (final Annot8Exception e) {
+    } catch (final Exception e) {
       LOGGER.error("Failed to configure component {}",component.getClass().getName(),e);
     }
     return false;
