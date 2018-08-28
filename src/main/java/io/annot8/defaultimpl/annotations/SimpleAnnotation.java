@@ -9,8 +9,8 @@ import io.annot8.core.exceptions.IncompleteException;
 import io.annot8.core.properties.ImmutableProperties;
 import io.annot8.core.properties.MutableProperties;
 import io.annot8.core.properties.Properties;
-import io.annot8.defaultimpl.properties.SimpleImmutableProperties;
-import io.annot8.defaultimpl.properties.SimpleMutableProperties;
+import io.annot8.common.implementations.properties.MapImmutableProperties;
+import io.annot8.common.implementations.properties.MapMutableProperties;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -68,7 +68,7 @@ public class SimpleAnnotation extends AbstractAnnotation {
     private final SaveCallback<Annotation, Annotation> saver;
     private final String content;
     private String type = null;
-    private MutableProperties properties = new SimpleMutableProperties();
+    private MutableProperties properties = new MapMutableProperties();
     private Bounds bounds = null;
     private String id = null;
 
@@ -113,7 +113,7 @@ public class SimpleAnnotation extends AbstractAnnotation {
 
     @Override
     public io.annot8.core.annotations.Annotation.Builder withProperties(Properties properties) {
-      this.properties = new SimpleMutableProperties(properties);
+      this.properties = new MapMutableProperties(properties);
       return this;
     }
 
@@ -127,7 +127,7 @@ public class SimpleAnnotation extends AbstractAnnotation {
     public io.annot8.core.annotations.Annotation.Builder from(Annotation from) {
       this.id = from.getId();
       this.type = from.getType();
-      this.properties = new SimpleMutableProperties(from.getProperties());
+      this.properties = new MapMutableProperties(from.getProperties());
       this.bounds = from.getBounds();
 
       return this;
@@ -155,7 +155,7 @@ public class SimpleAnnotation extends AbstractAnnotation {
       if (properties.getAll().isEmpty()) {
         immutableProperties = EmptyImmutableProperties.getInstance();
       } else {
-        immutableProperties = new SimpleImmutableProperties.Builder().from(properties).save();
+        immutableProperties = new MapImmutableProperties.Builder().from(properties).save();
       }
 
       Annotation annotation = new SimpleAnnotation(id, type, immutableProperties, bounds, content);

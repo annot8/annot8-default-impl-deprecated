@@ -11,7 +11,7 @@ import io.annot8.core.data.ItemFactory;
 import io.annot8.core.exceptions.UnsupportedContentException;
 import io.annot8.core.properties.MutableProperties;
 import io.annot8.core.stores.GroupStore;
-import io.annot8.defaultimpl.properties.SimpleMutableProperties;
+import io.annot8.common.implementations.properties.MapMutableProperties;
 import io.annot8.defaultimpl.stores.SimpleGroupStore;
 import java.util.Map;
 import java.util.Optional;
@@ -22,7 +22,7 @@ import java.util.stream.Stream;
 public class SimpleItem implements Item {
 
   private final Map<String, Content<?>> contents = new ConcurrentHashMap<>();
-  private final MutableProperties properties = new SimpleMutableProperties();
+  private final MutableProperties properties = new MapMutableProperties();
   private final ItemFactory itemFactory;
   private final ContentBuilderFactoryRegistry contentBuilderFactoryRegistry;
   private final SimpleGroupStore groups;

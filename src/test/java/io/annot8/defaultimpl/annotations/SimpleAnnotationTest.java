@@ -17,7 +17,7 @@ import io.annot8.core.annotations.Annotation;
 import io.annot8.core.bounds.Bounds;
 import io.annot8.core.exceptions.IncompleteException;
 import io.annot8.defaultimpl.annotations.SimpleAnnotation.Builder;
-import io.annot8.defaultimpl.properties.SimpleMutableProperties;
+import io.annot8.common.implementations.properties.MapMutableProperties;
 import io.annot8.testing.testimpl.TestBounds;
 import io.annot8.testing.testimpl.TestConstants;
 import java.util.HashMap;
@@ -96,7 +96,7 @@ public class SimpleAnnotationTest {
     Annotation a3 = new SimpleAnnotation.Builder(TestConstants.CONTENT_NAME, annotationSaver)
         .withType(TestConstants.ANNOTATION_TYPE)
         .withBounds(bounds)
-        .withProperties(new SimpleMutableProperties(properties2))
+        .withProperties(new MapMutableProperties(properties2))
         .save();
     Map<String, Object> properties3 = a3.getProperties().getAll();
     assertEquals(2, properties3.size());

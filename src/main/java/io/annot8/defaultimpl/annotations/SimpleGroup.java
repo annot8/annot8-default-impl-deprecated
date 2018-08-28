@@ -11,8 +11,8 @@ import io.annot8.core.properties.ImmutableProperties;
 import io.annot8.core.properties.MutableProperties;
 import io.annot8.core.properties.Properties;
 import io.annot8.core.references.AnnotationReference;
-import io.annot8.defaultimpl.properties.SimpleImmutableProperties;
-import io.annot8.defaultimpl.properties.SimpleMutableProperties;
+import io.annot8.common.implementations.properties.MapImmutableProperties;
+import io.annot8.common.implementations.properties.MapMutableProperties;
 import io.annot8.defaultimpl.references.SimpleAnnotationReference;
 import java.util.HashMap;
 import java.util.Map;
@@ -94,7 +94,7 @@ public class SimpleGroup extends AbstractGroup {
 
     private String id = null;
     private String type = null;
-    private MutableProperties properties = new SimpleMutableProperties();
+    private MutableProperties properties = new MapMutableProperties();
     private Map<Annotation, String> annotations = new HashMap<>();
 
     public Builder(Item item, SaveCallback<Group, Group> saver) {
@@ -143,7 +143,7 @@ public class SimpleGroup extends AbstractGroup {
 
     @Override
     public io.annot8.core.annotations.Group.Builder withProperties(Properties properties) {
-      this.properties = new SimpleMutableProperties(properties);
+      this.properties = new MapMutableProperties(properties);
       return this;
     }
 
@@ -157,7 +157,7 @@ public class SimpleGroup extends AbstractGroup {
     public io.annot8.core.annotations.Group.Builder from(Group from) {
       this.id = from.getId();
       this.type = from.getType();
-      this.properties = new SimpleMutableProperties(from.getProperties());
+      this.properties = new MapMutableProperties(from.getProperties());
 
       this.annotations = new HashMap<>();
       from.getAnnotations()
@@ -181,7 +181,7 @@ public class SimpleGroup extends AbstractGroup {
       if (properties.getAll().isEmpty()) {
         immutableProperties = EmptyImmutableProperties.getInstance();
       } else {
-        immutableProperties = new SimpleImmutableProperties.Builder().from(properties).save();
+        immutableProperties = new MapImmutableProperties.Builder().from(properties).save();
       }
 
       Map<SimpleAnnotationReference, String> references = annotations.entrySet().stream()

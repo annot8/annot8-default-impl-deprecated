@@ -6,7 +6,7 @@ import io.annot8.core.exceptions.IncompleteException;
 import io.annot8.core.properties.ImmutableProperties;
 import io.annot8.core.properties.Properties;
 import io.annot8.core.stores.AnnotationStore;
-import io.annot8.defaultimpl.properties.SimpleImmutableProperties;
+import io.annot8.common.implementations.properties.MapImmutableProperties;
 import io.annot8.defaultimpl.stores.SimpleAnnotationStore;
 import java.util.UUID;
 
@@ -49,7 +49,7 @@ public abstract class AbstractContent<D> implements Content<D> {
   public abstract static class Builder<D, C extends Content<?>> implements Content.Builder<C, D> {
 
     private final SaveCallback<C, C> saver;
-    private final ImmutableProperties.Builder properties = new SimpleImmutableProperties.Builder();
+    private final ImmutableProperties.Builder properties = new MapImmutableProperties.Builder();
     private String name;
     private String id;
 
