@@ -8,11 +8,12 @@ import io.annot8.core.properties.ImmutableProperties;
 import io.annot8.core.stores.AnnotationStore;
 import io.annot8.defaultimpl.data.AbstractContentBuilderFactory;
 import io.annot8.defaultimpl.data.AbstractSimpleContent;
+import java.util.function.Supplier;
 
 public class SimpleText extends AbstractSimpleContent<String> implements Text {
 
   private SimpleText(String id, AnnotationStore annotations, String name,
-      ImmutableProperties properties, String data) {
+      ImmutableProperties properties, Supplier<String> data) {
     super(id, annotations, name, properties, data);
   }
 
@@ -29,7 +30,7 @@ public class SimpleText extends AbstractSimpleContent<String> implements Text {
 
     @Override
     protected SimpleText create(String id, AnnotationStore annotations, String name,
-        ImmutableProperties properties, String data) {
+        ImmutableProperties properties, Supplier<String> data) {
       return new SimpleText(id, annotations, name, properties, data);
     }
   }

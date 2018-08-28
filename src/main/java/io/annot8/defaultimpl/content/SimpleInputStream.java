@@ -37,7 +37,7 @@ public class SimpleInputStream extends AbstractContent<InputStream> implements I
     return InputStreamContent.class;
   }
 
-  public static class Builder extends AbstractContent.Builder<Supplier<InputStream>, SimpleInputStream> {
+  public static class Builder extends AbstractContent.Builder<InputStream, SimpleInputStream> {
 
     private Supplier<InputStream> dataSupplier;
 
@@ -46,7 +46,7 @@ public class SimpleInputStream extends AbstractContent<InputStream> implements I
     }
 
     @Override
-    public Content.Builder<SimpleInputStream, Supplier<InputStream>> withData(Supplier<InputStream> dataSupplier) {
+    public Content.Builder<SimpleInputStream, InputStream> withData(Supplier<InputStream> dataSupplier) {
       this.dataSupplier = dataSupplier;
       return this;
     }
@@ -64,16 +64,16 @@ public class SimpleInputStream extends AbstractContent<InputStream> implements I
   }
 
   public static class BuilderFactory
-      extends AbstractContentBuilderFactory<String, SimpleText> {
+      extends AbstractContentBuilderFactory<InputStream, SimpleInputStream> {
 
     public BuilderFactory() {
-      super(String.class, SimpleText.class);
+      super(InputStream.class, SimpleInputStream.class);
     }
 
     @Override
-    public Content.Builder<SimpleText, String> create(Item item,
-        SaveCallback<SimpleText, SimpleText> saver) {
-      return new SimpleText.Builder(saver);
+    public Content.Builder<SimpleInputStream, InputStream> create(Item item,
+        SaveCallback<SimpleInputStream, SimpleInputStream> saver) {
+      return new SimpleInputStream.Builder(saver);
     }
 
   }

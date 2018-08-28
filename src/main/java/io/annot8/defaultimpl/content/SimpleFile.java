@@ -9,11 +9,12 @@ import io.annot8.core.stores.AnnotationStore;
 import io.annot8.defaultimpl.data.AbstractContentBuilderFactory;
 import io.annot8.defaultimpl.data.AbstractSimpleContent;
 import java.io.File;
+import java.util.function.Supplier;
 
 public class SimpleFile extends AbstractSimpleContent<File> implements FileContent {
 
   private SimpleFile(String id, AnnotationStore annotations, String name,
-      ImmutableProperties properties, File data) {
+      ImmutableProperties properties, Supplier<File> data) {
     super(id, annotations, name, properties, data);
   }
 
@@ -35,7 +36,7 @@ public class SimpleFile extends AbstractSimpleContent<File> implements FileConte
 
     @Override
     protected SimpleFile create(String id, AnnotationStore annotations, String name,
-        ImmutableProperties properties, File data) {
+        ImmutableProperties properties,  Supplier<File> data) {
       return new SimpleFile(id, annotations, name, properties, data);
     }
   }

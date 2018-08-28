@@ -46,7 +46,7 @@ public abstract class AbstractContent<D> implements Content<D> {
     return properties;
   }
 
-  public abstract static class Builder<D, C extends Content<?>> implements Content.Builder<C, D> {
+  public abstract static class Builder<D, C extends Content<D>> implements Content.Builder<C, D> {
 
     private final SaveCallback<C, C> saver;
     private final ImmutableProperties.Builder properties = new MapImmutableProperties.Builder();

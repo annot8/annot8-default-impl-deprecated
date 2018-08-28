@@ -5,14 +5,15 @@ import io.annot8.core.data.Content;
 import io.annot8.core.exceptions.IncompleteException;
 import io.annot8.core.properties.ImmutableProperties;
 import io.annot8.core.stores.AnnotationStore;
+import java.util.function.Supplier;
 
 public abstract class AbstractSimpleContent<D> extends AbstractContent<D> {
 
 
-  private final D data;
+  private final  Supplier<D> data;
 
   protected AbstractSimpleContent(String id, AnnotationStore annotations, String name,
-      ImmutableProperties properties, D data) {
+      ImmutableProperties properties, Supplier<D> data) {
     super(id, annotations, name, properties);
 
     this.data = data;
@@ -20,7 +21,7 @@ public abstract class AbstractSimpleContent<D> extends AbstractContent<D> {
 
   @Override
   public D getData() {
-    return data;
+    return data.get();
   }
 
   @Override
@@ -31,14 +32,14 @@ public abstract class AbstractSimpleContent<D> extends AbstractContent<D> {
 
   public abstract static class Builder<D, C extends Content<D>> extends AbstractContent.Builder<D, C> {
 
-    private D data;
+    private Supplier<D> data;
 
     public Builder(SaveCallback<C, C> saver) {
       super(saver);
     }
 
     @Override
-    public Content.Builder<C, D> withData(D data) {
+    public Content.Builder<C, D> withData(Supplier<D> data) {
       this.data = data;
       return this;
     }
@@ -47,7 +48,7 @@ public abstract class AbstractSimpleContent<D> extends AbstractContent<D> {
         ImmutableProperties properties) throws IncompleteException {
 
       if (data == null) {
-        throw new IncompleteException("Data is required");
+        throw new IncompleteException("Data supplier is required");
       }
 
       return create(id, annotations, name, properties, data);
@@ -55,7 +56,7 @@ public abstract class AbstractSimpleContent<D> extends AbstractContent<D> {
     }
 
     protected abstract C create(String id, AnnotationStore annotations, String name,
-        ImmutableProperties properties, D data) throws IncompleteException;
+        ImmutableProperties properties, Supplier<D> data) throws IncompleteException;
   }
 
 }
