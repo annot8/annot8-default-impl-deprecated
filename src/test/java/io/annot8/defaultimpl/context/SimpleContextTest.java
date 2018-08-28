@@ -9,7 +9,7 @@ import static org.mockito.Mockito.when;
 import io.annot8.core.components.Resource;
 import io.annot8.core.data.ItemFactory;
 import io.annot8.core.settings.Settings;
-import io.annot8.test.TestItem;
+import io.annot8.testing.testimpl.TestItem;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;

@@ -1,6 +1,5 @@
 package io.annot8.defaultimpl.data;
 
-import io.annot8.common.implementations.factories.ContentBuilderFactory;
 import io.annot8.common.implementations.stores.SaveCallback;
 import io.annot8.core.data.Content;
 import io.annot8.core.exceptions.IncompleteException;

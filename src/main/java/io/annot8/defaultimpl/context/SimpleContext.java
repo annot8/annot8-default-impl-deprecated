@@ -7,7 +7,6 @@ import io.annot8.core.data.ItemFactory;
 import io.annot8.core.settings.Settings;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;

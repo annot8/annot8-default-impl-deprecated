@@ -7,7 +7,7 @@ import io.annot8.common.data.bounds.NoBounds;
 import io.annot8.core.annotations.Annotation;
 import io.annot8.core.exceptions.IncompleteException;
 import io.annot8.core.stores.AnnotationStore;
-import io.annot8.test.TestConstants;
+import io.annot8.testing.testimpl.TestConstants;
 import org.junit.jupiter.api.Test;
 
 public class SimpleAnnotationStoreTest {

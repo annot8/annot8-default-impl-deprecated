@@ -7,8 +7,8 @@ import io.annot8.core.annotations.Annotation;
 import io.annot8.core.annotations.Group;
 import io.annot8.core.exceptions.IncompleteException;
 import io.annot8.core.stores.GroupStore;
-import io.annot8.test.TestItem;
-import io.annot8.test.content.TestStringContent;
+import io.annot8.testing.testimpl.TestItem;
+import io.annot8.testing.testimpl.content.TestStringContent;
 import org.junit.jupiter.api.Test;
 
 public class SimpleGroupStoreTest {
