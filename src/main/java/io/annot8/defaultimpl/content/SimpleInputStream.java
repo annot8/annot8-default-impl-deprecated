@@ -3,7 +3,9 @@ package io.annot8.defaultimpl.content;
 import io.annot8.common.data.content.InputStreamContent;
 import io.annot8.common.implementations.stores.SaveCallback;
 import io.annot8.core.data.Content;
+import io.annot8.core.data.Content.Builder;
 import io.annot8.core.data.Item;
+import io.annot8.core.exceptions.Annot8RuntimeException;
 import io.annot8.core.exceptions.IncompleteException;
 import io.annot8.core.properties.ImmutableProperties;
 import io.annot8.core.stores.AnnotationStore;
@@ -43,6 +45,11 @@ public class SimpleInputStream extends AbstractContent<InputStream> implements I
 
     public Builder(SaveCallback<SimpleInputStream, SimpleInputStream> saver) {
       super(saver);
+    }
+
+    @Override
+    public Content.Builder<SimpleInputStream, InputStream> withData(InputStream data) {
+      throw new Annot8RuntimeException("Must use a Supplier to provider InputStream, otherwise it can only be read once");
     }
 
     @Override
