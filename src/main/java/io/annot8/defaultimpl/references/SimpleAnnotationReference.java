@@ -16,16 +16,16 @@ public class SimpleAnnotationReference extends AbstractAnnotationReference {
 
   private final Item item;
 
-  private final String contentName;
+  private final String contentId;
 
   private final String annotationId;
 
   /**
    * New reference either from another reference or manually created.
    */
-  public SimpleAnnotationReference(Item item, String contentName, String annotationId) {
+  public SimpleAnnotationReference(Item item, String contentId, String annotationId) {
     this.item = item;
-    this.contentName = contentName;
+    this.contentId = contentId;
     this.annotationId = annotationId;
   }
 
@@ -33,7 +33,7 @@ public class SimpleAnnotationReference extends AbstractAnnotationReference {
    * Create an annotation reference for the annotation.
    */
   public static SimpleAnnotationReference to(Item item, Annotation annotation) {
-    return new SimpleAnnotationReference(item, annotation.getContentName(), annotation.getId());
+    return new SimpleAnnotationReference(item, annotation.getContentId(), annotation.getId());
   }
 
   @Override
@@ -42,13 +42,13 @@ public class SimpleAnnotationReference extends AbstractAnnotationReference {
   }
 
   @Override
-  public String getContentName() {
-    return contentName;
+  public String getContentId() {
+    return contentId;
   }
 
   @Override
   public Optional<Annotation> toAnnotation() {
-    return item.getContent(contentName)
+    return item.getContent(contentId)
         .map(Content::getAnnotations)
         .flatMap(store -> store.getById(annotationId));
   }

@@ -38,14 +38,10 @@ public class SimpleItem implements Item {
     this.groups = new SimpleGroupStore(this);
   }
 
-  @Override
-  public Stream<String> listContents() {
-    return contents.keySet().stream();
-  }
 
   @Override
-  public Optional<Content<?>> getContent(String name) {
-    return Optional.ofNullable(contents.get(name));
+  public Optional<Content<?>> getContent(String id) {
+    return Optional.ofNullable(contents.get(id));
   }
 
   @Override
@@ -72,7 +68,7 @@ public class SimpleItem implements Item {
 
   private <D, C extends Content<D>> C save(C c) {
     assert c != null;
-    contents.put(c.getName(), c);
+    contents.put(c.getId(), c);
     return c;
   }
 

@@ -55,12 +55,12 @@ public class SimpleAnnotation extends AbstractAnnotation {
   }
 
   @Override
-  public String getContentName() {
+  public String getContentId() {
     return content;
   }
 
   /**
-   * Builder class for SimpleAnnotation, using UUID for generating new IDs and
+   * AbstractContentBuilder class for SimpleAnnotation, using UUID for generating new IDs and
    * InMemoryImmutableProperties or EmptyImmutableProperties for the properties.
    */
   public static class Builder implements Annotation.Builder {

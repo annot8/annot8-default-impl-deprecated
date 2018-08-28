@@ -18,12 +18,12 @@ class SimpleAnnotationReferenceTest {
   void to() {
     Item item = mock(Item.class);
     Annotation annotation = mock(Annotation.class);
-    when(annotation.getContentName()).thenReturn("content");
+    when(annotation.getContentId()).thenReturn("content");
     when(annotation.getId()).thenReturn("id");
 
     SimpleAnnotationReference reference = SimpleAnnotationReference.to(item, annotation);
 
-    assertEquals("content", reference.getContentName());
+    assertEquals("content", reference.getContentId());
     assertEquals("id", reference.getAnnotationId());
 
   }
@@ -38,7 +38,7 @@ class SimpleAnnotationReferenceTest {
 
     SimpleAnnotationReference reference = new SimpleAnnotationReference(item, "content", "1");
 
-    assertEquals("content", reference.getContentName());
+    assertEquals("content", reference.getContentId());
     assertEquals("1", reference.getAnnotationId());
 
     when(item.getContent("content")).thenReturn(Optional.of(content));

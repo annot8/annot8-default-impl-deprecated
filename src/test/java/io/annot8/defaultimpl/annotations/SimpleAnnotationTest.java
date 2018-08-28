@@ -39,30 +39,30 @@ public class SimpleAnnotationTest {
   @Test
   public void testIncompleteBuilderNothingSet() {
     assertThrows(IncompleteException.class,
-        new Builder(TestConstants.CONTENT_NAME, annotationSaver)::save);
+        new Builder(TestConstants.CONTENT_ID, annotationSaver)::save);
   }
 
   @Test
   public void testIncompleteBuilderNoBounds() {
     assertThrows(IncompleteException.class,
-        new Builder(TestConstants.CONTENT_NAME, annotationSaver).withType("TEST")::save);
+        new Builder(TestConstants.CONTENT_ID, annotationSaver).withType("TEST")::save);
   }
 
   @Test
   public void testIncompleteBuilderNoType() {
     assertThrows(IncompleteException.class,
-        new Builder(TestConstants.CONTENT_NAME, annotationSaver).withBounds(bounds)::save);
+        new Builder(TestConstants.CONTENT_ID, annotationSaver).withBounds(bounds)::save);
   }
 
   @Test
   public void testMinimal() throws IncompleteException {
-    Annotation a1 = new SimpleAnnotation.Builder(TestConstants.CONTENT_NAME, annotationSaver)
+    Annotation a1 = new SimpleAnnotation.Builder(TestConstants.CONTENT_ID, annotationSaver)
         .withType("TEST")
         .withBounds(bounds).save();
     assertNotNull(a1.getId());
     assertEquals("TEST", a1.getType());
     assertEquals(bounds, a1.getBounds());
-    assertEquals(TestConstants.CONTENT_NAME, a1.getContentName());
+    assertEquals(TestConstants.CONTENT_ID, a1.getContentId());
     assertTrue(a1.getProperties().getAll().isEmpty());
 
     verify(annotationSaver, only()).save(a1);
@@ -72,7 +72,7 @@ public class SimpleAnnotationTest {
   @Test
   public void testWithProperty() throws IncompleteException {
 
-    Annotation a2 = new SimpleAnnotation.Builder(TestConstants.CONTENT_NAME, annotationSaver)
+    Annotation a2 = new SimpleAnnotation.Builder(TestConstants.CONTENT_ID, annotationSaver)
         .withType(TestConstants.ANNOTATION_TYPE)
         .withBounds(bounds)
         .withProperty("key1", 17)
@@ -81,7 +81,7 @@ public class SimpleAnnotationTest {
     assertNotNull(a2.getId());
     assertEquals(TestConstants.ANNOTATION_TYPE, a2.getType());
     assertEquals(bounds, a2.getBounds());
-    assertEquals(TestConstants.CONTENT_NAME, a2.getContentName());
+    assertEquals(TestConstants.CONTENT_ID, a2.getContentId());
 
     verify(annotationSaver, only()).save(a2);
 
@@ -93,7 +93,7 @@ public class SimpleAnnotationTest {
     properties2.put("key1", 17);
     properties2.put("key2", false);
 
-    Annotation a3 = new SimpleAnnotation.Builder(TestConstants.CONTENT_NAME, annotationSaver)
+    Annotation a3 = new SimpleAnnotation.Builder(TestConstants.CONTENT_ID, annotationSaver)
         .withType(TestConstants.ANNOTATION_TYPE)
         .withBounds(bounds)
         .withProperties(new MapMutableProperties(properties2))
@@ -109,14 +109,14 @@ public class SimpleAnnotationTest {
 
   @Test
   public void testFromExisting() throws IncompleteException {
-    Annotation a1 = new SimpleAnnotation.Builder(TestConstants.CONTENT_NAME, annotationSaver)
+    Annotation a1 = new SimpleAnnotation.Builder(TestConstants.CONTENT_ID, annotationSaver)
         .withType(TestConstants.ANNOTATION_TYPE)
         .withBounds(bounds)
         .save();
 
     clearInvocations(annotationSaver);
 
-    Annotation a2 = new SimpleAnnotation.Builder(TestConstants.CONTENT_NAME, annotationSaver)
+    Annotation a2 = new SimpleAnnotation.Builder(TestConstants.CONTENT_ID, annotationSaver)
         .from(a1)
         .withProperty("key1", 17)
         .withProperty("key2", false)
@@ -126,7 +126,7 @@ public class SimpleAnnotationTest {
 
     assertEquals(TestConstants.ANNOTATION_TYPE, a2.getType());
     assertEquals(bounds, a2.getBounds());
-    assertEquals(TestConstants.CONTENT_NAME, a2.getContentName());
+    assertEquals(TestConstants.CONTENT_ID, a2.getContentId());
 
     Map<String, Object> properties2 = a2.getProperties().getAll();
     assertEquals(2, properties2.size());
@@ -139,14 +139,14 @@ public class SimpleAnnotationTest {
 
   @Test
   public void testFromExistingWithNewId() throws IncompleteException {
-    Annotation a1 = new SimpleAnnotation.Builder(TestConstants.CONTENT_NAME, annotationSaver)
+    Annotation a1 = new SimpleAnnotation.Builder(TestConstants.CONTENT_ID, annotationSaver)
         .withType(TestConstants.ANNOTATION_TYPE)
         .withBounds(bounds)
         .save();
 
     clearInvocations(annotationSaver);
 
-    Annotation a2 = new SimpleAnnotation.Builder(TestConstants.CONTENT_NAME, annotationSaver)
+    Annotation a2 = new SimpleAnnotation.Builder(TestConstants.CONTENT_ID, annotationSaver)
         .from(a1)
         .newId()
         .save();

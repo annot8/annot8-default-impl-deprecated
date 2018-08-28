@@ -1,50 +1,31 @@
 package io.annot8.defaultimpl.content;
 
 import io.annot8.common.data.content.InputStreamContent;
+import io.annot8.common.implementations.content.AbstractContent;
+import io.annot8.common.implementations.content.AbstractContentBuilder;
+import io.annot8.common.implementations.content.AbstractContentBuilderFactory;
+import io.annot8.common.implementations.stores.AnnotationStoreFactory;
 import io.annot8.common.implementations.stores.SaveCallback;
 import io.annot8.core.data.Content;
-import io.annot8.core.data.Content.Builder;
 import io.annot8.core.data.Item;
 import io.annot8.core.exceptions.Annot8RuntimeException;
 import io.annot8.core.exceptions.IncompleteException;
 import io.annot8.core.properties.ImmutableProperties;
-import io.annot8.core.stores.AnnotationStore;
-import io.annot8.defaultimpl.data.AbstractContent;
-import io.annot8.defaultimpl.data.AbstractContentBuilderFactory;
 import java.io.InputStream;
 import java.util.function.Supplier;
 
 public class SimpleInputStream extends AbstractContent<InputStream> implements InputStreamContent {
 
-  private final Supplier<InputStream> dataProvider;
 
-  private SimpleInputStream(String id, AnnotationStore annotations, String name,
-      ImmutableProperties properties, Supplier<InputStream> dataProvider) {
-    super(id, annotations, name, properties);
-    this.dataProvider = dataProvider;
+  private SimpleInputStream(AnnotationStoreFactory annotationStoreFactory, String id, String name,
+      ImmutableProperties properties, Supplier<InputStream> data) {
+    super(InputStream.class, InputStreamContent.class, annotationStoreFactory, id, name, properties, data);
   }
 
-  @Override
-  public InputStream getData() {
-    return dataProvider.get();
-  }
+  public static class Builder extends AbstractContentBuilder<InputStream, SimpleInputStream> {
 
-  @Override
-  public Class<InputStream> getDataClass() {
-    return InputStream.class;
-  }
-
-  @Override
-  public Class<? extends Content<InputStream>> getContentClass() {
-    return InputStreamContent.class;
-  }
-
-  public static class Builder extends AbstractContent.Builder<InputStream, SimpleInputStream> {
-
-    private Supplier<InputStream> dataSupplier;
-
-    public Builder(SaveCallback<SimpleInputStream, SimpleInputStream> saver) {
-      super(saver);
+    public Builder(AnnotationStoreFactory annotationStoreFactory, SaveCallback<SimpleInputStream, SimpleInputStream> saver) {
+      super(annotationStoreFactory, saver);
     }
 
     @Override
@@ -53,34 +34,23 @@ public class SimpleInputStream extends AbstractContent<InputStream> implements I
     }
 
     @Override
-    public Content.Builder<SimpleInputStream, InputStream> withData(Supplier<InputStream> dataSupplier) {
-      this.dataSupplier = dataSupplier;
-      return this;
-    }
-
-    @Override
-    protected SimpleInputStream create(String id, AnnotationStore annotations, String name,
-        ImmutableProperties properties) throws IncompleteException {
-
-      if(dataSupplier == null) {
-        throw new IncompleteException("No data provider");
-      }
-
-      return new SimpleInputStream(id, annotations, name, properties, dataSupplier);
+    protected SimpleInputStream create(String id, String name,
+        ImmutableProperties properties, Supplier<InputStream> data) throws IncompleteException {
+      return new SimpleInputStream(getAnnotationStoreFactory(), id, name, properties, data);
     }
   }
 
   public static class BuilderFactory
       extends AbstractContentBuilderFactory<InputStream, SimpleInputStream> {
 
-    public BuilderFactory() {
-      super(InputStream.class, SimpleInputStream.class);
+    public BuilderFactory(AnnotationStoreFactory annotationStoreFactory) {
+      super(InputStream.class, SimpleInputStream.class, annotationStoreFactory);
     }
 
     @Override
     public Content.Builder<SimpleInputStream, InputStream> create(Item item,
         SaveCallback<SimpleInputStream, SimpleInputStream> saver) {
-      return new SimpleInputStream.Builder(saver);
+      return new SimpleInputStream.Builder(getAnnotationStoreFactory(), saver);
     }
 
   }

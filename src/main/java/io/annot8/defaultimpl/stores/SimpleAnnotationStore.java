@@ -19,32 +19,32 @@ import java.util.stream.Stream;
 public class SimpleAnnotationStore implements AnnotationStore {
 
   private final Map<String, Annotation> annotations = new ConcurrentHashMap<>();
-  private final String contentName;
+  private final String contentId;
   private final AnnotationBuilderFactory<Annotation> annotationBuilderFactory;
 
   /**
-   * Construct a new instance of this class using SimpleAnnotation.Builder as the annotation
+   * Construct a new instance of this class using SimpleAnnotation.AbstractContentBuilder as the annotation
    * builder
    */
-  public SimpleAnnotationStore(String contentName) {
-    this.contentName = contentName;
+  public SimpleAnnotationStore(String contentId) {
+    this.contentId = contentId;
     this.annotationBuilderFactory = (content, store, saver) -> new SimpleAnnotation.Builder(
-        contentName, this::save);
+        contentId, this::save);
   }
 
   /**
    * Construct a new instance of this class using a custom annotation builder.
    */
-  public SimpleAnnotationStore(String contentName,
+  public SimpleAnnotationStore(String contentId,
       AnnotationBuilderFactory<Annotation> annotationBuilderFactory) {
-    this.contentName = contentName;
+    this.contentId = contentId;
     this.annotationBuilderFactory = annotationBuilderFactory;
   }
 
 
   @Override
   public Annotation.Builder getBuilder() {
-    return annotationBuilderFactory.create(contentName, this, this::save);
+    return annotationBuilderFactory.create(contentId, this, this::save);
   }
 
   private Annotation save(Annotation annotation) {

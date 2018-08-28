@@ -4,6 +4,7 @@ package io.annot8.defaultimpl.pipeline;
 import io.annot8.common.data.content.FileContent;
 import io.annot8.common.data.content.Text;
 import io.annot8.common.implementations.factories.ContentBuilderFactory;
+import io.annot8.common.implementations.stores.AnnotationStoreFactory;
 import io.annot8.core.components.Annot8Component;
 import io.annot8.core.components.Processor;
 import io.annot8.core.components.Resource;
@@ -16,6 +17,7 @@ import io.annot8.defaultimpl.content.SimpleText;
 import io.annot8.defaultimpl.context.SimpleContext;
 import io.annot8.defaultimpl.factories.SimpleContentBuilderFactoryRegistry;
 import io.annot8.defaultimpl.factories.SimpleItemFactory;
+import io.annot8.defaultimpl.stores.SimpleAnnotationStore;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
@@ -47,9 +49,13 @@ public class SimplePipelineBuilder {
 
   public static void main(final String[] args) {
 
+    AnnotationStoreFactory annotationStoreFactory = (content) ->
+      new SimpleAnnotationStore(content.getId());
+
     final SimplePipelineBuilder builder = new SimplePipelineBuilder();
-    builder.addContentBuilder(Text.class, new SimpleText.BuilderFactory());
-    builder.addContentBuilder(FileContent.class, new SimpleFile.BuilderFactory());
+
+    builder.addContentBuilder(Text.class, new SimpleText.BuilderFactory(annotationStoreFactory));
+    builder.addContentBuilder(FileContent.class, new SimpleFile.BuilderFactory(annotationStoreFactory));
 
     // If we had... some implementations
 //    pipeline.addDataSource(new TxtDirectorySource(), new DirectorySourceSettings(args[0]));

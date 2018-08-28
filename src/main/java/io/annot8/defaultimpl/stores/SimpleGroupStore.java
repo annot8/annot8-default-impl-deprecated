@@ -24,7 +24,7 @@ public class SimpleGroupStore implements GroupStore {
   private final GroupBuilderFactory<Group> groupBuilderFactory;
 
   /**
-   * Construct a new instance of this class using SimpleGroup.Builder as the annotation builder for
+   * Construct a new instance of this class using SimpleGroup.AbstractContentBuilder as the annotation builder for
    * the provided item.
    */
   public SimpleGroupStore(Item item) {

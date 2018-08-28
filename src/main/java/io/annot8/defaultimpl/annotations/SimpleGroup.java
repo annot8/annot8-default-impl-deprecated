@@ -84,7 +84,7 @@ public class SimpleGroup extends AbstractGroup {
   }
 
   /**
-   * Builder class for SimpleGroup, using UUID for generating new IDs and
+   * AbstractContentBuilder class for SimpleGroup, using UUID for generating new IDs and
    * InMemoryImmutableProperties or EmptyImmutableProperties for the properties.
    */
   public static class Builder implements Group.Builder {
