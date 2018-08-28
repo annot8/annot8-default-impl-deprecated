@@ -24,7 +24,7 @@ public class SimpleContentBuilderFactoryRegistry implements ContentBuilderFactor
     // TODO: Slightly unsure about cast to D, I think it's correct in our case
     ContentBuilderFactory<D, C> contentBuilderFactory = (ContentBuilderFactory<D, C>) builders
         .get(contentClass);
-    return Optional.of(contentBuilderFactory);
+    return Optional.ofNullable(contentBuilderFactory);
   }
 
 }
