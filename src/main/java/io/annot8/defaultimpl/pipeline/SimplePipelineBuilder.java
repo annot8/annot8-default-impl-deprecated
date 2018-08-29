@@ -74,15 +74,15 @@ public class SimplePipelineBuilder {
   }
 
   public void addResource(final String id, final Resource resource) {
-    addResource(id, resource, null);
+    addResource(id, resource);
   }
 
   public void addDataSource(final Source source) {
-    addDataSource(source, null);
+    addDataSource(source);
   }
 
   public void addProcessor(final Processor processor) {
-    addProcessor(processor, null);
+    addProcessor(processor);
   }
 
   public void addResource(final String id, final Resource resource, final Settings... configuration) {
