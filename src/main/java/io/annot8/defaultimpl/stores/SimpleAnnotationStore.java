@@ -1,7 +1,9 @@
 package io.annot8.defaultimpl.stores;
 
 import io.annot8.common.implementations.factories.AnnotationBuilderFactory;
+import io.annot8.common.implementations.stores.AnnotationStoreFactory;
 import io.annot8.core.annotations.Annotation;
+import io.annot8.core.data.Content;
 import io.annot8.core.stores.AnnotationStore;
 import io.annot8.defaultimpl.annotations.SimpleAnnotation;
 import java.util.HashSet;
@@ -89,5 +91,21 @@ public class SimpleAnnotationStore implements AnnotationStore {
 
     return Objects
         .equals(new HashSet<>(annotations.values()), allAnnotations);
+  }
+
+
+
+  public static AnnotationStoreFactory factory() {
+    return SimpleAnnotationStoreFactory.INSTANCE;
+  }
+
+  public static class SimpleAnnotationStoreFactory implements AnnotationStoreFactory {
+
+    private static final SimpleAnnotationStoreFactory INSTANCE = new SimpleAnnotationStoreFactory();
+
+    @Override
+    public AnnotationStore create(Content<?> content) {
+      return new SimpleAnnotationStore(content.getId());
+    }
   }
 }
