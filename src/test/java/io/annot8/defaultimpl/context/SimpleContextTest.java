@@ -20,21 +20,12 @@ import org.junit.jupiter.api.Test;
 
 public class SimpleContextTest {
 
-  private ItemFactory itemFactory;
-
-  @BeforeEach
-  public void beforeEach() {
-    itemFactory = mock(ItemFactory.class);
-    when(itemFactory.create()).thenReturn(new TestItem());
-  }
-
-
   @Test
   public void testSimpleContextDefault() {
     Resource r1 = mock(Resource.class);
     Resource r2 = new TestResource();
 
-    SimpleContext context = new SimpleContext(itemFactory);
+    SimpleContext context = new SimpleContext();
     context.addResource("resource1", r1);
     context.addResource("resource2", r2);
 
@@ -64,7 +55,7 @@ public class SimpleContextTest {
     r.put("resource1", r1);
     r.put("resource2", r2);
 
-    SimpleContext context = new SimpleContext(itemFactory, r);
+    SimpleContext context = new SimpleContext( r);
 
     assertTrue(context.getSettings().count() == 0);
 
@@ -88,7 +79,7 @@ public class SimpleContextTest {
   public void testSimpleContextSettings() {
     Settings s = mock(Settings.class);
 
-    SimpleContext context = new SimpleContext(itemFactory, Arrays.asList(s));
+    SimpleContext context = new SimpleContext( Arrays.asList(s));
 
     assertEquals(1, context.getSettings().count());
     assertEquals(s, context.getSettings().findFirst().get());
@@ -110,7 +101,7 @@ public class SimpleContextTest {
     r.put("resource1", r1);
     r.put("resource2", r2);
 
-    SimpleContext context = new SimpleContext(itemFactory, Arrays.asList(s), r);
+    SimpleContext context = new SimpleContext( Arrays.asList(s), r);
 
     assertEquals(1, context.getSettings().count());
     assertEquals(s, context.getSettings().findFirst().get());

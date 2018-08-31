@@ -1,6 +1,17 @@
 package io.annot8.defaultimpl.pipeline;
 
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import io.annot8.common.data.content.FileContent;
 import io.annot8.common.data.content.Text;
 import io.annot8.common.implementations.factories.ContentBuilderFactory;
@@ -18,15 +29,6 @@ import io.annot8.defaultimpl.context.SimpleContext;
 import io.annot8.defaultimpl.factories.SimpleContentBuilderFactoryRegistry;
 import io.annot8.defaultimpl.factories.SimpleItemFactory;
 import io.annot8.defaultimpl.stores.SimpleAnnotationStore;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class SimplePipelineBuilder {
 
@@ -135,7 +137,7 @@ public class SimplePipelineBuilder {
     // TODO: COmpletely ignore capabilties here.. we could check for resources etc
 
     try {
-      final SimpleContext context = new SimpleContext(itemFactory, configuration,
+      final SimpleContext context = new SimpleContext(configuration,
           configuredResources);
       component.configure(context);
       return true;
