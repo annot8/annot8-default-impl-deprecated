@@ -6,7 +6,6 @@ open module io.annot8.defaultimpl {
 
   exports io.annot8.defaultimpl.annotations;
   exports io.annot8.defaultimpl.content;
-  exports io.annot8.defaultimpl.context;
   exports io.annot8.defaultimpl.data;
   exports io.annot8.defaultimpl.factories;
   exports io.annot8.defaultimpl.pipeline;
