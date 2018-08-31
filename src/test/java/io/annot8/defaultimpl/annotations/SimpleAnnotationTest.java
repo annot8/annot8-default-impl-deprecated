@@ -1,29 +1,24 @@
 package io.annot8.defaultimpl.annotations;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.clearInvocations;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.only;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
+import io.annot8.common.implementations.properties.MapMutableProperties;
 import io.annot8.common.implementations.stores.SaveCallback;
 import io.annot8.core.annotations.Annotation;
 import io.annot8.core.bounds.Bounds;
 import io.annot8.core.exceptions.IncompleteException;
 import io.annot8.defaultimpl.annotations.SimpleAnnotation.Builder;
-import io.annot8.common.implementations.properties.MapMutableProperties;
+import io.annot8.testing.tck.impl.WithIdBuilderTestUtils;
+import io.annot8.testing.tck.impl.WithPropertiesBuilderTestUtils;
 import io.annot8.testing.testimpl.TestBounds;
 import io.annot8.testing.testimpl.TestConstants;
-import java.util.HashMap;
-import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 public class SimpleAnnotationTest {
 
@@ -55,6 +50,11 @@ public class SimpleAnnotationTest {
   }
 
   @Test
+  public void testIncompleteBuilderNoContent(){
+    assertThrows(IncompleteException.class, () -> new Builder(null, annotationSaver).withType("Test").withBounds(bounds).save());
+  }
+
+  @Test
   public void testMinimal() throws IncompleteException {
     Annotation a1 = new SimpleAnnotation.Builder(TestConstants.CONTENT_ID, annotationSaver)
         .withType("TEST")
@@ -68,10 +68,8 @@ public class SimpleAnnotationTest {
     verify(annotationSaver, only()).save(a1);
   }
 
-
   @Test
   public void testWithProperty() throws IncompleteException {
-
     Annotation a2 = new SimpleAnnotation.Builder(TestConstants.CONTENT_ID, annotationSaver)
         .withType(TestConstants.ANNOTATION_TYPE)
         .withBounds(bounds)
@@ -84,7 +82,6 @@ public class SimpleAnnotationTest {
     assertEquals(TestConstants.CONTENT_ID, a2.getContentId());
 
     verify(annotationSaver, only()).save(a2);
-
   }
 
   @Test
@@ -104,7 +101,6 @@ public class SimpleAnnotationTest {
     assertEquals(false, properties3.get("key2"));
 
     verify(annotationSaver, only()).save(a3);
-
   }
 
   @Test
@@ -182,7 +178,23 @@ public class SimpleAnnotationTest {
     assertEquals(a1.getBounds(), bounds);
 
     verify(annotationSaver, only()).save(a2);
+  }
 
+  @Test
+  public void testProperties(){
+    WithPropertiesBuilderTestUtils utils = new WithPropertiesBuilderTestUtils();
+    Annotation.Builder builder = new Builder(TestConstants.CONTENT_ID, annotationSaver)
+            .withType("TEST")
+            .withBounds(bounds);
+    utils.testWithPropertiesBuilder(builder);
+  }
 
+  @Test
+  public void testWithIdBuilder(){
+    WithIdBuilderTestUtils utils = new WithIdBuilderTestUtils();
+    Annotation.Builder builder = new Builder(TestConstants.CONTENT_ID, annotationSaver)
+            .withType("TEST")
+            .withBounds(bounds);
+    utils.testWithIdBuilder(builder);
   }
 }

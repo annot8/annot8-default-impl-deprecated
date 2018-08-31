@@ -25,7 +25,7 @@ public class SimpleText extends AbstractContent<String> implements Text {
     }
 
     @Override
-    protected SimpleText create(String id, String name,
+    public SimpleText create(String id, String name,
         ImmutableProperties properties, Supplier<String> data) {
       return new SimpleText(id, name, properties, data);
     }
