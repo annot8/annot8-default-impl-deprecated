@@ -1,22 +1,23 @@
 package io.annot8.defaultimpl.content;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
+
 import io.annot8.common.implementations.stores.NoOpSaveCallback;
 import io.annot8.core.data.Content;
 import io.annot8.core.exceptions.IncompleteException;
 import io.annot8.defaultimpl.content.SimpleFile.BuilderFactory;
-import io.annot8.defaultimpl.stores.SimpleAnnotationStore;
 import io.annot8.testing.testimpl.TestItem;
-import org.junit.jupiter.api.Test;
-
 import java.io.File;
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 public class SimpleFileTest {
 
     @Test
     public void testBuilderFactory() {
-        BuilderFactory factory = new BuilderFactory(SimpleAnnotationStore.factory());
+        BuilderFactory factory = new BuilderFactory();
         assertNotNull(factory.create(new TestItem(), new NoOpSaveCallback<>()));
         assertBasicBuilderUsage(factory.create(new TestItem(), new NoOpSaveCallback<>()));
         assertIncompleteBuilderUsage(factory.create(new TestItem(), new NoOpSaveCallback<>()));
