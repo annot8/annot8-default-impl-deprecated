@@ -17,7 +17,7 @@ import java.util.UUID;
 /**
  * Simple implementation of Annotation interface
  */
-public class SimpleAnnotation extends AbstractAnnotation {
+public class DefaultAnnotation extends AbstractAnnotation {
 
   private final String id;
   private final String type;
@@ -25,7 +25,7 @@ public class SimpleAnnotation extends AbstractAnnotation {
   private final Bounds bounds;
   private final String content;
 
-  private SimpleAnnotation(final String id, final String type, final ImmutableProperties properties,
+  private DefaultAnnotation(final String id, final String type, final ImmutableProperties properties,
       final Bounds bounds, final String content) {
     this.id = id;
     this.type = type;
@@ -60,7 +60,7 @@ public class SimpleAnnotation extends AbstractAnnotation {
   }
 
   /**
-   * AbstractContentBuilder class for SimpleAnnotation, using UUID for generating new IDs and
+   * AbstractContentBuilder class for DefaultAnnotation, using UUID for generating new IDs and
    * InMemoryImmutableProperties or EmptyImmutableProperties for the properties.
    */
   public static class Builder implements Annotation.Builder {
@@ -158,7 +158,7 @@ public class SimpleAnnotation extends AbstractAnnotation {
         immutableProperties = new MapImmutableProperties.Builder().from(properties).save();
       }
 
-      Annotation annotation = new SimpleAnnotation(id, type, immutableProperties, bounds, content);
+      Annotation annotation = new DefaultAnnotation(id, type, immutableProperties, bounds, content);
       return saver.save(annotation);
     }
 

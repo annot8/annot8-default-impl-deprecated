@@ -10,12 +10,12 @@ import io.annot8.core.stores.AnnotationStore;
 import io.annot8.testing.testimpl.TestConstants;
 import org.junit.jupiter.api.Test;
 
-public class SimpleAnnotationStoreTest {
+public class DefaultAnnotationStoreTest {
 
   @Test
   public void testInMemoryAnnotationStore() throws IncompleteException {
     String contentName = TestConstants.CONTENT_NAME;
-    AnnotationStore store = new SimpleAnnotationStore(contentName);
+    AnnotationStore store = new DefaultAnnotationStore(contentName);
 
     assertEquals(0, store.getAll().count());
 

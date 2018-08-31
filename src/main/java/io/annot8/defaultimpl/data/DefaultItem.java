@@ -11,33 +11,33 @@ import io.annot8.core.exceptions.UnsupportedContentException;
 import io.annot8.core.properties.MutableProperties;
 import io.annot8.core.stores.GroupStore;
 import io.annot8.common.implementations.properties.MapMutableProperties;
-import io.annot8.defaultimpl.stores.SimpleGroupStore;
+import io.annot8.defaultimpl.stores.DefaultGroupStore;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 
-public class SimpleItem implements Item {
+public class DefaultItem implements Item {
 
   private final Map<String, Content<?>> contents = new ConcurrentHashMap<>();
   private final MutableProperties properties = new MapMutableProperties();
   private final ContentBuilderFactoryRegistry contentBuilderFactoryRegistry;
-  private final SimpleGroupStore groups;
+  private final DefaultGroupStore groups;
   private final String id;
   private final ItemFactory itemFactory;
   private final String parentId;
   private boolean discarded = false;
 
-  public SimpleItem(ItemFactory itemFactory, String parentId, ContentBuilderFactoryRegistry contentBuilderFactoryRegistry) {
+  public DefaultItem(ItemFactory itemFactory, String parentId, ContentBuilderFactoryRegistry contentBuilderFactoryRegistry) {
     this.itemFactory = itemFactory;
     this.parentId = parentId;
     this.id = UUID.randomUUID().toString();
     this.contentBuilderFactoryRegistry = contentBuilderFactoryRegistry;
-    this.groups = new SimpleGroupStore(this);
+    this.groups = new DefaultGroupStore(this);
   }
 
-  public SimpleItem(ItemFactory itemFactory, ContentBuilderFactoryRegistry contentBuilderFactoryRegistry) {
+  public DefaultItem(ItemFactory itemFactory, ContentBuilderFactoryRegistry contentBuilderFactoryRegistry) {
     this(itemFactory, null, contentBuilderFactoryRegistry);
   }
 

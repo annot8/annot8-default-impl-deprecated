@@ -10,47 +10,47 @@ import io.annot8.core.data.Item;
 import io.annot8.core.exceptions.Annot8RuntimeException;
 import io.annot8.core.exceptions.IncompleteException;
 import io.annot8.core.properties.ImmutableProperties;
-import io.annot8.defaultimpl.stores.SimpleAnnotationStore;
+import io.annot8.defaultimpl.stores.DefaultAnnotationStore;
 import java.io.InputStream;
 import java.util.function.Supplier;
 
-public class SimpleInputStream extends AbstractContent<InputStream> implements InputStreamContent {
+public class DefaultInputStream extends AbstractContent<InputStream> implements InputStreamContent {
 
 
-  private SimpleInputStream(String id, String name,
+  private DefaultInputStream(String id, String name,
       ImmutableProperties properties, Supplier<InputStream> data) {
-    super(InputStream.class, InputStreamContent.class, new SimpleAnnotationStore(id), id, name, properties, data);
+    super(InputStream.class, InputStreamContent.class, new DefaultAnnotationStore(id), id, name, properties, data);
   }
 
-  public static class Builder extends AbstractContentBuilder<InputStream, SimpleInputStream> {
+  public static class Builder extends AbstractContentBuilder<InputStream, DefaultInputStream> {
 
-    public Builder(SaveCallback<SimpleInputStream, SimpleInputStream> saver) {
+    public Builder(SaveCallback<DefaultInputStream, DefaultInputStream> saver) {
       super(saver);
     }
 
     @Override
-    public Content.Builder<SimpleInputStream, InputStream> withData(InputStream data) {
+    public Content.Builder<DefaultInputStream, InputStream> withData(InputStream data) {
       throw new Annot8RuntimeException("Must use a Supplier to provider InputStream, otherwise it can only be read once");
     }
 
     @Override
-    protected SimpleInputStream create(String id, String name,
+    protected DefaultInputStream create(String id, String name,
         ImmutableProperties properties, Supplier<InputStream> data) throws IncompleteException {
-      return new SimpleInputStream(id, name, properties, data);
+      return new DefaultInputStream(id, name, properties, data);
     }
   }
 
   public static class BuilderFactory
-      extends AbstractContentBuilderFactory<InputStream, SimpleInputStream> {
+      extends AbstractContentBuilderFactory<InputStream, DefaultInputStream> {
 
     public BuilderFactory() {
-      super(InputStream.class, SimpleInputStream.class);
+      super(InputStream.class, DefaultInputStream.class);
     }
 
     @Override
-    public Content.Builder<SimpleInputStream, InputStream> create(Item item,
-        SaveCallback<SimpleInputStream, SimpleInputStream> saver) {
-      return new SimpleInputStream.Builder(saver);
+    public Content.Builder<DefaultInputStream, InputStream> create(Item item,
+        SaveCallback<DefaultInputStream, DefaultInputStream> saver) {
+      return new DefaultInputStream.Builder(saver);
     }
 
   }

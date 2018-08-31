@@ -12,7 +12,7 @@ import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-class SimpleAnnotationReferenceTest {
+class DefaultAnnotationReferenceTest {
 
   @Test
   void to() {
@@ -21,7 +21,7 @@ class SimpleAnnotationReferenceTest {
     when(annotation.getContentId()).thenReturn("content");
     when(annotation.getId()).thenReturn("id");
 
-    SimpleAnnotationReference reference = SimpleAnnotationReference.to(item, annotation);
+    DefaultAnnotationReference reference = DefaultAnnotationReference.to(item, annotation);
 
     assertEquals("content", reference.getContentId());
     assertEquals("id", reference.getAnnotationId());
@@ -36,7 +36,7 @@ class SimpleAnnotationReferenceTest {
     AnnotationStore annotationStore = mock(AnnotationStore.class);
     Annotation annotation = mock(Annotation.class);
 
-    SimpleAnnotationReference reference = new SimpleAnnotationReference(item, "content", "1");
+    DefaultAnnotationReference reference = new DefaultAnnotationReference(item, "content", "1");
 
     assertEquals("content", reference.getContentId());
     assertEquals("1", reference.getAnnotationId());

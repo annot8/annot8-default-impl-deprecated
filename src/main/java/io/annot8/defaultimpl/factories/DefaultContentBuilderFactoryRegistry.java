@@ -5,9 +5,9 @@ import io.annot8.common.data.content.FileContent;
 import io.annot8.common.data.content.InputStreamContent;
 import io.annot8.common.data.content.Text;
 import io.annot8.common.implementations.registries.SimpleContentBuilderFactoryRegistry;
-import io.annot8.defaultimpl.content.SimpleFile;
-import io.annot8.defaultimpl.content.SimpleInputStream;
-import io.annot8.defaultimpl.content.SimpleText;
+import io.annot8.defaultimpl.content.DefaultFile;
+import io.annot8.defaultimpl.content.DefaultInputStream;
+import io.annot8.defaultimpl.content.DefaultText;
 
 public class DefaultContentBuilderFactoryRegistry extends SimpleContentBuilderFactoryRegistry {
 
@@ -18,9 +18,9 @@ public class DefaultContentBuilderFactoryRegistry extends SimpleContentBuilderFa
   public DefaultContentBuilderFactoryRegistry(boolean includeDefaultContentBuilders) {
 
     if(includeDefaultContentBuilders) {
-      register(Text.class, new SimpleText.BuilderFactory());
-      register(FileContent.class, new SimpleFile.BuilderFactory());
-      register(InputStreamContent.class, new SimpleInputStream.BuilderFactory());
+      register(Text.class, new DefaultText.BuilderFactory());
+      register(FileContent.class, new DefaultFile.BuilderFactory());
+      register(InputStreamContent.class, new DefaultInputStream.BuilderFactory());
 
     }
   }

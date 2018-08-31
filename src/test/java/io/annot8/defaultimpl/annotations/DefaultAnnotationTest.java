@@ -5,7 +5,7 @@ import io.annot8.common.implementations.stores.SaveCallback;
 import io.annot8.core.annotations.Annotation;
 import io.annot8.core.bounds.Bounds;
 import io.annot8.core.exceptions.IncompleteException;
-import io.annot8.defaultimpl.annotations.SimpleAnnotation.Builder;
+import io.annot8.defaultimpl.annotations.DefaultAnnotation.Builder;
 import io.annot8.testing.tck.impl.WithIdBuilderTestUtils;
 import io.annot8.testing.tck.impl.WithPropertiesBuilderTestUtils;
 import io.annot8.testing.testimpl.TestBounds;
@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-public class SimpleAnnotationTest {
+public class DefaultAnnotationTest {
 
   private final Bounds bounds = new TestBounds();
   private SaveCallback<Annotation, Annotation> annotationSaver;
@@ -56,7 +56,7 @@ public class SimpleAnnotationTest {
 
   @Test
   public void testMinimal() throws IncompleteException {
-    Annotation a1 = new SimpleAnnotation.Builder(TestConstants.CONTENT_ID, annotationSaver)
+    Annotation a1 = new DefaultAnnotation.Builder(TestConstants.CONTENT_ID, annotationSaver)
         .withType("TEST")
         .withBounds(bounds).save();
     assertNotNull(a1.getId());
@@ -70,7 +70,7 @@ public class SimpleAnnotationTest {
 
   @Test
   public void testWithProperty() throws IncompleteException {
-    Annotation a2 = new SimpleAnnotation.Builder(TestConstants.CONTENT_ID, annotationSaver)
+    Annotation a2 = new DefaultAnnotation.Builder(TestConstants.CONTENT_ID, annotationSaver)
         .withType(TestConstants.ANNOTATION_TYPE)
         .withBounds(bounds)
         .withProperty("key1", 17)
@@ -90,7 +90,7 @@ public class SimpleAnnotationTest {
     properties2.put("key1", 17);
     properties2.put("key2", false);
 
-    Annotation a3 = new SimpleAnnotation.Builder(TestConstants.CONTENT_ID, annotationSaver)
+    Annotation a3 = new DefaultAnnotation.Builder(TestConstants.CONTENT_ID, annotationSaver)
         .withType(TestConstants.ANNOTATION_TYPE)
         .withBounds(bounds)
         .withProperties(new MapMutableProperties(properties2))
@@ -105,14 +105,14 @@ public class SimpleAnnotationTest {
 
   @Test
   public void testFromExisting() throws IncompleteException {
-    Annotation a1 = new SimpleAnnotation.Builder(TestConstants.CONTENT_ID, annotationSaver)
+    Annotation a1 = new DefaultAnnotation.Builder(TestConstants.CONTENT_ID, annotationSaver)
         .withType(TestConstants.ANNOTATION_TYPE)
         .withBounds(bounds)
         .save();
 
     clearInvocations(annotationSaver);
 
-    Annotation a2 = new SimpleAnnotation.Builder(TestConstants.CONTENT_ID, annotationSaver)
+    Annotation a2 = new DefaultAnnotation.Builder(TestConstants.CONTENT_ID, annotationSaver)
         .from(a1)
         .withProperty("key1", 17)
         .withProperty("key2", false)
@@ -135,14 +135,14 @@ public class SimpleAnnotationTest {
 
   @Test
   public void testFromExistingWithNewId() throws IncompleteException {
-    Annotation a1 = new SimpleAnnotation.Builder(TestConstants.CONTENT_ID, annotationSaver)
+    Annotation a1 = new DefaultAnnotation.Builder(TestConstants.CONTENT_ID, annotationSaver)
         .withType(TestConstants.ANNOTATION_TYPE)
         .withBounds(bounds)
         .save();
 
     clearInvocations(annotationSaver);
 
-    Annotation a2 = new SimpleAnnotation.Builder(TestConstants.CONTENT_ID, annotationSaver)
+    Annotation a2 = new DefaultAnnotation.Builder(TestConstants.CONTENT_ID, annotationSaver)
         .from(a1)
         .newId()
         .save();
@@ -155,7 +155,7 @@ public class SimpleAnnotationTest {
 
   @Test
   public void testFromExistingOverridden() throws IncompleteException {
-    Annotation a1 = new SimpleAnnotation.Builder(TestConstants.CONTENT_NAME, annotationSaver)
+    Annotation a1 = new DefaultAnnotation.Builder(TestConstants.CONTENT_NAME, annotationSaver)
         .withType(TestConstants.ANNOTATION_TYPE)
         .withBounds(bounds)
         .save();
@@ -163,7 +163,7 @@ public class SimpleAnnotationTest {
     clearInvocations(annotationSaver);
 
     Bounds otherBounds = new TestBounds();
-    Annotation a2 = new SimpleAnnotation.Builder(TestConstants.CONTENT_NAME, annotationSaver)
+    Annotation a2 = new DefaultAnnotation.Builder(TestConstants.CONTENT_NAME, annotationSaver)
         .from(a1)
         .withType("TEST2")
         .withBounds(otherBounds)

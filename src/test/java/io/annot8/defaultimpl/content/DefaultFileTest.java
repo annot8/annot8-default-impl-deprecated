@@ -8,12 +8,12 @@ import static org.junit.jupiter.api.Assertions.fail;
 import io.annot8.common.implementations.stores.NoOpSaveCallback;
 import io.annot8.core.data.Content;
 import io.annot8.core.exceptions.IncompleteException;
-import io.annot8.defaultimpl.content.SimpleFile.BuilderFactory;
+import io.annot8.defaultimpl.content.DefaultFile.BuilderFactory;
 import io.annot8.testing.testimpl.TestItem;
 import java.io.File;
 import org.junit.jupiter.api.Test;
 
-public class SimpleFileTest {
+public class DefaultFileTest {
 
     @Test
     public void testBuilderFactory() {
@@ -23,11 +23,11 @@ public class SimpleFileTest {
         assertIncompleteBuilderUsage(factory.create(new TestItem(), new NoOpSaveCallback<>()));
     }
 
-    private void assertIncompleteBuilderUsage(Content.Builder<SimpleFile, File> builder){
+    private void assertIncompleteBuilderUsage(Content.Builder<DefaultFile, File> builder){
         assertThrows(IncompleteException.class, () -> builder.save());
     }
 
-    private void assertBasicBuilderUsage(Content.Builder<SimpleFile, File> builder){
+    private void assertBasicBuilderUsage(Content.Builder<DefaultFile, File> builder){
         Content<File> content = null;
         try {
             content = builder.withName("test").withData(new File("test")).save();

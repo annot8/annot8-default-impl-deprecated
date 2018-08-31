@@ -10,7 +10,7 @@ import java.util.Optional;
  *
  * Does not hold a reference to the group.
  */
-public class SimpleGroupReference extends AbstractGroupReference {
+public class DefaultGroupReference extends AbstractGroupReference {
 
   private final Item item;
 
@@ -19,7 +19,7 @@ public class SimpleGroupReference extends AbstractGroupReference {
   /**
    * New reference either from another reference or manually created.
    */
-  public SimpleGroupReference(Item item, String groupId) {
+  public DefaultGroupReference(Item item, String groupId) {
     this.item = item;
     this.groupId = groupId;
   }
@@ -27,8 +27,8 @@ public class SimpleGroupReference extends AbstractGroupReference {
   /**
    * Create a reference from a group instance.
    */
-  public static SimpleGroupReference to(Item item, Group group) {
-    return new SimpleGroupReference(item, group.getId());
+  public static DefaultGroupReference to(Item item, Group group) {
+    return new DefaultGroupReference(item, group.getId());
   }
 
   @Override

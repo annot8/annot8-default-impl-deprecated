@@ -3,7 +3,7 @@ package io.annot8.defaultimpl.stores;
 import io.annot8.core.annotations.Group;
 import io.annot8.core.data.Item;
 import io.annot8.core.stores.GroupStore;
-import io.annot8.defaultimpl.annotations.SimpleGroup.Builder;
+import io.annot8.defaultimpl.annotations.DefaultGroup.Builder;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
@@ -16,14 +16,14 @@ import java.util.stream.Stream;
 /**
  * In memory implementation, backed by a HashMap, of GroupStore
  */
-public class SimpleGroupStore implements GroupStore {
+public class DefaultGroupStore implements GroupStore {
 
   private final Item item;
   private final Map<String, Group> groups = new ConcurrentHashMap<>();
   /**
    * Construct a new instance of this class for the provided item
    */
-  public SimpleGroupStore(Item item) {
+  public DefaultGroupStore(Item item) {
     this.item = item;
   }
 

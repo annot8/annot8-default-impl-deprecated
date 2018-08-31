@@ -13,7 +13,7 @@ import io.annot8.core.properties.Properties;
 import io.annot8.core.references.AnnotationReference;
 import io.annot8.common.implementations.properties.MapImmutableProperties;
 import io.annot8.common.implementations.properties.MapMutableProperties;
-import io.annot8.defaultimpl.references.SimpleAnnotationReference;
+import io.annot8.defaultimpl.references.DefaultAnnotationReference;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -25,7 +25,7 @@ import java.util.stream.Stream;
 /**
  * Simple implementation of Group interface
  */
-public class SimpleGroup extends AbstractGroup {
+public class DefaultGroup extends AbstractGroup {
 
   private final Item item;
   private final String id;
@@ -33,11 +33,11 @@ public class SimpleGroup extends AbstractGroup {
   private final ImmutableProperties properties;
 
   // TODO: Better stored as (or as well as) a Guava Multimap ?
-  private final Map<SimpleAnnotationReference, String> annotations;
+  private final Map<DefaultAnnotationReference, String> annotations;
 
-  private SimpleGroup(final Item item, final String id, final String type,
+  private DefaultGroup(final Item item, final String id, final String type,
       final ImmutableProperties properties,
-      final Map<SimpleAnnotationReference, String> annotations) {
+      final Map<DefaultAnnotationReference, String> annotations) {
     this.item = item;
     this.id = id;
     this.type = type;
@@ -75,16 +75,16 @@ public class SimpleGroup extends AbstractGroup {
 
   @Override
   public Optional<String> getRole(Annotation annotation) {
-    return Optional.ofNullable(annotations.get(SimpleAnnotationReference.to(item, annotation)));
+    return Optional.ofNullable(annotations.get(DefaultAnnotationReference.to(item, annotation)));
   }
 
   @Override
   public boolean containsAnnotation(Annotation annotation) {
-    return annotations.containsKey(SimpleAnnotationReference.to(item, annotation));
+    return annotations.containsKey(DefaultAnnotationReference.to(item, annotation));
   }
 
   /**
-   * AbstractContentBuilder class for SimpleGroup, using UUID for generating new IDs and
+   * AbstractContentBuilder class for DefaultGroup, using UUID for generating new IDs and
    * InMemoryImmutableProperties or EmptyImmutableProperties for the properties.
    */
   public static class Builder implements Group.Builder {
@@ -184,13 +184,13 @@ public class SimpleGroup extends AbstractGroup {
         immutableProperties = new MapImmutableProperties.Builder().from(properties).save();
       }
 
-      Map<SimpleAnnotationReference, String> references = annotations.entrySet().stream()
+      Map<DefaultAnnotationReference, String> references = annotations.entrySet().stream()
           .collect(Collectors.toMap(
-              e -> SimpleAnnotationReference.to(item, e.getKey()),
+              e -> DefaultAnnotationReference.to(item, e.getKey()),
               Entry::getValue
           ));
 
-      Group group = new SimpleGroup(item, id, type, immutableProperties, references);
+      Group group = new DefaultGroup(item, id, type, immutableProperties, references);
       return saver.save(group);
     }
 

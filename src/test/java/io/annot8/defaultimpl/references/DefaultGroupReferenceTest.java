@@ -11,7 +11,7 @@ import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-class SimpleGroupReferenceTest {
+class DefaultGroupReferenceTest {
 
   @Test
   void to() {
@@ -19,7 +19,7 @@ class SimpleGroupReferenceTest {
     Group group = mock(Group.class);
     when(group.getId()).thenReturn("id");
 
-    SimpleGroupReference reference = SimpleGroupReference.to(item, group);
+    DefaultGroupReference reference = DefaultGroupReference.to(item, group);
 
     assertEquals("id", reference.getGroupId());
 
@@ -32,7 +32,7 @@ class SimpleGroupReferenceTest {
     GroupStore groupStore = mock(GroupStore.class);
     Group group = mock(Group.class);
 
-    SimpleGroupReference reference = new SimpleGroupReference(item, "1");
+    DefaultGroupReference reference = new DefaultGroupReference(item, "1");
 
     assertEquals("1", reference.getGroupId());
 

@@ -11,13 +11,13 @@ import io.annot8.testing.testimpl.TestItem;
 import io.annot8.testing.testimpl.content.TestStringContent;
 import org.junit.jupiter.api.Test;
 
-public class SimpleGroupStoreTest {
+public class DefaultGroupStoreTest {
 
   @Test
   public void testInMemoryAnnotationStore() throws IncompleteException {
 
     TestItem item = new TestItem();
-    GroupStore store = new SimpleGroupStore(item);
+    GroupStore store = new DefaultGroupStore(item);
     item.setGroups(store);
     TestStringContent content = item.save(new TestStringContent());
     Annotation a1 = content.getAnnotations().create().save();

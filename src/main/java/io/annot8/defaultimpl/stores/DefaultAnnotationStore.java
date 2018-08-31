@@ -2,7 +2,7 @@ package io.annot8.defaultimpl.stores;
 
 import io.annot8.core.annotations.Annotation;
 import io.annot8.core.stores.AnnotationStore;
-import io.annot8.defaultimpl.annotations.SimpleAnnotation;
+import io.annot8.defaultimpl.annotations.DefaultAnnotation;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
@@ -15,22 +15,22 @@ import java.util.stream.Stream;
 /**
  * In memory implementation, backed by a HashMap, of AnnotationStore
  */
-public class SimpleAnnotationStore implements AnnotationStore {
+public class DefaultAnnotationStore implements AnnotationStore {
 
   private final Map<String, Annotation> annotations = new ConcurrentHashMap<>();
   private final String contentId;
 
   /**
-   * Construct a new instance of this class using SimpleAnnotation.AbstractContentBuilder as the annotation
+   * Construct a new instance of this class using DefaultAnnotation.AbstractContentBuilder as the annotation
    * builder
    */
-  public SimpleAnnotationStore(String contentId) {
+  public DefaultAnnotationStore(String contentId) {
     this.contentId = contentId;
   }
 
   @Override
   public Annotation.Builder getBuilder() {
-    return new SimpleAnnotation.Builder(
+    return new DefaultAnnotation.Builder(
         contentId, this::save);
   }
 
@@ -89,7 +89,7 @@ public class SimpleAnnotationStore implements AnnotationStore {
 //
 //    @Override
 //    public AnnotationStore create(Content<?> content) {
-//      return new SimpleAnnotationStore(content.getId());
+//      return new DefaultAnnotationStore(content.getId());
 //    }
 //  }
 }

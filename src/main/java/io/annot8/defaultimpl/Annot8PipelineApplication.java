@@ -6,7 +6,7 @@ import io.annot8.common.implementations.pipelines.SimpleItemQueue;
 import io.annot8.common.implementations.pipelines.SimplePipelineBuilder;
 import io.annot8.core.exceptions.IncompleteException;
 import io.annot8.defaultimpl.factories.DefaultContentBuilderFactoryRegistry;
-import io.annot8.defaultimpl.factories.SimpleItemFactory;
+import io.annot8.defaultimpl.factories.DefaultItemFactory;
 import java.util.function.Consumer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,7 +54,7 @@ public class Annot8PipelineApplication {
     DefaultContentBuilderFactoryRegistry contentBuilderFactoryRegistry = new DefaultContentBuilderFactoryRegistry();
 
     return builder
-        .withItemFactory(new SimpleItemFactory(contentBuilderFactoryRegistry))
+        .withItemFactory(new DefaultItemFactory(contentBuilderFactoryRegistry))
         .withContentBuilderFactory(contentBuilderFactoryRegistry)
         .withItemQueue(new SimpleItemQueue());
 

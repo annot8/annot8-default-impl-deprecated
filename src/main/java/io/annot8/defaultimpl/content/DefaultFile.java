@@ -8,44 +8,45 @@ import io.annot8.common.implementations.stores.SaveCallback;
 import io.annot8.core.data.Content;
 import io.annot8.core.data.Item;
 import io.annot8.core.properties.ImmutableProperties;
-import io.annot8.defaultimpl.stores.SimpleAnnotationStore;
+import io.annot8.defaultimpl.stores.DefaultAnnotationStore;
 import java.io.File;
 import java.util.function.Supplier;
 
-public class SimpleFile extends AbstractContent<File> implements FileContent {
+public class DefaultFile extends AbstractContent<File> implements FileContent {
 
-  private SimpleFile(String id, String name,
+  private DefaultFile(String id, String name,
       ImmutableProperties properties, Supplier<File> data) {
-    super(File.class, FileContent.class, new SimpleAnnotationStore(id), id, name, properties, data);
+    super(File.class, FileContent.class, new DefaultAnnotationStore(id), id, name, properties, data);
   }
 
-  public static class Builder extends AbstractContentBuilder<File, SimpleFile> {
+  public static class Builder extends AbstractContentBuilder<File, DefaultFile> {
 
-    public Builder(SaveCallback<SimpleFile, SimpleFile> saver) {
+    public Builder(SaveCallback<DefaultFile, DefaultFile> saver) {
       super(saver);
     }
 
     @Override
-    protected SimpleFile create(String id, String name,
+    protected DefaultFile create(String id, String name,
         ImmutableProperties properties,  Supplier<File> data) {
-      return new SimpleFile(id, name, properties, data);
+      return new DefaultFile(id, name, properties, data);
     }
   }
 
   public static class BuilderFactory
-      extends AbstractContentBuilderFactory<File, SimpleFile> {
+      extends AbstractContentBuilderFactory<File, DefaultFile> {
 
     public BuilderFactory() {
-      super(File.class, SimpleFile.class);
+      super(File.class, DefaultFile.class);
     }
 
     @Override
-    public Content.Builder<SimpleFile, File> create(Item item,
-        SaveCallback<SimpleFile, SimpleFile> saver) {
-      return new SimpleFile.Builder(saver);
+    public Content.Builder<DefaultFile, File> create(Item item,
+        SaveCallback<DefaultFile, DefaultFile> saver) {
+      return new DefaultFile.Builder(saver);
     }
 
   }
+
 
 }
 

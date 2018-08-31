@@ -8,15 +8,15 @@ import static org.junit.jupiter.api.Assertions.fail;
 import io.annot8.common.implementations.stores.NoOpSaveCallback;
 import io.annot8.core.exceptions.Annot8RuntimeException;
 import io.annot8.core.exceptions.IncompleteException;
-import io.annot8.defaultimpl.content.SimpleInputStream.Builder;
-import io.annot8.defaultimpl.content.SimpleInputStream.BuilderFactory;
+import io.annot8.defaultimpl.content.DefaultInputStream.Builder;
+import io.annot8.defaultimpl.content.DefaultInputStream.BuilderFactory;
 import io.annot8.testing.testimpl.TestConstants;
 import io.annot8.testing.testimpl.TestItem;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import org.junit.jupiter.api.Test;
 
-public class SimpleInputStreamTest {
+public class DefaultInputStreamTest {
 
     @Test
     public void testBuilderFactory(){
@@ -27,7 +27,7 @@ public class SimpleInputStreamTest {
     @Test
     public void testBuilder(){
         Builder builder = new Builder(new NoOpSaveCallback<>());
-        SimpleInputStream content = null;
+        DefaultInputStream content = null;
         try {
             content = builder.create(TestConstants.CONTENT_ID, TestConstants.CONTENT_NAME, null, () -> new ByteArrayInputStream("test".getBytes()));
         } catch (IncompleteException e) {

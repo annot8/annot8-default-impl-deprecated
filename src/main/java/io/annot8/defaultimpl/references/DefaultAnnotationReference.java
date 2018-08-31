@@ -12,7 +12,7 @@ import java.util.Optional;
  *
  * Does not hold a reference to the group.
  */
-public class SimpleAnnotationReference extends AbstractAnnotationReference {
+public class DefaultAnnotationReference extends AbstractAnnotationReference {
 
   private final Item item;
 
@@ -23,7 +23,7 @@ public class SimpleAnnotationReference extends AbstractAnnotationReference {
   /**
    * New reference either from another reference or manually created.
    */
-  public SimpleAnnotationReference(Item item, String contentId, String annotationId) {
+  public DefaultAnnotationReference(Item item, String contentId, String annotationId) {
     this.item = item;
     this.contentId = contentId;
     this.annotationId = annotationId;
@@ -32,8 +32,8 @@ public class SimpleAnnotationReference extends AbstractAnnotationReference {
   /**
    * Create an annotation reference for the annotation.
    */
-  public static SimpleAnnotationReference to(Item item, Annotation annotation) {
-    return new SimpleAnnotationReference(item, annotation.getContentId(), annotation.getId());
+  public static DefaultAnnotationReference to(Item item, Annotation annotation) {
+    return new DefaultAnnotationReference(item, annotation.getContentId(), annotation.getId());
   }
 
   @Override

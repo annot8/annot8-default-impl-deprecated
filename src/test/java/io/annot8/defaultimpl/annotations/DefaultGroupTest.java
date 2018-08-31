@@ -5,7 +5,7 @@ import io.annot8.common.utils.properties.EmptyImmutableProperties;
 import io.annot8.core.annotations.Annotation;
 import io.annot8.core.annotations.Group;
 import io.annot8.core.exceptions.IncompleteException;
-import io.annot8.defaultimpl.annotations.SimpleGroup.Builder;
+import io.annot8.defaultimpl.annotations.DefaultGroup.Builder;
 import io.annot8.testing.tck.impl.WithIdBuilderTestUtils;
 import io.annot8.testing.tck.impl.WithPropertiesBuilderTestUtils;
 import io.annot8.testing.testimpl.TestConstants;
@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-public class SimpleGroupTest{
+public class DefaultGroupTest {
 
   private TestItem item;
   private Annotation a1;
@@ -67,7 +67,7 @@ public class SimpleGroupTest{
 
   @Test
   public void testSimpleGroup() throws IncompleteException {
-    Group g1 = new SimpleGroup.Builder(item, groupSaver)
+    Group g1 = new DefaultGroup.Builder(item, groupSaver)
         .withType(TestConstants.GROUP_TYPE)
         .withAnnotation("source", a1)
         .withAnnotation("target", a2)
@@ -96,7 +96,7 @@ public class SimpleGroupTest{
 
   @Test
   public void testFromExisting() throws IncompleteException {
-    Group g1 = new SimpleGroup.Builder(item, groupSaver)
+    Group g1 = new DefaultGroup.Builder(item, groupSaver)
         .withType(TestConstants.GROUP_TYPE)
         .withAnnotation("source", a1)
         .withAnnotation("target", a2)
@@ -104,7 +104,7 @@ public class SimpleGroupTest{
 
     clearInvocations(groupSaver);
 
-    Group g2 = new SimpleGroup.Builder(item, groupSaver)
+    Group g2 = new DefaultGroup.Builder(item, groupSaver)
         .from(g1)
         .withAnnotation("target", a3)
         .save();
@@ -126,7 +126,7 @@ public class SimpleGroupTest{
 
   @Test
   public void testFromExistingNoChange() throws IncompleteException {
-    Group g1 = new SimpleGroup.Builder(item, groupSaver)
+    Group g1 = new DefaultGroup.Builder(item, groupSaver)
         .withType(TestConstants.GROUP_TYPE)
         .withAnnotation("source", a1)
         .withAnnotation("target", a2)
@@ -134,7 +134,7 @@ public class SimpleGroupTest{
 
     clearInvocations(groupSaver);
 
-    Group g3 = new SimpleGroup.Builder(item, groupSaver)
+    Group g3 = new DefaultGroup.Builder(item, groupSaver)
         .from(g1)
         .save();
     assertEquals(g1, g3);
@@ -144,7 +144,7 @@ public class SimpleGroupTest{
 
   @Test
   public void testFromExistingNewId() throws IncompleteException {
-    Group g1 = new SimpleGroup.Builder(item, groupSaver)
+    Group g1 = new DefaultGroup.Builder(item, groupSaver)
         .withType(TestConstants.GROUP_TYPE)
         .withAnnotation("source", a1)
         .withAnnotation("target", a2)
@@ -152,7 +152,7 @@ public class SimpleGroupTest{
 
     clearInvocations(groupSaver);
 
-    Group g3 = new SimpleGroup.Builder(item, groupSaver)
+    Group g3 = new DefaultGroup.Builder(item, groupSaver)
         .from(g1)
         .newId()
         .save();
