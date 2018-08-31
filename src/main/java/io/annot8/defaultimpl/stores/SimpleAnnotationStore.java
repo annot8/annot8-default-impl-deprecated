@@ -1,9 +1,6 @@
 package io.annot8.defaultimpl.stores;
 
-import io.annot8.common.implementations.factories.AnnotationBuilderFactory;
-import io.annot8.common.implementations.stores.AnnotationStoreFactory;
 import io.annot8.core.annotations.Annotation;
-import io.annot8.core.data.Content;
 import io.annot8.core.stores.AnnotationStore;
 import io.annot8.defaultimpl.annotations.SimpleAnnotation;
 import java.util.HashSet;
@@ -22,7 +19,6 @@ public class SimpleAnnotationStore implements AnnotationStore {
 
   private final Map<String, Annotation> annotations = new ConcurrentHashMap<>();
   private final String contentId;
-  private final AnnotationBuilderFactory<Annotation> annotationBuilderFactory;
 
   /**
    * Construct a new instance of this class using SimpleAnnotation.AbstractContentBuilder as the annotation
@@ -30,23 +26,12 @@ public class SimpleAnnotationStore implements AnnotationStore {
    */
   public SimpleAnnotationStore(String contentId) {
     this.contentId = contentId;
-    this.annotationBuilderFactory = (content, store, saver) -> new SimpleAnnotation.Builder(
-        contentId, this::save);
   }
-
-  /**
-   * Construct a new instance of this class using a custom annotation builder.
-   */
-  public SimpleAnnotationStore(String contentId,
-      AnnotationBuilderFactory<Annotation> annotationBuilderFactory) {
-    this.contentId = contentId;
-    this.annotationBuilderFactory = annotationBuilderFactory;
-  }
-
 
   @Override
   public Annotation.Builder getBuilder() {
-    return annotationBuilderFactory.create(contentId, this, this::save);
+    return new SimpleAnnotation.Builder(
+        contentId, this::save);
   }
 
   private Annotation save(Annotation annotation) {
@@ -94,18 +79,17 @@ public class SimpleAnnotationStore implements AnnotationStore {
   }
 
 
-
-  public static AnnotationStoreFactory factory() {
-    return SimpleAnnotationStoreFactory.INSTANCE;
-  }
-
-  public static class SimpleAnnotationStoreFactory implements AnnotationStoreFactory {
-
-    private static final SimpleAnnotationStoreFactory INSTANCE = new SimpleAnnotationStoreFactory();
-
-    @Override
-    public AnnotationStore create(Content<?> content) {
-      return new SimpleAnnotationStore(content.getId());
-    }
-  }
+//  public static AnnotationStoreFactory factory() {
+//    return SimpleAnnotationStoreFactory.INSTANCE;
+//  }
+//
+//  public static class SimpleAnnotationStoreFactory implements AnnotationStoreFactory {
+//
+//    private static final SimpleAnnotationStoreFactory INSTANCE = new SimpleAnnotationStoreFactory();
+//
+//    @Override
+//    public AnnotationStore create(Content<?> content) {
+//      return new SimpleAnnotationStore(content.getId());
+//    }
+//  }
 }

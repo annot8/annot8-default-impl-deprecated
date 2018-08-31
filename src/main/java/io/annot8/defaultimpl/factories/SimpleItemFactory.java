@@ -4,6 +4,7 @@ import io.annot8.common.implementations.registries.ContentBuilderFactoryRegistry
 import io.annot8.core.data.Item;
 import io.annot8.core.data.ItemFactory;
 import io.annot8.defaultimpl.data.SimpleItem;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 public class SimpleItemFactory implements ItemFactory {
@@ -28,7 +29,8 @@ public class SimpleItemFactory implements ItemFactory {
 
   @Override
   public Item create(Item parent) {
-    return create();
+    Objects.requireNonNull(parent);
+    return consume(new SimpleItem(this, parent.getId(), contentBuilderFactoryRegistry));
   }
 
   protected Item consume(Item item) {

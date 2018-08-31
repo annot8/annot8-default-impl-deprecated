@@ -1,6 +1,16 @@
 package io.annot8.defaultimpl.pipeline;
 
 
+import io.annot8.common.implementations.context.SimpleContext;
+import io.annot8.common.implementations.factories.ContentBuilderFactory;
+import io.annot8.core.components.Annot8Component;
+import io.annot8.core.components.Processor;
+import io.annot8.core.components.Resource;
+import io.annot8.core.components.Source;
+import io.annot8.core.data.Content;
+import io.annot8.core.settings.Settings;
+import io.annot8.defaultimpl.factories.SimpleContentBuilderFactoryRegistry;
+import io.annot8.defaultimpl.factories.SimpleItemFactory;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
@@ -8,27 +18,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import io.annot8.common.data.content.FileContent;
-import io.annot8.common.data.content.Text;
-import io.annot8.common.implementations.factories.ContentBuilderFactory;
-import io.annot8.common.implementations.stores.AnnotationStoreFactory;
-import io.annot8.core.components.Annot8Component;
-import io.annot8.core.components.Processor;
-import io.annot8.core.components.Resource;
-import io.annot8.core.components.Source;
-import io.annot8.core.data.Content;
-import io.annot8.core.data.ItemFactory;
-import io.annot8.core.settings.Settings;
-import io.annot8.defaultimpl.content.SimpleFile;
-import io.annot8.defaultimpl.content.SimpleText;
-import io.annot8.defaultimpl.context.SimpleContext;
-import io.annot8.defaultimpl.factories.SimpleContentBuilderFactoryRegistry;
-import io.annot8.defaultimpl.factories.SimpleItemFactory;
-import io.annot8.defaultimpl.stores.SimpleAnnotationStore;
 
 public class SimplePipelineBuilder {
 
@@ -51,13 +42,8 @@ public class SimplePipelineBuilder {
 
   public static void main(final String[] args) {
 
-    AnnotationStoreFactory annotationStoreFactory = (content) ->
-      new SimpleAnnotationStore(content.getId());
-
     final SimplePipelineBuilder builder = new SimplePipelineBuilder();
 
-    builder.addContentBuilder(Text.class, new SimpleText.BuilderFactory(annotationStoreFactory));
-    builder.addContentBuilder(FileContent.class, new SimpleFile.BuilderFactory(annotationStoreFactory));
 
     // If we had... some implementations
 //    pipeline.addDataSource(new TxtDirectorySource(), new DirectorySourceSettings(args[0]));
@@ -106,32 +92,30 @@ public class SimplePipelineBuilder {
 
     resourcesToConfiguration.forEach((resource, settings) -> {
 
-      if (configureComponent(itemFactory, configuredResources, resource, settings)) {
+      if (configureComponent(configuredResources, resource, settings)) {
         String id = resourcesToId.get(resource);
         configuredResources.put(id, resource);
       }
     });
 
-    List<Source> configuredSources = configureAllComponents(itemFactory, configuredResources,
+    List<Source> configuredSources = configureAllComponents(configuredResources,
         sourcesToConfiguration);
-    List<Processor> configurePipelines = configureAllComponents(itemFactory, configuredResources,
+    List<Processor> configurePipelines = configureAllComponents(configuredResources,
         processorToConfiguration);
 
     return new SimplePipeline(itemFactory, itemQueue, configuredResources, configuredSources,
         configurePipelines);
   }
 
-  private <T extends Annot8Component> List<T> configureAllComponents(ItemFactory itemFactory,
-      Map<String, Resource> configuredResources, Map<T, Collection<Settings>> componentToConfiguration) {
+  private <T extends Annot8Component> List<T> configureAllComponents(Map<String, Resource> configuredResources, Map<T, Collection<Settings>> componentToConfiguration) {
 
     return componentToConfiguration.entrySet().stream()
-        .filter(e -> configureComponent(itemFactory, configuredResources, e.getKey(), e.getValue()))
+        .filter(e -> configureComponent(configuredResources, e.getKey(), e.getValue()))
         .map(Map.Entry::getKey)
         .collect(Collectors.toList());
   }
 
-  private boolean configureComponent(ItemFactory itemFactory,
-      Map<String, Resource> configuredResources, final Annot8Component component,
+  private boolean configureComponent(Map<String, Resource> configuredResources, final Annot8Component component,
       final Collection<Settings> configuration) {
 
     // TODO: COmpletely ignore capabilties here.. we could check for resources etc

@@ -1,10 +1,9 @@
 package io.annot8.defaultimpl.stores;
 
-import io.annot8.common.implementations.factories.GroupBuilderFactory;
 import io.annot8.core.annotations.Group;
 import io.annot8.core.data.Item;
 import io.annot8.core.stores.GroupStore;
-import io.annot8.defaultimpl.annotations.SimpleGroup;
+import io.annot8.defaultimpl.annotations.SimpleGroup.Builder;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
@@ -21,29 +20,16 @@ public class SimpleGroupStore implements GroupStore {
 
   private final Item item;
   private final Map<String, Group> groups = new ConcurrentHashMap<>();
-  private final GroupBuilderFactory<Group> groupBuilderFactory;
-
   /**
-   * Construct a new instance of this class using SimpleGroup.AbstractContentBuilder as the annotation builder for
-   * the provided item.
+   * Construct a new instance of this class for the provided item
    */
   public SimpleGroupStore(Item item) {
     this.item = item;
-    this.groupBuilderFactory = (forItem, groupStore, saver) -> new SimpleGroup.Builder(forItem,
-        saver);
-  }
-
-  /**
-   * Construct a new instance of this class using a custom group builder.
-   */
-  public SimpleGroupStore(Item item, GroupBuilderFactory<Group> groupBuilderFactory) {
-    this.item = item;
-    this.groupBuilderFactory = groupBuilderFactory;
   }
 
   @Override
   public Group.Builder getBuilder() {
-    return groupBuilderFactory.create(item, this, this::save);
+    return new Builder(item, this::save);
   }
 
   private Group save(Group group) {

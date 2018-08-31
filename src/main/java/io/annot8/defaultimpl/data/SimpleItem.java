@@ -3,7 +3,6 @@ package io.annot8.defaultimpl.data;
 
 import io.annot8.common.implementations.factories.ContentBuilderFactory;
 import io.annot8.common.implementations.registries.ContentBuilderFactoryRegistry;
-import io.annot8.common.utils.java.StreamUtils;
 import io.annot8.core.data.Content;
 import io.annot8.core.data.Content.Builder;
 import io.annot8.core.data.Item;
@@ -23,21 +22,28 @@ public class SimpleItem implements Item {
 
   private final Map<String, Content<?>> contents = new ConcurrentHashMap<>();
   private final MutableProperties properties = new MapMutableProperties();
-  private final ItemFactory itemFactory;
   private final ContentBuilderFactoryRegistry contentBuilderFactoryRegistry;
   private final SimpleGroupStore groups;
   private final String id;
+  private final ItemFactory itemFactory;
+  private final String parentId;
   private boolean discarded = false;
 
-
-  public SimpleItem(ItemFactory itemFactory,
-      ContentBuilderFactoryRegistry contentBuilderFactoryRegistry) {
-    this.id = UUID.randomUUID().toString();
+  public SimpleItem(ItemFactory itemFactory, String parentId, ContentBuilderFactoryRegistry contentBuilderFactoryRegistry) {
     this.itemFactory = itemFactory;
+    this.parentId = parentId;
+    this.id = UUID.randomUUID().toString();
     this.contentBuilderFactoryRegistry = contentBuilderFactoryRegistry;
     this.groups = new SimpleGroupStore(this);
   }
 
+  public SimpleItem(ItemFactory itemFactory, ContentBuilderFactoryRegistry contentBuilderFactoryRegistry) {
+    this(itemFactory, null, contentBuilderFactoryRegistry);
+  }
+
+  public Optional<String> getParent() {
+    return Optional.ofNullable(parentId);
+  }
 
   @Override
   public Optional<Content<?>> getContent(String id) {
@@ -47,11 +53,6 @@ public class SimpleItem implements Item {
   @Override
   public Stream<Content<?>> getContents() {
     return contents.values().stream();
-  }
-
-  @Override
-  public <T extends Content<?>> Stream<T> getContents(Class<T> clazz) {
-    return StreamUtils.cast(getContents(), clazz);
   }
 
   @Override
