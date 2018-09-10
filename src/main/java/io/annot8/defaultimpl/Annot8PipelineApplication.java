@@ -1,12 +1,17 @@
 package io.annot8.defaultimpl;
 
+import io.annot8.common.implementations.factories.ContentBuilderFactory;
 import io.annot8.common.implementations.pipelines.Pipeline;
 import io.annot8.common.implementations.pipelines.PipelineBuilder;
 import io.annot8.common.implementations.pipelines.SimpleItemQueue;
 import io.annot8.common.implementations.pipelines.SimplePipelineBuilder;
+import io.annot8.common.implementations.registries.ContentBuilderFactoryRegistry;
+import io.annot8.core.data.Content;
 import io.annot8.core.exceptions.IncompleteException;
 import io.annot8.defaultimpl.factories.DefaultContentBuilderFactoryRegistry;
 import io.annot8.defaultimpl.factories.DefaultItemFactory;
+import java.util.ArrayList;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,30 +23,35 @@ public class Annot8PipelineApplication {
 
   private final Consumer<PipelineBuilder> pipelineBuilderConsumer;
 
+  private final Consumer<ContentBuilderFactoryRegistry> contentBuilderFactoryRegistryConsumer;
+
   public Annot8PipelineApplication(Consumer<PipelineBuilder> pipelineBuilderConsumer) {
+    this(pipelineBuilderConsumer, (c) -> {});
+  }
+
+  public Annot8PipelineApplication(Consumer<PipelineBuilder> pipelineBuilderConsumer,
+      Consumer<ContentBuilderFactoryRegistry> contentBuilderFactoryRegistryConsumer) {
     this.pipelineBuilderConsumer = pipelineBuilderConsumer;
+    this.contentBuilderFactoryRegistryConsumer = contentBuilderFactoryRegistryConsumer;
   }
 
   public void run() {
     try {
       Pipeline pipeline = buildPipeline();
-
       runPipeline(pipeline);
-    } catch(Exception e) {
+    } catch (Exception e) {
       LOGGER.error("Unable to run pipeline", e);
     }
   }
 
   private void runPipeline(Pipeline pipeline) throws Exception {
-    try(pipeline) {
+    try (pipeline) {
       pipeline.run();
     }
   }
 
   private Pipeline buildPipeline() throws IncompleteException {
-
     PipelineBuilder builder = new SimplePipelineBuilder();
-
     builder = configureBuilder(builder);
 
     if (pipelineBuilderConsumer != null) {
@@ -53,12 +63,11 @@ public class Annot8PipelineApplication {
 
   private PipelineBuilder configureBuilder(PipelineBuilder builder) {
     DefaultContentBuilderFactoryRegistry contentBuilderFactoryRegistry = new DefaultContentBuilderFactoryRegistry();
+    contentBuilderFactoryRegistryConsumer.accept(contentBuilderFactoryRegistry);
     SimpleItemQueue itemQueue = new SimpleItemQueue();
     return builder
         .withItemFactory(new DefaultItemFactory(contentBuilderFactoryRegistry, itemQueue::add))
-        .withContentBuilderFactory(contentBuilderFactoryRegistry)
         .withItemQueue(itemQueue);
-
   }
 
   public static void main() {
@@ -70,7 +79,6 @@ public class Annot8PipelineApplication {
       // builder.addProcessor(EmailProcessor.class);
 
     }).run();
-
 
 
   }

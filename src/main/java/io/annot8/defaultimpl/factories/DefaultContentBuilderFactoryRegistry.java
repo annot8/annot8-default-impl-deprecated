@@ -21,7 +21,6 @@ public class DefaultContentBuilderFactoryRegistry extends SimpleContentBuilderFa
       register(Text.class, new DefaultText.BuilderFactory());
       register(FileContent.class, new DefaultFile.BuilderFactory());
       register(InputStreamContent.class, new DefaultInputStream.BuilderFactory());
-
     }
   }
 
