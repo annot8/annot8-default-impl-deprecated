@@ -1,21 +1,16 @@
 package io.annot8.defaultimpl;
 
-import io.annot8.common.implementations.factories.ContentBuilderFactory;
 import io.annot8.common.implementations.pipelines.Pipeline;
 import io.annot8.common.implementations.pipelines.PipelineBuilder;
 import io.annot8.common.implementations.pipelines.SimpleItemQueue;
 import io.annot8.common.implementations.pipelines.SimplePipelineBuilder;
 import io.annot8.common.implementations.registries.ContentBuilderFactoryRegistry;
-import io.annot8.core.data.Content;
 import io.annot8.core.exceptions.IncompleteException;
 import io.annot8.defaultimpl.factories.DefaultContentBuilderFactoryRegistry;
 import io.annot8.defaultimpl.factories.DefaultItemFactory;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.function.Consumer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.function.Consumer;
 
 public class Annot8PipelineApplication {
 
@@ -66,7 +61,7 @@ public class Annot8PipelineApplication {
     contentBuilderFactoryRegistryConsumer.accept(contentBuilderFactoryRegistry);
     SimpleItemQueue itemQueue = new SimpleItemQueue();
     return builder
-        .withItemFactory(new DefaultItemFactory(contentBuilderFactoryRegistry, itemQueue::add))
+        .withItemFactory(new DefaultItemFactory(contentBuilderFactoryRegistry))
         .withItemQueue(itemQueue);
   }
 
