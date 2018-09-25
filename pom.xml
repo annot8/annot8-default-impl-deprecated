@@ -12,9 +12,9 @@
   </parent>
 
   <artifactId>annot8-default-impl</artifactId>
-
   <name>Annot8 Default Implementations</name>
   <description>Default implementation of Annot8 interfaces</description>
+  <version>0.1.0</version>
 
   <issueManagement>
     <url>https://github.com/annot8/default-impl/issues</url>
