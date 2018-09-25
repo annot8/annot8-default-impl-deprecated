@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Test;
 
 import io.annot8.common.implementations.stores.NoOpSaveCallback;
 import io.annot8.core.exceptions.Annot8RuntimeException;
-import io.annot8.core.exceptions.IncompleteException;
 import io.annot8.defaultimpl.content.DefaultInputStream.Builder;
 import io.annot8.defaultimpl.content.DefaultInputStream.BuilderFactory;
 import io.annot8.testing.testimpl.TestConstants;
@@ -30,17 +29,12 @@ public class DefaultInputStreamTest {
   @Test
   public void testBuilder() {
     Builder builder = new Builder(new NoOpSaveCallback<>());
-    DefaultInputStream content = null;
-    try {
-      content =
-          builder.create(
-              TestConstants.CONTENT_ID,
-              TestConstants.CONTENT_NAME,
-              null,
-              () -> new ByteArrayInputStream("test".getBytes()));
-    } catch (IncompleteException e) {
-      fail("Test should not throw an exception here", e);
-    }
+    DefaultInputStream content =
+        builder.create(
+            TestConstants.CONTENT_ID,
+            TestConstants.CONTENT_NAME,
+            null,
+            () -> new ByteArrayInputStream("test".getBytes()));
     assertEquals(TestConstants.CONTENT_ID, content.getId());
     assertEquals(TestConstants.CONTENT_NAME, content.getName());
     try {

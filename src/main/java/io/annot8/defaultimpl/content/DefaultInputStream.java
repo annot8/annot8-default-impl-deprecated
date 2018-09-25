@@ -12,7 +12,6 @@ import io.annot8.common.implementations.stores.SaveCallback;
 import io.annot8.core.data.Content;
 import io.annot8.core.data.Item;
 import io.annot8.core.exceptions.Annot8RuntimeException;
-import io.annot8.core.exceptions.IncompleteException;
 import io.annot8.core.properties.ImmutableProperties;
 import io.annot8.defaultimpl.stores.DefaultAnnotationStore;
 
@@ -44,8 +43,7 @@ public class DefaultInputStream extends AbstractContent<InputStream> implements 
 
     @Override
     protected DefaultInputStream create(
-        String id, String name, ImmutableProperties properties, Supplier<InputStream> data)
-        throws IncompleteException {
+        String id, String name, ImmutableProperties properties, Supplier<InputStream> data) {
       return new DefaultInputStream(id, name, properties, data);
     }
   }

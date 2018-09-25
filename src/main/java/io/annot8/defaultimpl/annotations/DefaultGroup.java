@@ -95,7 +95,7 @@ public class DefaultGroup extends AbstractGroup {
     private final Item item;
     private final SaveCallback<Group, Group> saver;
 
-    private String id = null;
+    private String id;
     private String type = null;
     private MutableProperties properties = new MapMutableProperties();
     private Map<Annotation, String> annotations = new HashMap<>();
