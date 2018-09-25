@@ -1,11 +1,13 @@
+/* Annot8 (annot8.io) - Licensed under Apache-2.0. */
 package io.annot8.defaultimpl.factories;
+
+import java.util.Objects;
 
 import io.annot8.common.implementations.factories.ItemCreator;
 import io.annot8.common.implementations.registries.ContentBuilderFactoryRegistry;
 import io.annot8.core.data.Item;
 import io.annot8.core.data.ItemFactory;
 import io.annot8.defaultimpl.data.DefaultItem;
-import java.util.Objects;
 
 public class DefaultItemCreator implements ItemCreator {
 
@@ -25,5 +27,4 @@ public class DefaultItemCreator implements ItemCreator {
     Objects.requireNonNull(parent);
     return new DefaultItem(factory, parent.getId(), contentBuilderFactoryRegistry);
   }
-
 }

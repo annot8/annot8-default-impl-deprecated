@@ -1,8 +1,6 @@
+/* Annot8 (annot8.io) - Licensed under Apache-2.0. */
 package io.annot8.defaultimpl.stores;
 
-import io.annot8.core.annotations.Annotation;
-import io.annot8.core.stores.AnnotationStore;
-import io.annot8.defaultimpl.annotations.DefaultAnnotation;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
@@ -12,17 +10,19 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-/**
- * In memory implementation, backed by a HashMap, of AnnotationStore
- */
+import io.annot8.core.annotations.Annotation;
+import io.annot8.core.stores.AnnotationStore;
+import io.annot8.defaultimpl.annotations.DefaultAnnotation;
+
+/** In memory implementation, backed by a HashMap, of AnnotationStore */
 public class DefaultAnnotationStore implements AnnotationStore {
 
   private final Map<String, Annotation> annotations = new ConcurrentHashMap<>();
   private final String contentId;
 
   /**
-   * Construct a new instance of this class using DefaultAnnotation.AbstractContentBuilder as the annotation
-   * builder
+   * Construct a new instance of this class using DefaultAnnotation.AbstractContentBuilder as the
+   * annotation builder
    */
   public DefaultAnnotationStore(String contentId) {
     this.contentId = contentId;
@@ -30,8 +30,7 @@ public class DefaultAnnotationStore implements AnnotationStore {
 
   @Override
   public Annotation.Builder getBuilder() {
-    return new DefaultAnnotation.Builder(
-        contentId, this::save);
+    return new DefaultAnnotation.Builder(contentId, this::save);
   }
 
   private Annotation save(Annotation annotation) {
@@ -74,22 +73,21 @@ public class DefaultAnnotationStore implements AnnotationStore {
 
     Set<Annotation> allAnnotations = as.getAll().collect(Collectors.toSet());
 
-    return Objects
-        .equals(new HashSet<>(annotations.values()), allAnnotations);
+    return Objects.equals(new HashSet<>(annotations.values()), allAnnotations);
   }
 
-
-//  public static AnnotationStoreFactory factory() {
-//    return SimpleAnnotationStoreFactory.INSTANCE;
-//  }
-//
-//  public static class SimpleAnnotationStoreFactory implements AnnotationStoreFactory {
-//
-//    private static final SimpleAnnotationStoreFactory INSTANCE = new SimpleAnnotationStoreFactory();
-//
-//    @Override
-//    public AnnotationStore create(Content<?> content) {
-//      return new DefaultAnnotationStore(content.getId());
-//    }
-//  }
+  //  public static AnnotationStoreFactory factory() {
+  //    return SimpleAnnotationStoreFactory.INSTANCE;
+  //  }
+  //
+  //  public static class SimpleAnnotationStoreFactory implements AnnotationStoreFactory {
+  //
+  //    private static final SimpleAnnotationStoreFactory INSTANCE = new
+  // SimpleAnnotationStoreFactory();
+  //
+  //    @Override
+  //    public AnnotationStore create(Content<?> content) {
+  //      return new DefaultAnnotationStore(content.getId());
+  //    }
+  //  }
 }

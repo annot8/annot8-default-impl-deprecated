@@ -1,6 +1,12 @@
+/* Annot8 (annot8.io) - Licensed under Apache-2.0. */
 package io.annot8.defaultimpl.annotations;
 
+import java.util.Optional;
+import java.util.UUID;
+
 import io.annot8.common.implementations.annotations.AbstractAnnotation;
+import io.annot8.common.implementations.properties.MapImmutableProperties;
+import io.annot8.common.implementations.properties.MapMutableProperties;
 import io.annot8.common.implementations.stores.SaveCallback;
 import io.annot8.common.utils.properties.EmptyImmutableProperties;
 import io.annot8.core.annotations.Annotation;
@@ -9,14 +15,8 @@ import io.annot8.core.exceptions.IncompleteException;
 import io.annot8.core.properties.ImmutableProperties;
 import io.annot8.core.properties.MutableProperties;
 import io.annot8.core.properties.Properties;
-import io.annot8.common.implementations.properties.MapImmutableProperties;
-import io.annot8.common.implementations.properties.MapMutableProperties;
-import java.util.Optional;
-import java.util.UUID;
 
-/**
- * Simple implementation of Annotation interface
- */
+/** Simple implementation of Annotation interface */
 public class DefaultAnnotation extends AbstractAnnotation {
 
   private final String id;
@@ -25,8 +25,12 @@ public class DefaultAnnotation extends AbstractAnnotation {
   private final Bounds bounds;
   private final String content;
 
-  private DefaultAnnotation(final String id, final String type, final ImmutableProperties properties,
-      final Bounds bounds, final String content) {
+  private DefaultAnnotation(
+      final String id,
+      final String type,
+      final ImmutableProperties properties,
+      final Bounds bounds,
+      final String content) {
     this.id = id;
     this.type = type;
     this.properties = properties;
@@ -167,6 +171,5 @@ public class DefaultAnnotation extends AbstractAnnotation {
       this.bounds = bounds;
       return this;
     }
-
   }
 }

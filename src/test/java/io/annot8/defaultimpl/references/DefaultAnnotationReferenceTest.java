@@ -1,16 +1,19 @@
+/* Annot8 (annot8.io) - Licensed under Apache-2.0. */
 package io.annot8.defaultimpl.references;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.util.Optional;
+
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+
 import io.annot8.core.annotations.Annotation;
 import io.annot8.core.data.Content;
 import io.annot8.core.data.Item;
 import io.annot8.core.stores.AnnotationStore;
-import java.util.Optional;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 class DefaultAnnotationReferenceTest {
 
@@ -25,7 +28,6 @@ class DefaultAnnotationReferenceTest {
 
     assertEquals("content", reference.getContentId());
     assertEquals("id", reference.getAnnotationId());
-
   }
 
   @Test
@@ -47,5 +49,4 @@ class DefaultAnnotationReferenceTest {
 
     assertEquals(annotation, reference.toAnnotation().get());
   }
-
 }

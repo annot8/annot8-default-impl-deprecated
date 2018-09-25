@@ -1,4 +1,17 @@
+/* Annot8 (annot8.io) - Licensed under Apache-2.0. */
 package io.annot8.defaultimpl.annotations;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
+
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import io.annot8.common.implementations.stores.SaveCallback;
 import io.annot8.common.utils.properties.EmptyImmutableProperties;
@@ -11,17 +24,6 @@ import io.annot8.testing.tck.impl.WithPropertiesBuilderTestUtils;
 import io.annot8.testing.testimpl.TestConstants;
 import io.annot8.testing.testimpl.TestItem;
 import io.annot8.testing.testimpl.content.TestStringContent;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
 
 public class DefaultGroupTest {
 
@@ -50,16 +52,14 @@ public class DefaultGroupTest {
 
   @Test
   public void testIncompleteWithoutType() {
-    assertThrows(IncompleteException.class, new Builder(item, groupSaver)
-        .withAnnotation("source", a1)::save);
+    assertThrows(
+        IncompleteException.class,
+        new Builder(item, groupSaver).withAnnotation("source", a1)::save);
   }
 
   @Test
   public void testNewHasId() throws IncompleteException {
-    Group group = new Builder(item, groupSaver)
-        .withType(TestConstants.GROUP_TYPE)
-        .newId()
-        .save();
+    Group group = new Builder(item, groupSaver).withType(TestConstants.GROUP_TYPE).newId().save();
 
     assertNotNull(group.getId());
     verify(groupSaver, only()).save(group);
@@ -67,11 +67,12 @@ public class DefaultGroupTest {
 
   @Test
   public void testSimpleGroup() throws IncompleteException {
-    Group g1 = new DefaultGroup.Builder(item, groupSaver)
-        .withType(TestConstants.GROUP_TYPE)
-        .withAnnotation("source", a1)
-        .withAnnotation("target", a2)
-        .save();
+    Group g1 =
+        new DefaultGroup.Builder(item, groupSaver)
+            .withType(TestConstants.GROUP_TYPE)
+            .withAnnotation("source", a1)
+            .withAnnotation("target", a2)
+            .save();
     assertNotNull(g1.getId());
     assertEquals(TestConstants.GROUP_TYPE, g1.getType());
     assertEquals(EmptyImmutableProperties.getInstance(), g1.getProperties());
@@ -96,18 +97,17 @@ public class DefaultGroupTest {
 
   @Test
   public void testFromExisting() throws IncompleteException {
-    Group g1 = new DefaultGroup.Builder(item, groupSaver)
-        .withType(TestConstants.GROUP_TYPE)
-        .withAnnotation("source", a1)
-        .withAnnotation("target", a2)
-        .save();
+    Group g1 =
+        new DefaultGroup.Builder(item, groupSaver)
+            .withType(TestConstants.GROUP_TYPE)
+            .withAnnotation("source", a1)
+            .withAnnotation("target", a2)
+            .save();
 
     clearInvocations(groupSaver);
 
-    Group g2 = new DefaultGroup.Builder(item, groupSaver)
-        .from(g1)
-        .withAnnotation("target", a3)
-        .save();
+    Group g2 =
+        new DefaultGroup.Builder(item, groupSaver).from(g1).withAnnotation("target", a3).save();
     Map<String, Stream<Annotation>> annotations2 = g2.getAnnotations();
 
     assertEquals(2, annotations2.size());
@@ -126,17 +126,16 @@ public class DefaultGroupTest {
 
   @Test
   public void testFromExistingNoChange() throws IncompleteException {
-    Group g1 = new DefaultGroup.Builder(item, groupSaver)
-        .withType(TestConstants.GROUP_TYPE)
-        .withAnnotation("source", a1)
-        .withAnnotation("target", a2)
-        .save();
+    Group g1 =
+        new DefaultGroup.Builder(item, groupSaver)
+            .withType(TestConstants.GROUP_TYPE)
+            .withAnnotation("source", a1)
+            .withAnnotation("target", a2)
+            .save();
 
     clearInvocations(groupSaver);
 
-    Group g3 = new DefaultGroup.Builder(item, groupSaver)
-        .from(g1)
-        .save();
+    Group g3 = new DefaultGroup.Builder(item, groupSaver).from(g1).save();
     assertEquals(g1, g3);
 
     verify(groupSaver, only()).save(g3);
@@ -144,33 +143,31 @@ public class DefaultGroupTest {
 
   @Test
   public void testFromExistingNewId() throws IncompleteException {
-    Group g1 = new DefaultGroup.Builder(item, groupSaver)
-        .withType(TestConstants.GROUP_TYPE)
-        .withAnnotation("source", a1)
-        .withAnnotation("target", a2)
-        .save();
+    Group g1 =
+        new DefaultGroup.Builder(item, groupSaver)
+            .withType(TestConstants.GROUP_TYPE)
+            .withAnnotation("source", a1)
+            .withAnnotation("target", a2)
+            .save();
 
     clearInvocations(groupSaver);
 
-    Group g3 = new DefaultGroup.Builder(item, groupSaver)
-        .from(g1)
-        .newId()
-        .save();
+    Group g3 = new DefaultGroup.Builder(item, groupSaver).from(g1).newId().save();
     assertNotEquals(g1.getId(), g3.getId());
 
     verify(groupSaver, only()).save(g3);
   }
 
   @Test
-  public void testProperties(){
+  public void testProperties() {
     WithPropertiesBuilderTestUtils utils = new WithPropertiesBuilderTestUtils();
-    utils.testWithPropertiesBuilder(new Builder(item, groupSaver).withType(TestConstants.GROUP_TYPE));
+    utils.testWithPropertiesBuilder(
+        new Builder(item, groupSaver).withType(TestConstants.GROUP_TYPE));
   }
 
   @Test
-  public void testWithId(){
+  public void testWithId() {
     WithIdBuilderTestUtils utils = new WithIdBuilderTestUtils();
     utils.testWithIdBuilder(new Builder(item, groupSaver).withType(TestConstants.GROUP_TYPE));
   }
-
 }

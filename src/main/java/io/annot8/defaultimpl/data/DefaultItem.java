@@ -1,7 +1,14 @@
+/* Annot8 (annot8.io) - Licensed under Apache-2.0. */
 package io.annot8.defaultimpl.data;
 
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Stream;
 
 import io.annot8.common.implementations.factories.ContentBuilderFactory;
+import io.annot8.common.implementations.properties.MapMutableProperties;
 import io.annot8.common.implementations.registries.ContentBuilderFactoryRegistry;
 import io.annot8.core.data.Content;
 import io.annot8.core.data.Content.Builder;
@@ -10,13 +17,7 @@ import io.annot8.core.data.ItemFactory;
 import io.annot8.core.exceptions.UnsupportedContentException;
 import io.annot8.core.properties.MutableProperties;
 import io.annot8.core.stores.GroupStore;
-import io.annot8.common.implementations.properties.MapMutableProperties;
 import io.annot8.defaultimpl.stores.DefaultGroupStore;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Stream;
 
 public class DefaultItem implements Item {
 
@@ -29,7 +30,10 @@ public class DefaultItem implements Item {
   private final String parentId;
   private boolean discarded = false;
 
-  public DefaultItem(ItemFactory itemFactory, String parentId, ContentBuilderFactoryRegistry contentBuilderFactoryRegistry) {
+  public DefaultItem(
+      ItemFactory itemFactory,
+      String parentId,
+      ContentBuilderFactoryRegistry contentBuilderFactoryRegistry) {
     this.itemFactory = itemFactory;
     this.parentId = parentId;
     this.id = UUID.randomUUID().toString();
@@ -37,7 +41,8 @@ public class DefaultItem implements Item {
     this.groups = new DefaultGroupStore(this);
   }
 
-  public DefaultItem(ItemFactory itemFactory, ContentBuilderFactoryRegistry contentBuilderFactoryRegistry) {
+  public DefaultItem(
+      ItemFactory itemFactory, ContentBuilderFactoryRegistry contentBuilderFactoryRegistry) {
     this(itemFactory, null, contentBuilderFactoryRegistry);
   }
 

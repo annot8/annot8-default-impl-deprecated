@@ -1,4 +1,15 @@
+/* Annot8 (annot8.io) - Licensed under Apache-2.0. */
 package io.annot8.defaultimpl.annotations;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import io.annot8.common.implementations.properties.MapMutableProperties;
 import io.annot8.common.implementations.stores.SaveCallback;
@@ -10,15 +21,6 @@ import io.annot8.testing.tck.impl.WithIdBuilderTestUtils;
 import io.annot8.testing.tck.impl.WithPropertiesBuilderTestUtils;
 import io.annot8.testing.testimpl.TestBounds;
 import io.annot8.testing.testimpl.TestConstants;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
 
 public class DefaultAnnotationTest {
 
@@ -33,32 +35,38 @@ public class DefaultAnnotationTest {
 
   @Test
   public void testIncompleteBuilderNothingSet() {
-    assertThrows(IncompleteException.class,
-        new Builder(TestConstants.CONTENT_ID, annotationSaver)::save);
+    assertThrows(
+        IncompleteException.class, new Builder(TestConstants.CONTENT_ID, annotationSaver)::save);
   }
 
   @Test
   public void testIncompleteBuilderNoBounds() {
-    assertThrows(IncompleteException.class,
+    assertThrows(
+        IncompleteException.class,
         new Builder(TestConstants.CONTENT_ID, annotationSaver).withType("TEST")::save);
   }
 
   @Test
   public void testIncompleteBuilderNoType() {
-    assertThrows(IncompleteException.class,
+    assertThrows(
+        IncompleteException.class,
         new Builder(TestConstants.CONTENT_ID, annotationSaver).withBounds(bounds)::save);
   }
 
   @Test
-  public void testIncompleteBuilderNoContent(){
-    assertThrows(IncompleteException.class, () -> new Builder(null, annotationSaver).withType("Test").withBounds(bounds).save());
+  public void testIncompleteBuilderNoContent() {
+    assertThrows(
+        IncompleteException.class,
+        () -> new Builder(null, annotationSaver).withType("Test").withBounds(bounds).save());
   }
 
   @Test
   public void testMinimal() throws IncompleteException {
-    Annotation a1 = new DefaultAnnotation.Builder(TestConstants.CONTENT_ID, annotationSaver)
-        .withType("TEST")
-        .withBounds(bounds).save();
+    Annotation a1 =
+        new DefaultAnnotation.Builder(TestConstants.CONTENT_ID, annotationSaver)
+            .withType("TEST")
+            .withBounds(bounds)
+            .save();
     assertNotNull(a1.getId());
     assertEquals("TEST", a1.getType());
     assertEquals(bounds, a1.getBounds());
@@ -70,12 +78,13 @@ public class DefaultAnnotationTest {
 
   @Test
   public void testWithProperty() throws IncompleteException {
-    Annotation a2 = new DefaultAnnotation.Builder(TestConstants.CONTENT_ID, annotationSaver)
-        .withType(TestConstants.ANNOTATION_TYPE)
-        .withBounds(bounds)
-        .withProperty("key1", 17)
-        .withProperty("key2", false)
-        .save();
+    Annotation a2 =
+        new DefaultAnnotation.Builder(TestConstants.CONTENT_ID, annotationSaver)
+            .withType(TestConstants.ANNOTATION_TYPE)
+            .withBounds(bounds)
+            .withProperty("key1", 17)
+            .withProperty("key2", false)
+            .save();
     assertNotNull(a2.getId());
     assertEquals(TestConstants.ANNOTATION_TYPE, a2.getType());
     assertEquals(bounds, a2.getBounds());
@@ -90,11 +99,12 @@ public class DefaultAnnotationTest {
     properties2.put("key1", 17);
     properties2.put("key2", false);
 
-    Annotation a3 = new DefaultAnnotation.Builder(TestConstants.CONTENT_ID, annotationSaver)
-        .withType(TestConstants.ANNOTATION_TYPE)
-        .withBounds(bounds)
-        .withProperties(new MapMutableProperties(properties2))
-        .save();
+    Annotation a3 =
+        new DefaultAnnotation.Builder(TestConstants.CONTENT_ID, annotationSaver)
+            .withType(TestConstants.ANNOTATION_TYPE)
+            .withBounds(bounds)
+            .withProperties(new MapMutableProperties(properties2))
+            .save();
     Map<String, Object> properties3 = a3.getProperties().getAll();
     assertEquals(2, properties3.size());
     assertEquals(17, properties3.get("key1"));
@@ -105,18 +115,20 @@ public class DefaultAnnotationTest {
 
   @Test
   public void testFromExisting() throws IncompleteException {
-    Annotation a1 = new DefaultAnnotation.Builder(TestConstants.CONTENT_ID, annotationSaver)
-        .withType(TestConstants.ANNOTATION_TYPE)
-        .withBounds(bounds)
-        .save();
+    Annotation a1 =
+        new DefaultAnnotation.Builder(TestConstants.CONTENT_ID, annotationSaver)
+            .withType(TestConstants.ANNOTATION_TYPE)
+            .withBounds(bounds)
+            .save();
 
     clearInvocations(annotationSaver);
 
-    Annotation a2 = new DefaultAnnotation.Builder(TestConstants.CONTENT_ID, annotationSaver)
-        .from(a1)
-        .withProperty("key1", 17)
-        .withProperty("key2", false)
-        .save();
+    Annotation a2 =
+        new DefaultAnnotation.Builder(TestConstants.CONTENT_ID, annotationSaver)
+            .from(a1)
+            .withProperty("key1", 17)
+            .withProperty("key2", false)
+            .save();
     assertNotNull(a2.getId());
     assertEquals(a1.getId(), a2.getId());
 
@@ -130,44 +142,46 @@ public class DefaultAnnotationTest {
     assertEquals(false, properties2.get("key2"));
 
     verify(annotationSaver, only()).save(a2);
-
   }
 
   @Test
   public void testFromExistingWithNewId() throws IncompleteException {
-    Annotation a1 = new DefaultAnnotation.Builder(TestConstants.CONTENT_ID, annotationSaver)
-        .withType(TestConstants.ANNOTATION_TYPE)
-        .withBounds(bounds)
-        .save();
+    Annotation a1 =
+        new DefaultAnnotation.Builder(TestConstants.CONTENT_ID, annotationSaver)
+            .withType(TestConstants.ANNOTATION_TYPE)
+            .withBounds(bounds)
+            .save();
 
     clearInvocations(annotationSaver);
 
-    Annotation a2 = new DefaultAnnotation.Builder(TestConstants.CONTENT_ID, annotationSaver)
-        .from(a1)
-        .newId()
-        .save();
+    Annotation a2 =
+        new DefaultAnnotation.Builder(TestConstants.CONTENT_ID, annotationSaver)
+            .from(a1)
+            .newId()
+            .save();
     assertNotNull(a2.getId());
     assertNotEquals(a1.getId(), a2.getId());
 
     verify(annotationSaver, only()).save(a2);
-
   }
 
   @Test
   public void testFromExistingOverridden() throws IncompleteException {
-    Annotation a1 = new DefaultAnnotation.Builder(TestConstants.CONTENT_NAME, annotationSaver)
-        .withType(TestConstants.ANNOTATION_TYPE)
-        .withBounds(bounds)
-        .save();
+    Annotation a1 =
+        new DefaultAnnotation.Builder(TestConstants.CONTENT_NAME, annotationSaver)
+            .withType(TestConstants.ANNOTATION_TYPE)
+            .withBounds(bounds)
+            .save();
 
     clearInvocations(annotationSaver);
 
     Bounds otherBounds = new TestBounds();
-    Annotation a2 = new DefaultAnnotation.Builder(TestConstants.CONTENT_NAME, annotationSaver)
-        .from(a1)
-        .withType("TEST2")
-        .withBounds(otherBounds)
-        .save();
+    Annotation a2 =
+        new DefaultAnnotation.Builder(TestConstants.CONTENT_NAME, annotationSaver)
+            .from(a1)
+            .withType("TEST2")
+            .withBounds(otherBounds)
+            .save();
 
     assertEquals(a1.getId(), a2.getId());
     assertEquals(a2.getType(), "TEST2");
@@ -181,20 +195,18 @@ public class DefaultAnnotationTest {
   }
 
   @Test
-  public void testProperties(){
+  public void testProperties() {
     WithPropertiesBuilderTestUtils utils = new WithPropertiesBuilderTestUtils();
-    Annotation.Builder builder = new Builder(TestConstants.CONTENT_ID, annotationSaver)
-            .withType("TEST")
-            .withBounds(bounds);
+    Annotation.Builder builder =
+        new Builder(TestConstants.CONTENT_ID, annotationSaver).withType("TEST").withBounds(bounds);
     utils.testWithPropertiesBuilder(builder);
   }
 
   @Test
-  public void testWithIdBuilder(){
+  public void testWithIdBuilder() {
     WithIdBuilderTestUtils utils = new WithIdBuilderTestUtils();
-    Annotation.Builder builder = new Builder(TestConstants.CONTENT_ID, annotationSaver)
-            .withType("TEST")
-            .withBounds(bounds);
+    Annotation.Builder builder =
+        new Builder(TestConstants.CONTENT_ID, annotationSaver).withType("TEST").withBounds(bounds);
     utils.testWithIdBuilder(builder);
   }
 }

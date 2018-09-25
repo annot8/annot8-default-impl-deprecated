@@ -1,4 +1,8 @@
+/* Annot8 (annot8.io) - Licensed under Apache-2.0. */
 package io.annot8.defaultimpl.content;
+
+import java.io.File;
+import java.util.function.Supplier;
 
 import io.annot8.common.data.content.FileContent;
 import io.annot8.common.implementations.content.AbstractContent;
@@ -9,14 +13,12 @@ import io.annot8.core.data.Content;
 import io.annot8.core.data.Item;
 import io.annot8.core.properties.ImmutableProperties;
 import io.annot8.defaultimpl.stores.DefaultAnnotationStore;
-import java.io.File;
-import java.util.function.Supplier;
 
 public class DefaultFile extends AbstractContent<File> implements FileContent {
 
-  private DefaultFile(String id, String name,
-      ImmutableProperties properties, Supplier<File> data) {
-    super(File.class, FileContent.class, new DefaultAnnotationStore(id), id, name, properties, data);
+  private DefaultFile(String id, String name, ImmutableProperties properties, Supplier<File> data) {
+    super(
+        File.class, FileContent.class, new DefaultAnnotationStore(id), id, name, properties, data);
   }
 
   public static class Builder extends AbstractContentBuilder<File, DefaultFile> {
@@ -26,27 +28,22 @@ public class DefaultFile extends AbstractContent<File> implements FileContent {
     }
 
     @Override
-    protected DefaultFile create(String id, String name,
-        ImmutableProperties properties,  Supplier<File> data) {
+    protected DefaultFile create(
+        String id, String name, ImmutableProperties properties, Supplier<File> data) {
       return new DefaultFile(id, name, properties, data);
     }
   }
 
-  public static class BuilderFactory
-      extends AbstractContentBuilderFactory<File, DefaultFile> {
+  public static class BuilderFactory extends AbstractContentBuilderFactory<File, DefaultFile> {
 
     public BuilderFactory() {
       super(File.class, DefaultFile.class);
     }
 
     @Override
-    public Content.Builder<DefaultFile, File> create(Item item,
-        SaveCallback<DefaultFile, DefaultFile> saver) {
+    public Content.Builder<DefaultFile, File> create(
+        Item item, SaveCallback<DefaultFile, DefaultFile> saver) {
       return new DefaultFile.Builder(saver);
     }
-
   }
-
-
 }
-

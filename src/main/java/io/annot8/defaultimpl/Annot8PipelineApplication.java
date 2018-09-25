@@ -1,4 +1,10 @@
+/* Annot8 (annot8.io) - Licensed under Apache-2.0. */
 package io.annot8.defaultimpl;
+
+import java.util.function.Consumer;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import io.annot8.common.implementations.pipelines.Pipeline;
 import io.annot8.common.implementations.pipelines.PipelineBuilder;
@@ -8,9 +14,6 @@ import io.annot8.common.implementations.registries.ContentBuilderFactoryRegistry
 import io.annot8.core.exceptions.IncompleteException;
 import io.annot8.defaultimpl.factories.DefaultContentBuilderFactoryRegistry;
 import io.annot8.defaultimpl.factories.DefaultItemCreator;
-import java.util.function.Consumer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class Annot8PipelineApplication {
 
@@ -24,7 +27,8 @@ public class Annot8PipelineApplication {
     this(pipelineBuilderConsumer, (c) -> {});
   }
 
-  public Annot8PipelineApplication(Consumer<PipelineBuilder> pipelineBuilderConsumer,
+  public Annot8PipelineApplication(
+      Consumer<PipelineBuilder> pipelineBuilderConsumer,
       Consumer<ContentBuilderFactoryRegistry> contentBuilderFactoryRegistryConsumer) {
     this.pipelineBuilderConsumer = pipelineBuilderConsumer;
     this.contentBuilderFactoryRegistryConsumer = contentBuilderFactoryRegistryConsumer;
@@ -57,7 +61,8 @@ public class Annot8PipelineApplication {
   }
 
   private PipelineBuilder configureBuilder(PipelineBuilder builder) {
-    DefaultContentBuilderFactoryRegistry contentBuilderFactoryRegistry = new DefaultContentBuilderFactoryRegistry();
+    DefaultContentBuilderFactoryRegistry contentBuilderFactoryRegistry =
+        new DefaultContentBuilderFactoryRegistry();
     contentBuilderFactoryRegistryConsumer.accept(contentBuilderFactoryRegistry);
     SimpleItemQueue itemQueue = new SimpleItemQueue();
     return builder
@@ -68,13 +73,13 @@ public class Annot8PipelineApplication {
   public static void main() {
     // Example of use
 
-    new Annot8PipelineApplication(builder -> {
+    new Annot8PipelineApplication(
+            builder -> {
 
-      // builder.addSource(FileSource.class);
-      // builder.addProcessor(EmailProcessor.class);
+              // builder.addSource(FileSource.class);
+              // builder.addProcessor(EmailProcessor.class);
 
-    }).run();
-
-
+            })
+        .run();
   }
 }

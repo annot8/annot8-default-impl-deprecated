@@ -1,5 +1,5 @@
+/* Annot8 (annot8.io) - Licensed under Apache-2.0. */
 package io.annot8.defaultimpl.factories;
-
 
 import io.annot8.common.data.content.FileContent;
 import io.annot8.common.data.content.InputStreamContent;
@@ -17,11 +17,10 @@ public class DefaultContentBuilderFactoryRegistry extends SimpleContentBuilderFa
 
   public DefaultContentBuilderFactoryRegistry(boolean includeDefaultContentBuilders) {
 
-    if(includeDefaultContentBuilders) {
+    if (includeDefaultContentBuilders) {
       register(Text.class, new DefaultText.BuilderFactory());
       register(FileContent.class, new DefaultFile.BuilderFactory());
       register(InputStreamContent.class, new DefaultInputStream.BuilderFactory());
     }
   }
-
 }

@@ -1,6 +1,17 @@
+/* Annot8 (annot8.io) - Licensed under Apache-2.0. */
 package io.annot8.defaultimpl.annotations;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import io.annot8.common.implementations.annotations.AbstractGroup;
+import io.annot8.common.implementations.properties.MapImmutableProperties;
+import io.annot8.common.implementations.properties.MapMutableProperties;
 import io.annot8.common.implementations.stores.SaveCallback;
 import io.annot8.common.utils.properties.EmptyImmutableProperties;
 import io.annot8.core.annotations.Annotation;
@@ -11,20 +22,9 @@ import io.annot8.core.properties.ImmutableProperties;
 import io.annot8.core.properties.MutableProperties;
 import io.annot8.core.properties.Properties;
 import io.annot8.core.references.AnnotationReference;
-import io.annot8.common.implementations.properties.MapImmutableProperties;
-import io.annot8.common.implementations.properties.MapMutableProperties;
 import io.annot8.defaultimpl.references.DefaultAnnotationReference;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Optional;
-import java.util.UUID;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-/**
- * Simple implementation of Group interface
- */
+/** Simple implementation of Group interface */
 public class DefaultGroup extends AbstractGroup {
 
   private final Item item;
@@ -35,7 +35,10 @@ public class DefaultGroup extends AbstractGroup {
   // TODO: Better stored as (or as well as) a Guava Multimap ?
   private final Map<DefaultAnnotationReference, String> annotations;
 
-  private DefaultGroup(final Item item, final String id, final String type,
+  private DefaultGroup(
+      final Item item,
+      final String id,
+      final String type,
       final ImmutableProperties properties,
       final Map<DefaultAnnotationReference, String> annotations) {
     this.item = item;
@@ -60,15 +63,15 @@ public class DefaultGroup extends AbstractGroup {
     return properties;
   }
 
-
   @Override
   public Map<String, Stream<AnnotationReference>> getReferences() {
     Map<String, Stream<AnnotationReference>> ret = new HashMap<>();
 
-    annotations.forEach((key, value) -> {
-      Stream<AnnotationReference> s = ret.getOrDefault(value, Stream.empty());
-      ret.put(value, Stream.concat(s, Stream.of(key)));
-    });
+    annotations.forEach(
+        (key, value) -> {
+          Stream<AnnotationReference> s = ret.getOrDefault(value, Stream.empty());
+          ret.put(value, Stream.concat(s, Stream.of(key)));
+        });
 
     return ret;
   }
@@ -184,23 +187,24 @@ public class DefaultGroup extends AbstractGroup {
         immutableProperties = new MapImmutableProperties.Builder().from(properties).save();
       }
 
-      Map<DefaultAnnotationReference, String> references = annotations.entrySet().stream()
-          .collect(Collectors.toMap(
-              e -> DefaultAnnotationReference.to(item, e.getKey()),
-              Entry::getValue
-          ));
+      Map<DefaultAnnotationReference, String> references =
+          annotations
+              .entrySet()
+              .stream()
+              .collect(
+                  Collectors.toMap(
+                      e -> DefaultAnnotationReference.to(item, e.getKey()), Entry::getValue));
 
       Group group = new DefaultGroup(item, id, type, immutableProperties, references);
       return saver.save(group);
     }
 
     @Override
-    public io.annot8.core.annotations.Group.Builder withAnnotation(String role,
-        Annotation annotation) {
+    public io.annot8.core.annotations.Group.Builder withAnnotation(
+        String role, Annotation annotation) {
       annotations.put(annotation, role);
 
       return this;
     }
-
   }
 }

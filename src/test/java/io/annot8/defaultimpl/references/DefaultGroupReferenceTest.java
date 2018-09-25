@@ -1,15 +1,18 @@
+/* Annot8 (annot8.io) - Licensed under Apache-2.0. */
 package io.annot8.defaultimpl.references;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.util.Optional;
+
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+
 import io.annot8.core.annotations.Group;
 import io.annot8.core.data.Item;
 import io.annot8.core.stores.GroupStore;
-import java.util.Optional;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 class DefaultGroupReferenceTest {
 
@@ -22,7 +25,6 @@ class DefaultGroupReferenceTest {
     DefaultGroupReference reference = DefaultGroupReference.to(item, group);
 
     assertEquals("id", reference.getGroupId());
-
   }
 
   @Test
@@ -41,5 +43,4 @@ class DefaultGroupReferenceTest {
 
     assertEquals(group, reference.toGroup().get());
   }
-
 }

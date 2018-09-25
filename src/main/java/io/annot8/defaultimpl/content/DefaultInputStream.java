@@ -1,4 +1,8 @@
+/* Annot8 (annot8.io) - Licensed under Apache-2.0. */
 package io.annot8.defaultimpl.content;
+
+import java.io.InputStream;
+import java.util.function.Supplier;
 
 import io.annot8.common.data.content.InputStreamContent;
 import io.annot8.common.implementations.content.AbstractContent;
@@ -11,15 +15,19 @@ import io.annot8.core.exceptions.Annot8RuntimeException;
 import io.annot8.core.exceptions.IncompleteException;
 import io.annot8.core.properties.ImmutableProperties;
 import io.annot8.defaultimpl.stores.DefaultAnnotationStore;
-import java.io.InputStream;
-import java.util.function.Supplier;
 
 public class DefaultInputStream extends AbstractContent<InputStream> implements InputStreamContent {
 
-
-  private DefaultInputStream(String id, String name,
-      ImmutableProperties properties, Supplier<InputStream> data) {
-    super(InputStream.class, InputStreamContent.class, new DefaultAnnotationStore(id), id, name, properties, data);
+  private DefaultInputStream(
+      String id, String name, ImmutableProperties properties, Supplier<InputStream> data) {
+    super(
+        InputStream.class,
+        InputStreamContent.class,
+        new DefaultAnnotationStore(id),
+        id,
+        name,
+        properties,
+        data);
   }
 
   public static class Builder extends AbstractContentBuilder<InputStream, DefaultInputStream> {
@@ -30,12 +38,14 @@ public class DefaultInputStream extends AbstractContent<InputStream> implements 
 
     @Override
     public Content.Builder<DefaultInputStream, InputStream> withData(InputStream data) {
-      throw new Annot8RuntimeException("Must use a Supplier to provider InputStream, otherwise it can only be read once");
+      throw new Annot8RuntimeException(
+          "Must use a Supplier to provider InputStream, otherwise it can only be read once");
     }
 
     @Override
-    protected DefaultInputStream create(String id, String name,
-        ImmutableProperties properties, Supplier<InputStream> data) throws IncompleteException {
+    protected DefaultInputStream create(
+        String id, String name, ImmutableProperties properties, Supplier<InputStream> data)
+        throws IncompleteException {
       return new DefaultInputStream(id, name, properties, data);
     }
   }
@@ -48,10 +58,9 @@ public class DefaultInputStream extends AbstractContent<InputStream> implements 
     }
 
     @Override
-    public Content.Builder<DefaultInputStream, InputStream> create(Item item,
-        SaveCallback<DefaultInputStream, DefaultInputStream> saver) {
+    public Content.Builder<DefaultInputStream, InputStream> create(
+        Item item, SaveCallback<DefaultInputStream, DefaultInputStream> saver) {
       return new DefaultInputStream.Builder(saver);
     }
-
   }
 }
