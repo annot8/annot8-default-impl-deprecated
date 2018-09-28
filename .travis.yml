@@ -1,0 +1,30 @@
+language: java
+sudo: false
+install: true
+addons:
+  sonarcloud:
+    organization: annot8
+    token:
+      secure: MAElsdGf2F6a3yvIuz6n6eA35fsvVrdxLo3KVO4NdiKxNp/kByaKfUb5lVS1Dq/hNVLSPmt0kwSKXq/FYghldMsKpAdhMcZ/CkqFrd7dhcFPIHadO2ee0PezAO8apRb2VMEq1L3Tl3ESCY+IAqRU43cJYeHoPR8TWe8b9PvIHk7S/cn+n/tIzpz8goMABO0PCWkElLXMEjgRxDxo7zJqEeTImWZg674P41/ITTsLUya1O+uU1mrtlHQlDT1poPfZ0Ef4Tf+xMEoZ5O6zdN08gTADo8S7HFpfTauOEyxn1eLy8bYzUgbs5JKNbsMmwihGVTFXnkohWfXELcp6eXIdEHgCxbthkwMd83BO8gfWBOb/C9ASJ1NDGIDHd6leex1n+Jk6KKvvJTkn8xdZiC6bNoWjrJ4tsWQvr0a9RjVbZ/244nYpUeAKFRu8tqppKc8oHQTzfwYfS6k2KHc6SpSgp5Oq+Th47WVJlcPeBr+5rGAi6/G1S5GxlgbRyVHMSDaOfIXhaapbBRfHDS/IvDe8UsiwhSHutUz4gMgkpujBFOv81UkzDxc3s9yJ+gTdM/ghwp/TacckG0aD+Qy+lWUu796QuOf4y3Fa4gmVH+WqErXrHvi19DrQAoD7XeDs2ubO5Rps6MvEk2YIjcV7QA4v2E+tpEwcaWSFaGyV8X3qmA0=
+jdk:
+- openjdk10
+script:
+- mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package -P travis
+- mvn spotless:check
+after_success:
+- mvn jacoco:report coveralls:report -P travis
+- mvn sonar:sonar -P travis
+cache:
+  directories:
+  - "$HOME/.m2/repository"
+  - "$HOME/.sonar/cache"
+deploy:
+  provider: script
+  script: mvn -s .travis.settings.xml deploy -P travis -DskipTests
+  skip_cleanup: true
+  on:
+    branch: master
+notifications:
+  slack:
+    rooms:
+      secure: Ofx8iwhgCYUiTUeQVK8UJiH0e+Url38GXAFSDwAPjYgrKwo1d8/nbXUC3kVLivE4WzPQZ5ZPm4JYwSqFP0RV8Cip7Tm8W/+eaBWZz9Dij5E+LfD1zsEe+WfOLXpY1jraqkKssZ3SXWHAM63XMRwNW5XBBRiNUColK9oBFZGieN3c9HUHPfKSY4RHgx8Hg4XZ9kBAX5mJkrNkB34xmexcV/jnAr30R7Amv9BQNmV7Y65sz+n9NhVH8sDKQDMwkZL0T9259Z1FTuW80qllfpkeW6xy8JAfK4IFWaPVGQQFhP1+ZNfCohzpy2KPMTWmTmDrF9jCMOZjLnGTO0axt1DQDl4X5SRafv8agBMPCnDSJ+8QGOn6BPjrul40LTVKnGBWkVxZ7mEYzVQYum/4EfDlfeUKLvXlv3/TpRzC07jMNkLGTli/DUKyYdAkeIlTHxseiZ8x7Bmxak4uwwrmEe3HDgjnpFxdNmDIn9CVNtIkYj0X9m1XblhPLhtv/kiTbC6O0mQwAeEdth0sfXFsC5neLqE02WB9LM1G+qjCls7mhsoiaNR1hf3k6y6EWX9HrSm/486MsxquJl3uFneQ6EEkNSkQFW2dDcHQtaUFkDW8nzL8KSxSnM28mwOVoimFREh0uxdbX+97Zcb2TPiwYtCZxxrRVI7eUHokDxijfg9iC8Y=
