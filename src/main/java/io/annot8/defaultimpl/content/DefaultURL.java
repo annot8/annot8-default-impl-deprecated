@@ -1,6 +1,9 @@
 /* Annot8 (annot8.io) - Licensed under Apache-2.0. */
 package io.annot8.defaultimpl.content;
 
+import java.net.URL;
+import java.util.function.Supplier;
+
 import io.annot8.common.data.content.URLContent;
 import io.annot8.common.implementations.content.AbstractContentBuilder;
 import io.annot8.common.implementations.content.AbstractContentBuilderFactory;
@@ -11,8 +14,6 @@ import io.annot8.core.data.Item;
 import io.annot8.core.properties.ImmutableProperties;
 import io.annot8.core.stores.AnnotationStore;
 import io.annot8.defaultimpl.stores.DefaultAnnotationStore;
-import java.net.URL;
-import java.util.function.Supplier;
 
 public class DefaultURL implements URLContent {
 
@@ -76,7 +77,8 @@ public class DefaultURL implements URLContent {
     }
 
     @Override
-    protected URLContent create(String id, String name, ImmutableProperties properties, Supplier<URL> data) {
+    protected URLContent create(
+        String id, String name, ImmutableProperties properties, Supplier<URL> data) {
       return new DefaultURL(id, name, data.get(), properties);
     }
   }

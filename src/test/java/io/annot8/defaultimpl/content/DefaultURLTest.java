@@ -1,3 +1,4 @@
+/* Annot8 (annot8.io) - Licensed under Apache-2.0. */
 package io.annot8.defaultimpl.content;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -5,33 +6,35 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import org.junit.jupiter.api.Test;
+
 import io.annot8.common.data.content.URLContent;
 import io.annot8.common.implementations.stores.NoOpSaveCallback;
 import io.annot8.core.data.Content.Builder;
 import io.annot8.core.exceptions.IncompleteException;
 import io.annot8.defaultimpl.content.DefaultURL.BuilderFactory;
 import io.annot8.testing.testimpl.TestItem;
-import java.net.MalformedURLException;
-import java.net.URL;
-import org.junit.jupiter.api.Test;
 
 public class DefaultURLTest {
 
   private static final String URL = "https://www.test.co.uk";
 
   @Test
-  public void testDefaultURLBuilderFactory(){
+  public void testDefaultURLBuilderFactory() {
     BuilderFactory factory = new DefaultURL.BuilderFactory();
-    Builder<URLContent, URL> defaultURLBuilder = factory
-        .create(new TestItem(), new NoOpSaveCallback<>());
+    Builder<URLContent, URL> defaultURLBuilder =
+        factory.create(new TestItem(), new NoOpSaveCallback<>());
     assertNotNull(defaultURLBuilder);
   }
 
   @Test
-  public void testDefaultURLBuilder(){
+  public void testDefaultURLBuilder() {
     BuilderFactory builderFactory = new BuilderFactory();
-    Builder<URLContent, URL> urlContentBuilder = builderFactory
-        .create(new TestItem(), new NoOpSaveCallback<>());
+    Builder<URLContent, URL> urlContentBuilder =
+        builderFactory.create(new TestItem(), new NoOpSaveCallback<>());
 
     String id = "id";
     String name = "test";
@@ -39,12 +42,13 @@ public class DefaultURLTest {
     String prop = "testValue";
     URLContent content = null;
     try {
-      content = urlContentBuilder
-          .withId(id)
-          .withName(name)
-          .withData(new URL(URL))
-          .withProperty(key, prop)
-          .save();
+      content =
+          urlContentBuilder
+              .withId(id)
+              .withName(name)
+              .withData(new URL(URL))
+              .withProperty(key, prop)
+              .save();
     } catch (MalformedURLException | IncompleteException e) {
       fail("Test should not fail here", e);
     }
@@ -61,10 +65,10 @@ public class DefaultURLTest {
   }
 
   @Test
-  public void testDefaultURLBuilderFillsArgs(){
+  public void testDefaultURLBuilderFillsArgs() {
     BuilderFactory builderFactory = new BuilderFactory();
-    Builder<URLContent, URL> urlContentBuilder = builderFactory
-        .create(new TestItem(), new NoOpSaveCallback<>());
+    Builder<URLContent, URL> urlContentBuilder =
+        builderFactory.create(new TestItem(), new NoOpSaveCallback<>());
 
     URLContent content = null;
     try {
@@ -77,5 +81,4 @@ public class DefaultURLTest {
     assertNotNull(content.getProperties());
     assertTrue(content.getProperties().getAll().isEmpty());
   }
-
 }
