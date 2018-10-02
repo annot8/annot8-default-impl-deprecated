@@ -13,7 +13,6 @@ import io.annot8.common.implementations.registries.ContentBuilderFactoryRegistry
 import io.annot8.core.data.Content;
 import io.annot8.core.data.Content.Builder;
 import io.annot8.core.data.Item;
-import io.annot8.core.data.ItemFactory;
 import io.annot8.core.exceptions.UnsupportedContentException;
 import io.annot8.core.properties.MutableProperties;
 import io.annot8.core.stores.GroupStore;
@@ -26,24 +25,18 @@ public class DefaultItem implements Item {
   private final ContentBuilderFactoryRegistry contentBuilderFactoryRegistry;
   private final DefaultGroupStore groups;
   private final String id;
-  private final ItemFactory itemFactory;
   private final String parentId;
   private boolean discarded = false;
 
-  public DefaultItem(
-      ItemFactory itemFactory,
-      String parentId,
-      ContentBuilderFactoryRegistry contentBuilderFactoryRegistry) {
-    this.itemFactory = itemFactory;
+  public DefaultItem(String parentId, ContentBuilderFactoryRegistry contentBuilderFactoryRegistry) {
     this.parentId = parentId;
     this.id = UUID.randomUUID().toString();
     this.contentBuilderFactoryRegistry = contentBuilderFactoryRegistry;
     this.groups = new DefaultGroupStore(this);
   }
 
-  public DefaultItem(
-      ItemFactory itemFactory, ContentBuilderFactoryRegistry contentBuilderFactoryRegistry) {
-    this(itemFactory, null, contentBuilderFactoryRegistry);
+  public DefaultItem(ContentBuilderFactoryRegistry contentBuilderFactoryRegistry) {
+    this(null, contentBuilderFactoryRegistry);
   }
 
   public Optional<String> getParent() {
@@ -81,11 +74,6 @@ public class DefaultItem implements Item {
   @Override
   public void removeContent(String name) {
     contents.remove(name);
-  }
-
-  @Override
-  public Item createChildItem() {
-    return itemFactory.create(this);
   }
 
   @Override

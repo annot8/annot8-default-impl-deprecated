@@ -6,29 +6,28 @@ import java.util.function.Consumer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.annot8.common.implementations.pipelines.Pipeline;
-import io.annot8.common.implementations.pipelines.PipelineBuilder;
-import io.annot8.common.implementations.pipelines.SimpleItemQueue;
-import io.annot8.common.implementations.pipelines.SimplePipelineBuilder;
+import io.annot8.common.implementations.pipelines.queues.SimpleItemQueue;
+import io.annot8.common.implementations.pipelines.runnable.RunnablePipeline;
+import io.annot8.common.implementations.pipelines.runnable.RunnablePipelineBuilder;
+import io.annot8.common.implementations.pipelines.runnable.SimpleRunnablePipelineBuilder;
 import io.annot8.common.implementations.registries.ContentBuilderFactoryRegistry;
 import io.annot8.core.exceptions.IncompleteException;
 import io.annot8.defaultimpl.factories.DefaultContentBuilderFactoryRegistry;
-import io.annot8.defaultimpl.factories.DefaultItemCreator;
 
 public class Annot8PipelineApplication {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(Annot8PipelineApplication.class);
 
-  private final Consumer<PipelineBuilder> pipelineBuilderConsumer;
+  private final Consumer<RunnablePipelineBuilder> pipelineBuilderConsumer;
 
   private final Consumer<ContentBuilderFactoryRegistry> contentBuilderFactoryRegistryConsumer;
 
-  public Annot8PipelineApplication(Consumer<PipelineBuilder> pipelineBuilderConsumer) {
+  public Annot8PipelineApplication(Consumer<RunnablePipelineBuilder> pipelineBuilderConsumer) {
     this(pipelineBuilderConsumer, (c) -> {});
   }
 
   public Annot8PipelineApplication(
-      Consumer<PipelineBuilder> pipelineBuilderConsumer,
+      Consumer<RunnablePipelineBuilder> pipelineBuilderConsumer,
       Consumer<ContentBuilderFactoryRegistry> contentBuilderFactoryRegistryConsumer) {
     this.pipelineBuilderConsumer = pipelineBuilderConsumer;
     this.contentBuilderFactoryRegistryConsumer = contentBuilderFactoryRegistryConsumer;
@@ -36,21 +35,21 @@ public class Annot8PipelineApplication {
 
   public void run() {
     try {
-      Pipeline pipeline = buildPipeline();
+      RunnablePipeline pipeline = buildPipeline();
       runPipeline(pipeline);
     } catch (Exception e) {
       LOGGER.error("Unable to run pipeline", e);
     }
   }
 
-  private void runPipeline(Pipeline pipeline) throws Exception {
+  private void runPipeline(RunnablePipeline pipeline) throws Exception {
     try (pipeline) {
       pipeline.run();
     }
   }
 
-  private Pipeline buildPipeline() throws IncompleteException {
-    PipelineBuilder builder = new SimplePipelineBuilder();
+  private RunnablePipeline buildPipeline() throws IncompleteException {
+    RunnablePipelineBuilder builder = new SimpleRunnablePipelineBuilder();
     builder = configureBuilder(builder);
 
     if (pipelineBuilderConsumer != null) {
@@ -60,14 +59,12 @@ public class Annot8PipelineApplication {
     return builder.build();
   }
 
-  private PipelineBuilder configureBuilder(PipelineBuilder builder) {
+  private RunnablePipelineBuilder configureBuilder(RunnablePipelineBuilder builder) {
     DefaultContentBuilderFactoryRegistry contentBuilderFactoryRegistry =
         new DefaultContentBuilderFactoryRegistry();
     contentBuilderFactoryRegistryConsumer.accept(contentBuilderFactoryRegistry);
     SimpleItemQueue itemQueue = new SimpleItemQueue();
-    return builder
-        .withItemCreator(new DefaultItemCreator(contentBuilderFactoryRegistry))
-        .withItemQueue(itemQueue);
+    return builder.withQueue(itemQueue);
   }
 
   public static void main() {
