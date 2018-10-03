@@ -6,11 +6,11 @@ import java.util.function.Consumer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.annot8.common.implementations.pipelines.queues.SimpleItemQueue;
-import io.annot8.common.implementations.pipelines.runnable.RunnablePipeline;
-import io.annot8.common.implementations.pipelines.runnable.RunnablePipelineBuilder;
-import io.annot8.common.implementations.pipelines.runnable.SimpleRunnablePipelineBuilder;
 import io.annot8.common.implementations.registries.ContentBuilderFactoryRegistry;
+import io.annot8.common.pipelines.queues.SimpleItemQueue;
+import io.annot8.common.pipelines.runnable.RunnablePipeline;
+import io.annot8.common.pipelines.runnable.RunnablePipelineBuilder;
+import io.annot8.common.pipelines.runnable.SimpleRunnablePipelineBuilder;
 import io.annot8.core.exceptions.IncompleteException;
 import io.annot8.defaultimpl.factories.DefaultContentBuilderFactoryRegistry;
 

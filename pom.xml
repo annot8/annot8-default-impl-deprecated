@@ -38,6 +38,10 @@
     </dependency>
     <dependency>
       <groupId>io.annot8</groupId>
+      <artifactId>annot8-common-pipelines</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.annot8</groupId>
       <artifactId>annot8-common-data</artifactId>
     </dependency>
     <dependency>

@@ -3,6 +3,7 @@ open module io.annot8.defaultimpl {
   requires transitive io.annot8.common.implementations;
   requires transitive io.annot8.common.utils;
   requires transitive io.annot8.common.data;
+  requires io.annot8.common.pipelines;
 
   exports io.annot8.defaultimpl;
   exports io.annot8.defaultimpl.annotations;
