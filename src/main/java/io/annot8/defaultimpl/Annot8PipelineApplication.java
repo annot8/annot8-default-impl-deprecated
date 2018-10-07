@@ -1,18 +1,20 @@
 /* Annot8 (annot8.io) - Licensed under Apache-2.0. */
 package io.annot8.defaultimpl;
 
+import java.util.function.Consumer;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import io.annot8.common.implementations.context.SimpleContext;
 import io.annot8.common.implementations.registries.ContentBuilderFactoryRegistry;
 import io.annot8.common.pipelines.elements.Pipeline;
 import io.annot8.common.pipelines.elements.PipelineBuilder;
-import io.annot8.common.pipelines.pipeline.SimplePipelineBuilder;
 import io.annot8.common.pipelines.queues.MemoryItemQueue;
+import io.annot8.common.pipelines.simple.SimplePipelineBuilder;
 import io.annot8.core.exceptions.IncompleteException;
 import io.annot8.defaultimpl.factories.DefaultContentBuilderFactoryRegistry;
 import io.annot8.defaultimpl.factories.DefaultItemFactory;
-import java.util.function.Consumer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class Annot8PipelineApplication {
 
