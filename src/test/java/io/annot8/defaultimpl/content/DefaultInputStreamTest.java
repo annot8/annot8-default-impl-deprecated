@@ -11,7 +11,6 @@ import java.io.IOException;
 
 import org.junit.jupiter.api.Test;
 
-import io.annot8.common.implementations.stores.NoOpSaveCallback;
 import io.annot8.core.exceptions.Annot8RuntimeException;
 import io.annot8.defaultimpl.content.DefaultInputStream.Builder;
 import io.annot8.defaultimpl.content.DefaultInputStream.BuilderFactory;
@@ -23,12 +22,12 @@ public class DefaultInputStreamTest {
   @Test
   public void testBuilderFactory() {
     BuilderFactory factory = new BuilderFactory();
-    assertNotNull(factory.create(new TestItem(), new NoOpSaveCallback<>()));
+    assertNotNull(factory.create(new TestItem()));
   }
 
   @Test
   public void testBuilder() {
-    Builder builder = new Builder(new NoOpSaveCallback<>());
+    Builder builder = new Builder();
     DefaultInputStream content =
         builder.create(
             TestConstants.CONTENT_ID,
@@ -46,7 +45,7 @@ public class DefaultInputStreamTest {
 
   @Test
   public void testNonSupplierError() {
-    Builder builder = new Builder(new NoOpSaveCallback<>());
+    Builder builder = new Builder();
     assertThrows(
         Annot8RuntimeException.class,
         () -> builder.withData(new ByteArrayInputStream("test".getBytes())));

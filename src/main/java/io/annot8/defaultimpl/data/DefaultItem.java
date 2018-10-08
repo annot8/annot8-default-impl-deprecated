@@ -7,12 +7,14 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 
+import io.annot8.common.implementations.delegates.DelegateContentBuilder;
 import io.annot8.common.implementations.factories.ContentBuilderFactory;
 import io.annot8.common.implementations.properties.MapMutableProperties;
 import io.annot8.common.implementations.registries.ContentBuilderFactoryRegistry;
 import io.annot8.core.data.BaseItem;
 import io.annot8.core.data.Content;
 import io.annot8.core.data.Content.Builder;
+import io.annot8.core.exceptions.IncompleteException;
 import io.annot8.core.exceptions.UnsupportedContentException;
 import io.annot8.core.properties.MutableProperties;
 import io.annot8.core.stores.GroupStore;
@@ -62,7 +64,13 @@ public class DefaultItem implements BaseItem {
       throw new UnsupportedContentException("Unknown content type: " + clazz.getSimpleName());
     }
 
-    return factory.get().create(this, this::save);
+    return new DelegateContentBuilder<C, D>(factory.get().create(this)) {
+      @Override
+      public C save() throws IncompleteException {
+        C c = super.save();
+        return DefaultItem.this.save(c);
+      }
+    };
   }
 
   private <D, C extends Content<D>> C save(C c) {

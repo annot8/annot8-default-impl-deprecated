@@ -10,10 +10,12 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import io.annot8.common.implementations.delegates.DelegateGroupBuilder;
 import io.annot8.core.annotations.Group;
 import io.annot8.core.data.BaseItem;
+import io.annot8.core.exceptions.IncompleteException;
 import io.annot8.core.stores.GroupStore;
-import io.annot8.defaultimpl.annotations.DefaultGroup.Builder;
+import io.annot8.defaultimpl.annotations.DefaultGroup;
 
 /** In memory implementation, backed by a HashMap, of GroupStore */
 public class DefaultGroupStore implements GroupStore {
@@ -27,7 +29,12 @@ public class DefaultGroupStore implements GroupStore {
 
   @Override
   public Group.Builder getBuilder() {
-    return new Builder(item, this::save);
+    return new DelegateGroupBuilder(new DefaultGroup.Builder(item)) {
+      @Override
+      public Group save() throws IncompleteException {
+        return DefaultGroupStore.this.save(super.save());
+      }
+    };
   }
 
   private Group save(Group group) {

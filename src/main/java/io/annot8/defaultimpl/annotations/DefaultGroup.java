@@ -12,7 +12,6 @@ import java.util.stream.Stream;
 import io.annot8.common.implementations.annotations.AbstractGroup;
 import io.annot8.common.implementations.properties.MapImmutableProperties;
 import io.annot8.common.implementations.properties.MapMutableProperties;
-import io.annot8.common.implementations.stores.SaveCallback;
 import io.annot8.common.utils.properties.EmptyImmutableProperties;
 import io.annot8.core.annotations.Annotation;
 import io.annot8.core.annotations.Group;
@@ -93,21 +92,19 @@ public class DefaultGroup extends AbstractGroup {
   public static class Builder implements Group.Builder {
 
     private final BaseItem item;
-    private final SaveCallback<Group, Group> saver;
 
     private String id;
     private String type = null;
     private MutableProperties properties = new MapMutableProperties();
     private Map<Annotation, String> annotations = new HashMap<>();
 
-    public Builder(BaseItem item, SaveCallback<Group, Group> saver) {
-      this(item, null, saver);
+    public Builder(BaseItem item) {
+      this(item, null);
     }
 
-    public Builder(BaseItem item, String id, SaveCallback<Group, Group> saver) {
+    public Builder(BaseItem item, String id) {
       this.item = item;
       this.id = id;
-      this.saver = saver;
     }
 
     @Override
@@ -195,8 +192,7 @@ public class DefaultGroup extends AbstractGroup {
                   Collectors.toMap(
                       e -> DefaultAnnotationReference.to(item, e.getKey()), Entry::getValue));
 
-      Group group = new DefaultGroup(item, id, type, immutableProperties, references);
-      return saver.save(group);
+      return new DefaultGroup(item, id, type, immutableProperties, references);
     }
 
     @Override

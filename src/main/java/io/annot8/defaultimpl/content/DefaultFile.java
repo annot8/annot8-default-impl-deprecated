@@ -8,7 +8,6 @@ import io.annot8.common.data.content.FileContent;
 import io.annot8.common.implementations.content.AbstractContent;
 import io.annot8.common.implementations.content.AbstractContentBuilder;
 import io.annot8.common.implementations.content.AbstractContentBuilderFactory;
-import io.annot8.common.implementations.stores.SaveCallback;
 import io.annot8.core.data.BaseItem;
 import io.annot8.core.data.Content;
 import io.annot8.core.properties.ImmutableProperties;
@@ -22,10 +21,6 @@ public class DefaultFile extends AbstractContent<File> implements FileContent {
   }
 
   public static class Builder extends AbstractContentBuilder<File, DefaultFile> {
-
-    public Builder(SaveCallback<DefaultFile, DefaultFile> saver) {
-      super(saver);
-    }
 
     @Override
     protected DefaultFile create(
@@ -41,9 +36,8 @@ public class DefaultFile extends AbstractContent<File> implements FileContent {
     }
 
     @Override
-    public Content.Builder<DefaultFile, File> create(
-        BaseItem item, SaveCallback<DefaultFile, DefaultFile> saver) {
-      return new DefaultFile.Builder(saver);
+    public Content.Builder<DefaultFile, File> create(BaseItem item) {
+      return new DefaultFile.Builder();
     }
   }
 }

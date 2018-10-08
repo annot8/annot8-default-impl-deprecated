@@ -12,7 +12,6 @@ import java.net.URL;
 import org.junit.jupiter.api.Test;
 
 import io.annot8.common.data.content.URLContent;
-import io.annot8.common.implementations.stores.NoOpSaveCallback;
 import io.annot8.core.data.Content.Builder;
 import io.annot8.core.exceptions.IncompleteException;
 import io.annot8.defaultimpl.content.DefaultURL.BuilderFactory;
@@ -25,16 +24,14 @@ public class DefaultURLTest {
   @Test
   public void testDefaultURLBuilderFactory() {
     BuilderFactory factory = new DefaultURL.BuilderFactory();
-    Builder<URLContent, URL> defaultURLBuilder =
-        factory.create(new TestItem(), new NoOpSaveCallback<>());
+    Builder<URLContent, URL> defaultURLBuilder = factory.create(new TestItem());
     assertNotNull(defaultURLBuilder);
   }
 
   @Test
   public void testDefaultURLBuilder() {
     BuilderFactory builderFactory = new BuilderFactory();
-    Builder<URLContent, URL> urlContentBuilder =
-        builderFactory.create(new TestItem(), new NoOpSaveCallback<>());
+    Builder<URLContent, URL> urlContentBuilder = builderFactory.create(new TestItem());
 
     String id = "id";
     String name = "test";
@@ -67,8 +64,7 @@ public class DefaultURLTest {
   @Test
   public void testDefaultURLBuilderFillsArgs() {
     BuilderFactory builderFactory = new BuilderFactory();
-    Builder<URLContent, URL> urlContentBuilder =
-        builderFactory.create(new TestItem(), new NoOpSaveCallback<>());
+    Builder<URLContent, URL> urlContentBuilder = builderFactory.create(new TestItem());
 
     URLContent content = null;
     try {
