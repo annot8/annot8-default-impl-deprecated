@@ -8,7 +8,6 @@ import io.annot8.common.data.content.InputStreamContent;
 import io.annot8.common.implementations.content.AbstractContent;
 import io.annot8.common.implementations.content.AbstractContentBuilder;
 import io.annot8.common.implementations.content.AbstractContentBuilderFactory;
-import io.annot8.common.implementations.stores.SaveCallback;
 import io.annot8.core.data.BaseItem;
 import io.annot8.core.data.Content;
 import io.annot8.core.exceptions.Annot8RuntimeException;
@@ -31,10 +30,6 @@ public class DefaultInputStream extends AbstractContent<InputStream> implements 
 
   public static class Builder extends AbstractContentBuilder<InputStream, DefaultInputStream> {
 
-    public Builder(SaveCallback<DefaultInputStream, DefaultInputStream> saver) {
-      super(saver);
-    }
-
     @Override
     public Content.Builder<DefaultInputStream, InputStream> withData(InputStream data) {
       throw new Annot8RuntimeException(
@@ -56,9 +51,8 @@ public class DefaultInputStream extends AbstractContent<InputStream> implements 
     }
 
     @Override
-    public Content.Builder<DefaultInputStream, InputStream> create(
-        BaseItem item, SaveCallback<DefaultInputStream, DefaultInputStream> saver) {
-      return new DefaultInputStream.Builder(saver);
+    public Content.Builder<DefaultInputStream, InputStream> create(BaseItem item) {
+      return new DefaultInputStream.Builder();
     }
   }
 }

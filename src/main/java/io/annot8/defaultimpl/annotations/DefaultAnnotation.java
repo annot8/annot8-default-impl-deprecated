@@ -7,7 +7,6 @@ import java.util.UUID;
 import io.annot8.common.implementations.annotations.AbstractAnnotation;
 import io.annot8.common.implementations.properties.MapImmutableProperties;
 import io.annot8.common.implementations.properties.MapMutableProperties;
-import io.annot8.common.implementations.stores.SaveCallback;
 import io.annot8.common.utils.properties.EmptyImmutableProperties;
 import io.annot8.core.annotations.Annotation;
 import io.annot8.core.bounds.Bounds;
@@ -69,16 +68,14 @@ public class DefaultAnnotation extends AbstractAnnotation {
    */
   public static class Builder implements Annotation.Builder {
 
-    private final SaveCallback<Annotation, Annotation> saver;
     private final String content;
     private String type = null;
     private MutableProperties properties = new MapMutableProperties();
     private Bounds bounds = null;
     private String id = null;
 
-    public Builder(String content, SaveCallback<Annotation, Annotation> saver) {
+    public Builder(String content) {
       this.content = content;
-      this.saver = saver;
     }
 
     @Override
@@ -162,8 +159,7 @@ public class DefaultAnnotation extends AbstractAnnotation {
         immutableProperties = new MapImmutableProperties.Builder().from(properties).save();
       }
 
-      Annotation annotation = new DefaultAnnotation(id, type, immutableProperties, bounds, content);
-      return saver.save(annotation);
+      return new DefaultAnnotation(id, type, immutableProperties, bounds, content);
     }
 
     @Override

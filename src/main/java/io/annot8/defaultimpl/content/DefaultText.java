@@ -7,7 +7,6 @@ import io.annot8.common.data.content.Text;
 import io.annot8.common.implementations.content.AbstractContent;
 import io.annot8.common.implementations.content.AbstractContentBuilder;
 import io.annot8.common.implementations.content.AbstractContentBuilderFactory;
-import io.annot8.common.implementations.stores.SaveCallback;
 import io.annot8.core.data.BaseItem;
 import io.annot8.core.data.Content;
 import io.annot8.core.properties.ImmutableProperties;
@@ -21,10 +20,6 @@ public class DefaultText extends AbstractContent<String> implements Text {
   }
 
   public static class Builder extends AbstractContentBuilder<String, DefaultText> {
-
-    public Builder(SaveCallback<DefaultText, DefaultText> saver) {
-      super(saver);
-    }
 
     @Override
     public DefaultText create(
@@ -40,9 +35,8 @@ public class DefaultText extends AbstractContent<String> implements Text {
     }
 
     @Override
-    public Content.Builder<DefaultText, String> create(
-        BaseItem item, SaveCallback<DefaultText, DefaultText> saver) {
-      return new DefaultText.Builder(saver);
+    public Content.Builder<DefaultText, String> create(BaseItem item) {
+      return new DefaultText.Builder();
     }
   }
 }

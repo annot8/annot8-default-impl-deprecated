@@ -10,7 +10,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import io.annot8.common.implementations.delegates.DelegateAnnotationBuilder;
 import io.annot8.core.annotations.Annotation;
+import io.annot8.core.exceptions.IncompleteException;
 import io.annot8.core.stores.AnnotationStore;
 import io.annot8.defaultimpl.annotations.DefaultAnnotation;
 
@@ -30,7 +32,12 @@ public class DefaultAnnotationStore implements AnnotationStore {
 
   @Override
   public Annotation.Builder getBuilder() {
-    return new DefaultAnnotation.Builder(contentId, this::save);
+    return new DelegateAnnotationBuilder(new DefaultAnnotation.Builder(contentId)) {
+      @Override
+      public Annotation save() throws IncompleteException {
+        return DefaultAnnotationStore.this.save(super.save());
+      }
+    };
   }
 
   private Annotation save(Annotation annotation) {
@@ -75,19 +82,4 @@ public class DefaultAnnotationStore implements AnnotationStore {
 
     return Objects.equals(new HashSet<>(annotations.values()), allAnnotations);
   }
-
-  //  public static AnnotationStoreFactory factory() {
-  //    return SimpleAnnotationStoreFactory.INSTANCE;
-  //  }
-  //
-  //  public static class SimpleAnnotationStoreFactory implements AnnotationStoreFactory {
-  //
-  //    private static final SimpleAnnotationStoreFactory INSTANCE = new
-  // SimpleAnnotationStoreFactory();
-  //
-  //    @Override
-  //    public AnnotationStore create(Content<?> content) {
-  //      return new DefaultAnnotationStore(content.getId());
-  //    }
-  //  }
 }

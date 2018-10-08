@@ -10,7 +10,6 @@ import java.io.File;
 
 import org.junit.jupiter.api.Test;
 
-import io.annot8.common.implementations.stores.NoOpSaveCallback;
 import io.annot8.core.data.Content;
 import io.annot8.core.exceptions.IncompleteException;
 import io.annot8.defaultimpl.content.DefaultFile.BuilderFactory;
@@ -21,9 +20,9 @@ public class DefaultFileTest {
   @Test
   public void testBuilderFactory() {
     BuilderFactory factory = new BuilderFactory();
-    assertNotNull(factory.create(new TestItem(), new NoOpSaveCallback<>()));
-    assertBasicBuilderUsage(factory.create(new TestItem(), new NoOpSaveCallback<>()));
-    assertIncompleteBuilderUsage(factory.create(new TestItem(), new NoOpSaveCallback<>()));
+    assertNotNull(factory.create(new TestItem()));
+    assertBasicBuilderUsage(factory.create(new TestItem()));
+    assertIncompleteBuilderUsage(factory.create(new TestItem()));
   }
 
   private void assertIncompleteBuilderUsage(Content.Builder<DefaultFile, File> builder) {
