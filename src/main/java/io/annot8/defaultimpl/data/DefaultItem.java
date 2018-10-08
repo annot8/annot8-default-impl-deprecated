@@ -10,15 +10,15 @@ import java.util.stream.Stream;
 import io.annot8.common.implementations.factories.ContentBuilderFactory;
 import io.annot8.common.implementations.properties.MapMutableProperties;
 import io.annot8.common.implementations.registries.ContentBuilderFactoryRegistry;
+import io.annot8.core.data.BaseItem;
 import io.annot8.core.data.Content;
 import io.annot8.core.data.Content.Builder;
-import io.annot8.core.data.Item;
 import io.annot8.core.exceptions.UnsupportedContentException;
 import io.annot8.core.properties.MutableProperties;
 import io.annot8.core.stores.GroupStore;
 import io.annot8.defaultimpl.stores.DefaultGroupStore;
 
-public class DefaultItem implements Item {
+public class DefaultItem implements BaseItem {
 
   private final Map<String, Content<?>> contents = new ConcurrentHashMap<>();
   private final MutableProperties properties = new MapMutableProperties();
