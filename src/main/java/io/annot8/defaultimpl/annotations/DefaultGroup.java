@@ -16,7 +16,7 @@ import io.annot8.common.implementations.stores.SaveCallback;
 import io.annot8.common.utils.properties.EmptyImmutableProperties;
 import io.annot8.core.annotations.Annotation;
 import io.annot8.core.annotations.Group;
-import io.annot8.core.data.Item;
+import io.annot8.core.data.BaseItem;
 import io.annot8.core.exceptions.IncompleteException;
 import io.annot8.core.properties.ImmutableProperties;
 import io.annot8.core.properties.MutableProperties;
@@ -27,7 +27,7 @@ import io.annot8.defaultimpl.references.DefaultAnnotationReference;
 /** Simple implementation of Group interface */
 public class DefaultGroup extends AbstractGroup {
 
-  private final Item item;
+  private final BaseItem item;
   private final String id;
   private final String type;
   private final ImmutableProperties properties;
@@ -36,7 +36,7 @@ public class DefaultGroup extends AbstractGroup {
   private final Map<DefaultAnnotationReference, String> annotations;
 
   private DefaultGroup(
-      final Item item,
+      final BaseItem item,
       final String id,
       final String type,
       final ImmutableProperties properties,
@@ -92,7 +92,7 @@ public class DefaultGroup extends AbstractGroup {
    */
   public static class Builder implements Group.Builder {
 
-    private final Item item;
+    private final BaseItem item;
     private final SaveCallback<Group, Group> saver;
 
     private String id;
@@ -100,11 +100,11 @@ public class DefaultGroup extends AbstractGroup {
     private MutableProperties properties = new MapMutableProperties();
     private Map<Annotation, String> annotations = new HashMap<>();
 
-    public Builder(Item item, SaveCallback<Group, Group> saver) {
+    public Builder(BaseItem item, SaveCallback<Group, Group> saver) {
       this(item, null, saver);
     }
 
-    public Builder(Item item, String id, SaveCallback<Group, Group> saver) {
+    public Builder(BaseItem item, String id, SaveCallback<Group, Group> saver) {
       this.item = item;
       this.id = id;
       this.saver = saver;

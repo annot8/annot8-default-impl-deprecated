@@ -13,8 +13,8 @@ import io.annot8.common.pipelines.elements.PipelineBuilder;
 import io.annot8.common.pipelines.queues.MemoryItemQueue;
 import io.annot8.common.pipelines.simple.SimplePipelineBuilder;
 import io.annot8.core.exceptions.IncompleteException;
+import io.annot8.defaultimpl.factories.DefaultBaseItemFactory;
 import io.annot8.defaultimpl.factories.DefaultContentBuilderFactoryRegistry;
-import io.annot8.defaultimpl.factories.DefaultItemFactory;
 
 public class Annot8PipelineApplication {
 
@@ -37,12 +37,8 @@ public class Annot8PipelineApplication {
 
   public void run() {
     try {
-      DefaultContentBuilderFactoryRegistry contentBuilderFactoryRegistry =
-          new DefaultContentBuilderFactoryRegistry();
-      contentBuilderFactoryRegistryConsumer.accept(contentBuilderFactoryRegistry);
-
       Pipeline pipeline = buildPipeline();
-      pipeline.configure(new SimpleContext(new DefaultItemFactory(contentBuilderFactoryRegistry)));
+      pipeline.configure(new SimpleContext());
       runPipeline(pipeline);
     } catch (Exception e) {
       LOGGER.error("Unable to run pipeline", e);
@@ -67,8 +63,13 @@ public class Annot8PipelineApplication {
   }
 
   private PipelineBuilder configureBuilder(PipelineBuilder builder) {
+
+    DefaultContentBuilderFactoryRegistry contentBuilderFactoryRegistry =
+        new DefaultContentBuilderFactoryRegistry();
+    contentBuilderFactoryRegistryConsumer.accept(contentBuilderFactoryRegistry);
+    DefaultBaseItemFactory itemFactory = new DefaultBaseItemFactory(contentBuilderFactoryRegistry);
     MemoryItemQueue itemQueue = new MemoryItemQueue();
-    return builder.withQueue(itemQueue);
+    return builder.withQueue(itemQueue).withItemFactory(itemFactory);
   }
 
   public static void main() {

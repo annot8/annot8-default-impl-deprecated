@@ -11,17 +11,17 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import io.annot8.core.annotations.Group;
-import io.annot8.core.data.Item;
+import io.annot8.core.data.BaseItem;
 import io.annot8.core.stores.GroupStore;
 import io.annot8.defaultimpl.annotations.DefaultGroup.Builder;
 
 /** In memory implementation, backed by a HashMap, of GroupStore */
 public class DefaultGroupStore implements GroupStore {
 
-  private final Item item;
+  private final BaseItem item;
   private final Map<String, Group> groups = new ConcurrentHashMap<>();
   /** Construct a new instance of this class for the provided item */
-  public DefaultGroupStore(Item item) {
+  public DefaultGroupStore(BaseItem item) {
     this.item = item;
   }
 
