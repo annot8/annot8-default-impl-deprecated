@@ -25,7 +25,7 @@ public class Annot8PipelineApplication {
   private final Consumer<ContentBuilderFactoryRegistry> contentBuilderFactoryRegistryConsumer;
 
   public Annot8PipelineApplication(Consumer<PipelineBuilder> pipelineBuilderConsumer) {
-    this(pipelineBuilderConsumer, (c) -> {});
+    this(pipelineBuilderConsumer, c -> {});
   }
 
   public Annot8PipelineApplication(
