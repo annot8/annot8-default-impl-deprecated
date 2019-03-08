@@ -1,6 +1,9 @@
 /* Annot8 (annot8.io) - Licensed under Apache-2.0. */
 package io.annot8.defaultimpl.content;
 
+import java.net.URI;
+import java.util.function.Supplier;
+
 import io.annot8.common.data.content.UriContent;
 import io.annot8.common.implementations.content.AbstractContentBuilder;
 import io.annot8.common.implementations.content.AbstractContentBuilderFactory;
@@ -9,8 +12,6 @@ import io.annot8.core.data.Content;
 import io.annot8.core.properties.ImmutableProperties;
 import io.annot8.core.stores.AnnotationStore;
 import io.annot8.defaultimpl.stores.DefaultAnnotationStore;
-import java.net.URI;
-import java.util.function.Supplier;
 
 public class DefaultUri implements UriContent {
 

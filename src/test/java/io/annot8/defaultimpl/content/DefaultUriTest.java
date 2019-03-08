@@ -6,14 +6,16 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
+import org.junit.jupiter.api.Test;
+
 import io.annot8.common.data.content.UriContent;
 import io.annot8.core.data.Content.Builder;
 import io.annot8.core.exceptions.IncompleteException;
 import io.annot8.defaultimpl.content.DefaultUri.BuilderFactory;
 import io.annot8.testing.testimpl.TestItem;
-import java.net.URI;
-import java.net.URISyntaxException;
-import org.junit.jupiter.api.Test;
 
 public class DefaultUriTest {
 
@@ -67,7 +69,7 @@ public class DefaultUriTest {
     UriContent content = null;
     try {
       content = urlContentBuilder.withName("test").withData(new URI(URL)).save();
-    } catch (URISyntaxException  | IncompleteException e) {
+    } catch (URISyntaxException | IncompleteException e) {
       fail("Test should not fail here", e);
     }
 
