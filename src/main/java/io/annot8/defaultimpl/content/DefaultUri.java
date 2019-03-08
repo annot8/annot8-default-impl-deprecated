@@ -1,10 +1,7 @@
 /* Annot8 (annot8.io) - Licensed under Apache-2.0. */
 package io.annot8.defaultimpl.content;
 
-import java.net.URL;
-import java.util.function.Supplier;
-
-import io.annot8.common.data.content.URLContent;
+import io.annot8.common.data.content.UriContent;
 import io.annot8.common.implementations.content.AbstractContentBuilder;
 import io.annot8.common.implementations.content.AbstractContentBuilderFactory;
 import io.annot8.core.data.BaseItem;
@@ -12,16 +9,18 @@ import io.annot8.core.data.Content;
 import io.annot8.core.properties.ImmutableProperties;
 import io.annot8.core.stores.AnnotationStore;
 import io.annot8.defaultimpl.stores.DefaultAnnotationStore;
+import java.net.URI;
+import java.util.function.Supplier;
 
-public class DefaultURL implements URLContent {
+public class DefaultUri implements UriContent {
 
   private final String id;
   private final String name;
-  private final URL url;
+  private final URI url;
   private final ImmutableProperties properties;
   private final AnnotationStore store;
 
-  private DefaultURL(String id, String name, URL url, ImmutableProperties properties) {
+  private DefaultUri(String id, String name, URI url, ImmutableProperties properties) {
     this.id = id;
     this.name = name;
     this.url = url;
@@ -30,18 +29,18 @@ public class DefaultURL implements URLContent {
   }
 
   @Override
-  public URL getData() {
+  public URI getData() {
     return url;
   }
 
   @Override
-  public Class<URL> getDataClass() {
-    return URL.class;
+  public Class<URI> getDataClass() {
+    return URI.class;
   }
 
   @Override
-  public Class<? extends Content<URL>> getContentClass() {
-    return URLContent.class;
+  public Class<? extends Content<URI>> getContentClass() {
+    return UriContent.class;
   }
 
   @Override
@@ -64,23 +63,23 @@ public class DefaultURL implements URLContent {
     return properties;
   }
 
-  public static class Builder extends AbstractContentBuilder<URL, URLContent> {
+  public static class Builder extends AbstractContentBuilder<URI, UriContent> {
 
     @Override
-    protected URLContent create(
-        String id, String name, ImmutableProperties properties, Supplier<URL> data) {
-      return new DefaultURL(id, name, data.get(), properties);
+    protected UriContent create(
+        String id, String name, ImmutableProperties properties, Supplier<URI> data) {
+      return new DefaultUri(id, name, data.get(), properties);
     }
   }
 
-  public static class BuilderFactory extends AbstractContentBuilderFactory<URL, URLContent> {
+  public static class BuilderFactory extends AbstractContentBuilderFactory<URI, UriContent> {
 
     public BuilderFactory() {
-      super(URL.class, URLContent.class);
+      super(URI.class, UriContent.class);
     }
 
     @Override
-    public Content.Builder<URLContent, URL> create(BaseItem item) {
+    public Content.Builder<UriContent, URI> create(BaseItem item) {
       return new Builder();
     }
   }
