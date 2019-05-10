@@ -97,6 +97,12 @@ public class DefaultAnnotation extends AbstractAnnotation {
     }
 
     @Override
+    public Annotation.Builder withPropertyIfPresent(String key, Optional<?> value) {
+      value.ifPresent(o -> properties.set(key, o));
+      return this;
+    }
+
+    @Override
     public Annotation.Builder withoutProperty(String key, Object value) {
       Optional<Object> val = properties.get(key);
       if (val.isPresent() && val.get().equals(value)) {
