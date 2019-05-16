@@ -36,18 +36,11 @@ public class Annot8PipelineApplication {
   }
 
   public void run() {
-    try {
-      Pipeline pipeline = buildPipeline();
+    try (Pipeline pipeline = buildPipeline()) {
       pipeline.configure(new SimpleContext());
-      runPipeline(pipeline);
+      pipeline.run();
     } catch (Exception e) {
       LOGGER.error("Unable to run pipeline", e);
-    }
-  }
-
-  private void runPipeline(Pipeline pipeline) throws Exception {
-    try (pipeline) {
-      pipeline.run();
     }
   }
 
